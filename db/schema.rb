@@ -11,24 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150317095622) do
-
-  create_table "batches", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
+ActiveRecord::Schema.define(:version => 20150317093837) do
 
   create_table "branches", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "lectures", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "professors", :force => true do |t|
+    t.string   "name"
+    t.integer  "age"
+    t.string   "gender"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
@@ -44,11 +37,6 @@ ActiveRecord::Schema.define(:version => 20150317095622) do
   end
 
   create_table "students", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "sub_batches", :force => true do |t|
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
