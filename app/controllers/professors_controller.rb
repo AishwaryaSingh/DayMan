@@ -5,7 +5,7 @@ class ProfessorsController < ApplicationController
   end
 
   def show
-    @professor = Professor.find(params[:id])
+    @professor = Professor.all #find(params[:id])
   end
 
   def new

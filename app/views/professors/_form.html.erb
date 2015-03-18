@@ -1,11 +1,15 @@
 <%= form_for(@professor) do |f| %>
+<div align="center">
+<pre>
 <p>
-  Name : <%= f.text_field :name %>
+  Name   : <%= f.text_field :name %>
   <br />
-  Age : <%= f.text_field :age %>
+  Age    : <%= f.text_field :age %>
   <br />
   Gender : <%= f.text_field :gender %>
   <br />
 </p>
   <%= f.submit  %>
 <% end %>
+</pre>
+</div>
