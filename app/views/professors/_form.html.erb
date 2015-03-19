@@ -1,0 +1,11 @@
+<%= form_for(@professor) do |f| %>
+<p>
+  Name : <%= f.text_field :name %>
+  <br />
+  Age : <%= f.text_field :age %>
+  <br />
+  Gender : <%= f.text_field :gender %>
+  <br />
+</p>
+  <%= f.submit  %>
+<% end %>
