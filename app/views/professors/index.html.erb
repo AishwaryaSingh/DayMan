@@ -2,29 +2,21 @@
 <html>
 <head>
   <title>List of Professors</title>
-  <style>
-  a { text-decoration: none;
-      font-size:16px;
-      color: PaleVioletRed; }
-  </style>
 </head>
-<body>
-<div style="background-color:midnightBlue ">
-<br />
-<h1 style="font-size:40px; text-align:center;color:white;">Admin Portal</h1>
-<br />
+<div class="header" style="color:navy; font-size:40px;text-align:center"></div>
+<div class="tabs" align="right"><%= button_to 'logout->' , signin_path , method: :get %></div>
+<div class="name">
+<h1 style="font-size:30px; text-align:center;color:white;"></h1>
 </div>
-<hr>
 <div align="center">
 <br />
 <br />
 <table width="50%" style="font-size:20px;" cellspacing="20">
-  <tr>
+  <tr style="font-size:20px; text-align:center; color:LightCoral ">
     <th>ID</th>
     <th>Name</th>
     <th>Age</th>
     <th>Gender</th>
-    <th></th>
     <th></th>
     <th></th>
   </tr>
@@ -36,7 +28,6 @@
     <td style="font-size:16px"><%= professor.name %></td>
     <td style="font-size:16px"><%= professor.age %></td>
     <td style="font-size:16px"><%= professor.gender %></td>
-    <td><%= link_to 'Show', professor %></td>
     <td><%= link_to 'Edit', edit_professor_path(professor) %></td>
     <td><%= link_to 'Destroy', professor, method: :delete, data: { confirm: 'Are you sure?' } %></td>
   </tr>
@@ -44,8 +35,8 @@
 </table>
 <br /><br />
 <div align="center">
-<%= link_to 'New Professor', new_professor_path %>
+<%= button_to 'New Professor', new_professor_path , method: :get %>
 </div>
 </div>
-</body>
+<div class="footer" align="center"></div>
 </html>

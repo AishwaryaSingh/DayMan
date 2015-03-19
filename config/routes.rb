@@ -1,5 +1,7 @@
 DayMan::Application.routes.draw do
  
+ match "signin" => "admin/signin"
+
  resources :professors
 
   # The priority is based upon order of creation:

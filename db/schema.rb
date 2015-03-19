@@ -11,12 +11,39 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20150317093837) do
+ActiveRecord::Schema.define(:version => 20150319035350) do
 
-  create_table "branches", :force => true do |t|
+  create_table "batches", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
+
+  create_table "branch_semesters", :force => true do |t|
+    t.integer "branch_id"
+    t.integer "semester_id"
+  end
+
+  create_table "branches", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "class_units", :force => true do |t|
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.integer  "batch_id"
+    t.integer  "branch_semester_id"
+    t.integer  "subject_id"
+  end
+
+  create_table "professor_subject", :force => true do |t|
+    t.integer "subject_id",   :null => false
+    t.integer "professor_id", :null => false
+  end
+
+  add_index "professor_subject", ["professor_id", "subject_id"], :name => "index_professor_subject_on_professor_id_and_subject_id", :unique => true
 
   create_table "professors", :force => true do |t|
     t.string   "name"
@@ -26,24 +53,47 @@ ActiveRecord::Schema.define(:version => 20150317093837) do
     t.datetime "updated_at", :null => false
   end
 
-  create_table "schedules", :force => true do |t|
+  create_table "rooms", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
+  create_table "schedules", :force => true do |t|
+    t.datetime "date"
+    t.datetime "time"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "room_id"
+    t.integer  "year_id"
+    t.integer  "classUnit_id"
+  end
+
   create_table "semesters", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
   create_table "students", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.integer  "batch_id"
+  end
+
+  create_table "subjects", :force => true do |t|
+    t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end
 
-  create_table "subjects", :force => true do |t|
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+  create_table "years", :force => true do |t|
+    t.string   "year"
+    t.datetime "SemStartDate"
+    t.datetime "SemEndDate"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
   end
 
 end
