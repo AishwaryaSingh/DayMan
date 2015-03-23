@@ -1,0 +1,43 @@
+<html>
+<head><title>Classes</title>
+</head>
+
+<%= form_for @unit do |c| %>
+
+<br />
+<br/ >
+
+Branch : 
+<% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+<%= c.select(:branch_id , options_for_select(branch_array), { include_blank: true }) %>
+<br />
+<br />
+
+Semester : 
+<% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+<%= c.select(:semester_id , options_for_select(semester_array), { include_blank: true}) %>
+<br />
+<br />
+
+Subject : 
+<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+<%= c.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+<br />
+<br />
+
+Batch : 
+<% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+<%= c.select(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
+<br />
+<br />
+
+Professor : 
+<% professor_array = Professor.all.map { |b| [b.name, b.id] } %>
+<%= c.select(:professor_id , options_for_select(professor_array), { include_blank: true}) %>
+<br />
+<br />
+
+<%= c.submit %>
+<% end %>
+</div>
+</html>

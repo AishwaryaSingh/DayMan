@@ -1,8 +1,22 @@
 DayMan::Application.routes.draw do
  
- match "signin" => "admin/signin"
+ #match "signin" => "admin/signin"
 
  resources :professors
+ resources :schedules
+ resources :units
+
+ get '/admin', to: 'admin#index'
+
+ get '/admin/subjects', to: 'admin#subjects'
+
+ get '/admin/professors', to: 'professors#index'
+
+ get 'admin/addSchedules' , to: 'schedules#index'
+
+  get 'admin/units' , to: 'units#index'
+
+ #get '/', to: 'index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

@@ -2,13 +2,15 @@ class CreateSchedules < ActiveRecord::Migration
   def change
     create_table :schedules do |t|
 
-    	t.datetime :date
-    	t.datetime :time
+    	t.datetime :starttime
+    	t.datetime :endtime
+        t.references :subject , :integer
+        t.references :room , :integer
+        t.references :year , :integer
+        t.references :batch , :integer
+        t.references :professor , :integer        
+        t.references :unit , :integer
         t.timestamps
     end
-    	add_column :schedules , :room_id , :integer
-    	add_column :schedules , :year_id , :integer
-    	add_column :schedules , :classUnit_id , :integer
-
   end
 end

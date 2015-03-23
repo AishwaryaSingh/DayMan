@@ -1,5 +1,5 @@
 class Batch < ActiveRecord::Base
-  # attr_accessible :title, :body
+   #attr_accessible :name #title, :body
 
   has_many :students
 

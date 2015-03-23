@@ -1,0 +1,26 @@
+<html>
+<head><title>Schedule</title>
+</head>
+
+<%= form_for @schedule do |s| %>
+
+<br />
+<br/ >
+
+class_unit : 
+<% unit_array = Unit.all.map { |b| [b.name, b.id] } %>
+<%= s.select(:unit_id , options_for_select(unit_array), { include_blank: true}) %>
+<br />
+<br />
+
+
+Room : 
+<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+<%= s.select(:room_id , options_for_select(room_array), { include_blank: true}) %>
+<br />
+<br />
+
+<%= s.submit %>
+<% end %>
+</div>
+</html>
