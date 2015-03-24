@@ -58,14 +58,10 @@ ActiveRecord::Schema.define(version: 20150319103619) do
   end
 
   create_table "schedules", force: true do |t|
-    t.datetime "starttime"
-    t.datetime "endtime"
-    t.integer  "subject_id"
-    t.integer  "integer_id"
+    t.time     "starttime"
+    t.time     "endtime"
     t.integer  "room_id"
-    t.integer  "year_id"
-    t.integer  "batch_id"
-    t.integer  "professor_id"
+    t.integer  "integer_id"
     t.integer  "unit_id"
     t.datetime "created_at"
     t.datetime "updated_at"

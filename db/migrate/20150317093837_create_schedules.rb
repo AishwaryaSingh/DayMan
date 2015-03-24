@@ -4,11 +4,7 @@ class CreateSchedules < ActiveRecord::Migration
 
     	t.datetime :starttime
     	t.datetime :endtime
-        t.references :subject , :integer
-        t.references :room , :integer
-        t.references :year , :integer
-        t.references :batch , :integer
-        t.references :professor , :integer        
+        t.references :room , :integer       
         t.references :unit , :integer
         t.timestamps
     end

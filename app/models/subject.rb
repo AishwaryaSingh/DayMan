@@ -5,9 +5,12 @@ class Subject < ActiveRecord::Base
 	#belongs_to :semester
 	#belongs_to :branch
 
-	
+	has_many :units
+
 	belongs_to :branch_semester
 
 	has_and_belongs_to_many :professors
+
+	belongs_to :schedule
 
 end

@@ -20,6 +20,16 @@ Room :
 <br />
 <br />
 
+Start Time:
+<%= s.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
+<br />
+<br />
+
+End Time:
+<%= s.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
+<br />
+<br />
+
 <%= s.submit %>
 <% end %>
 </div>
