@@ -11,22 +11,40 @@ Name : <%= s.text_field :name %>
 <br />
 <br />
 
-Branch Check box : 
-
-<% s.check_box :branch_id, {:multiple => true} %>
+Branch : 
+<table>
+<tbody>
+<% Branch.all.each do |branch| %>
+  <tr>
+  <td>
+  <%= check_box_tag 'branch_id_eq[]', branch.id %>
+  </td>
+  <td>
+  <label><%= branch.name %></label>
+  </td>
+  </tr>
+<% end %>
+</tbody>
+</table>
 <br />
 <br />
-Branch dropbox : 
-<% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
-<%= s.select(:branch_id , options_for_select(branch_array), { include_blank: true}) %>
+Semester :
+<table>
+<tbody> 
+<% Semester.all.each do |semester| %>
+<tr>
+<td>
+  <%= check_box_tag 'semester_id_eq[]', semester.id %>
+ </td>
+ <td> 
+  <label><%= semester.name %></label>
+  </td>
+ </tr> 
+<% end %>
+</tbody>
+</table>
 <br />
 <br />
-Semester dropbox : 
-<% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-<%= s.select(:semester_id , options_for_select(semester_array), { include_blank: true}) %>
-<br />
-<br />
-
 <%= s.submit %>
 <% end %>
 </div>

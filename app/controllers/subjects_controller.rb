@@ -16,6 +16,7 @@ class SubjectsController < ApplicationController
 
 	def edit
 		@subject = Subject.find(params[:id])
+		@branches = @subject.branch
 	end
 
 	def update
