@@ -1,0 +1,34 @@
+<html>
+<head><title>Subjects</title>
+</head>
+<div class="header"></div>
+<div class="tabs" align="right"><%= button_to 'Back', admin_path , method: :get %></div>
+<div align="center">
+<br />
+<br />
+<span style="font-size:25px">Subjects</span>
+<br />
+<br />
+<%= button_to 'Create New' , new_subject_path , method: :get %>
+<table width="100%" style="font-size:20px;" cellspacing="20">
+  <tr style="font-size:20px; text-align:center; color:LightCoral ">
+  <th>sub ID</th>
+	<th>Subject</th>
+	<th>Branch</th>
+  <th>Semester</th>
+	<th></th>
+	<th></th>
+</tr>
+<% @subjects.each do |subject| %>
+  <tr style="font-size:20px; text-align:center; color:PaleVioletRed">
+	<td style="font-size:16px"><%= subject.id %></td>
+    <td style="font-size:16px"><%= subject.name %></td>
+    <td style="font-size:16px"><%= subject.name %></td>
+    <td style="font-size:16px"><%= subject.name %></td>
+    <td><%= button_to 'Edit', edit_subject_path(subject) , method: :get %></td>
+    <td><%= button_to 'Destroy', subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+</div>
+</html>

@@ -4,7 +4,8 @@ class CreateSubjects < ActiveRecord::Migration
     create_table :subjects do |t|
 
       t.string :name
-      t.integer :branch_semester_id
+      t.references :branch
+      t.references :semester
       t.timestamps null: false
       
     end

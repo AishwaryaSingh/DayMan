@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150319103619) do
+ActiveRecord::Schema.define(version: 20150325112300) do
 
   create_table "batches", force: true do |t|
     t.string   "name"
@@ -36,19 +36,17 @@ ActiveRecord::Schema.define(version: 20150319103619) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "professor_subject", force: true do |t|
-    t.integer "subject_id",   null: false
-    t.integer "professor_id", null: false
-  end
-
-  add_index "professor_subject", ["professor_id", "subject_id"], name: "index_professor_subject_on_professor_id_and_subject_id", unique: true, using: :btree
-
   create_table "professors", force: true do |t|
     t.string   "name"
     t.integer  "age"
     t.string   "gender"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "professors_subjects", force: true do |t|
+    t.integer "professor_id"
+    t.integer "subject_id"
   end
 
   create_table "rooms", force: true do |t|
@@ -58,8 +56,8 @@ ActiveRecord::Schema.define(version: 20150319103619) do
   end
 
   create_table "schedules", force: true do |t|
-    t.time     "starttime"
-    t.time     "endtime"
+    t.datetime "starttime"
+    t.datetime "endtime"
     t.integer  "room_id"
     t.integer  "integer_id"
     t.integer  "unit_id"
@@ -82,9 +80,10 @@ ActiveRecord::Schema.define(version: 20150319103619) do
 
   create_table "subjects", force: true do |t|
     t.string   "name"
-    t.integer  "branch_semester_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "branch_id"
+    t.integer  "semester_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "units", force: true do |t|

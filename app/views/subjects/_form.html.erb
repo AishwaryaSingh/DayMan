@@ -1,0 +1,33 @@
+<html>
+<head><title>subject</title>
+</head>
+
+<%= form_for @subject do |s| %>
+
+<br />
+<br/ >
+
+Name : <%= s.text_field :name %>
+<br />
+<br />
+
+Branch Check box : 
+
+<% s.check_box :branch_id, {:multiple => true} %>
+<br />
+<br />
+Branch dropbox : 
+<% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+<%= s.select(:branch_id , options_for_select(branch_array), { include_blank: true}) %>
+<br />
+<br />
+Semester dropbox : 
+<% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+<%= s.select(:semester_id , options_for_select(semester_array), { include_blank: true}) %>
+<br />
+<br />
+
+<%= s.submit %>
+<% end %>
+</div>
+</html>
