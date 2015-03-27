@@ -16,7 +16,6 @@ class SubjectsController < ApplicationController
 
 	def edit
 		@subject = Subject.find(params[:id])
-		@branches = @subject.branch
 	end
 
 	def update
@@ -32,7 +31,7 @@ class SubjectsController < ApplicationController
 	end
 
 	def subject_params
-		params.require(:subject).permit(:name, :branch_semester_id )
+		params.require(:subject).permit(:name, :branch_ids=>[] , :semester_ids=>[])
 	end
 
 end

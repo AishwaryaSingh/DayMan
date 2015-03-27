@@ -17,7 +17,7 @@ Branch :
 <% Branch.all.each do |branch| %>
   <tr>
   <td>
-  <%= check_box_tag 'branch_id_eq[]', branch.id %>
+  <%= s.check_box :branch %>
   </td>
   <td>
   <label><%= branch.name %></label>
@@ -34,7 +34,7 @@ Semester :
 <% Semester.all.each do |semester| %>
 <tr>
 <td>
-  <%= check_box_tag 'semester_id_eq[]', semester.id %>
+  <%= s.check_box :semester %>
  </td>
  <td> 
   <label><%= semester.name %></label>
