@@ -23,7 +23,12 @@
   <tr style="font-size:20px; text-align:center; color:PaleVioletRed">
 	<td style="font-size:16px"><%= subject.id %></td>
     <td style="font-size:16px"><%= subject.name %></td>
-    <td style="font-size:16px"><%= subject.branch_id %></td>
+    <td style="font-size:16px">
+    <%  subject.branches.each do |branch| %>
+    <%= branch.name  %> ,   
+    <% end %>
+
+     </td>
     <td style="font-size:16px"><%= subject.semester_id %></td>
     <td><%= button_to 'Edit', edit_subject_path(subject) , method: :get %></td>
     <td><%= button_to 'Destroy', subject, method: :delete, data: { confirm: 'Are you sure?' } %></td>

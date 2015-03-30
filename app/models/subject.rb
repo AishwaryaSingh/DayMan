@@ -9,7 +9,7 @@ class Subject < ActiveRecord::Base
 
 	belongs_to :branch_semester
 
-	has_and_belongs_to_many :branch
+	has_and_belongs_to_many :branches
 
 	has_and_belongs_to_many :semester
 
@@ -18,7 +18,8 @@ class Subject < ActiveRecord::Base
 
 	belongs_to :schedule
 
-	validates :name , uniqueness: true
+	validates :name , uniqueness: true ,
+						presence: true
 
 end
  
