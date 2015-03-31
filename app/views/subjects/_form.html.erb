@@ -1,51 +1,47 @@
-<html>
-<head><title>subject</title>
-</head>
-
-<%= form_for @subject do |s| %>
-
-<br />
-<br/ >
-
-Name : <%= s.text_field :name %>
-<br />
-<br />
-
-Branch : 
-<table>
-<tbody>
-<% Branch.all.each do |branch| %>
-  <tr>
-  <td>
-  <%= check_box_tag "branch_ids[]" , branch.id , true %>
-  </td>
-  <td>
-  <label><%= branch.name %></label>
-  </td>
-  </tr>
-<% end %>
-</tbody>
-</table>
-<br />
-<br />
-Semester :
-<table>
-<tbody> 
-<% Semester.all.each do |semester| %>
-<tr>
-<td>
-  <%= s.check_box :semester_id %>
- </td>
- <td> 
-  <label><%= semester.name %></label>
-  </td>
- </tr> 
-<% end %>
-</tbody>
-</table>
-<br />
-<br />
-<%= s.submit %>
-<% end %>
-</div>
+<head>
+    <title>subject</title>
+  </head>
+  <%= form_for @subject do |s| %>
+  <br />
+  <br/ >
+  Name : <%= s.text_field :name %>
+  <br />
+  <br />
+  Branch : 
+  <table>
+    <tbody>
+      <% Branch.all.each do |branch| %>
+      <tr>
+        <td>
+          <%= check_box_tag "branch_ids[]", branch.id %>
+        </td>
+        <td>
+          <label><%= branch.name %></label>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br />
+  <br />
+  Semester :
+  <table>
+    <tbody>
+      <% Semester.all.each do |semester| %>
+      <tr>
+        <td>
+          <%= check_box_tag "semester_ids[]", semester.id %>
+        </td>
+        <td> 
+          <label><%= semester.name %></label>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <br />
+  <br />
+  <%= s.submit %>
+  <% end %>
+  </div>
 </html>
