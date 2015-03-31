@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150319103619) do
+ActiveRecord::Schema.define(version: 20150327071848) do
 
   create_table "batches", force: true do |t|
     t.string   "name"
@@ -36,12 +36,10 @@ ActiveRecord::Schema.define(version: 20150319103619) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "professor_subject", force: true do |t|
-    t.integer "subject_id",   null: false
-    t.integer "professor_id", null: false
+  create_table "branches_subjects", force: true do |t|
+    t.integer "subject_id"
+    t.integer "branch_id"
   end
-
-  add_index "professor_subject", ["professor_id", "subject_id"], name: "index_professor_subject_on_professor_id_and_subject_id", unique: true, using: :btree
 
   create_table "professors", force: true do |t|
     t.string   "name"
@@ -49,6 +47,11 @@ ActiveRecord::Schema.define(version: 20150319103619) do
     t.string   "gender"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "professors_subjects", force: true do |t|
+    t.integer "professor_id"
+    t.integer "subject_id"
   end
 
   create_table "rooms", force: true do |t|
@@ -60,12 +63,8 @@ ActiveRecord::Schema.define(version: 20150319103619) do
   create_table "schedules", force: true do |t|
     t.datetime "starttime"
     t.datetime "endtime"
-    t.integer  "subject_id"
-    t.integer  "integer_id"
     t.integer  "room_id"
-    t.integer  "year_id"
-    t.integer  "batch_id"
-    t.integer  "professor_id"
+    t.integer  "integer_id"
     t.integer  "unit_id"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -77,6 +76,11 @@ ActiveRecord::Schema.define(version: 20150319103619) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "semesters_subjects", force: true do |t|
+    t.integer "subject_id"
+    t.integer "semester_id"
+  end
+
   create_table "students", force: true do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -86,9 +90,10 @@ ActiveRecord::Schema.define(version: 20150319103619) do
 
   create_table "subjects", force: true do |t|
     t.string   "name"
-    t.integer  "branch_semester_id"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "branch_id"
+    t.integer  "semester_id"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
   end
 
   create_table "units", force: true do |t|

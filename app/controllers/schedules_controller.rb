@@ -17,7 +17,7 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    @schedule = Schedule.new(params[:schedule])
+    @schedule = Schedule.new(schedule_params)
 
     @schedule.save
     redirect_to schedules_path
@@ -30,7 +30,7 @@ class SchedulesController < ApplicationController
   def update
     @schedule = Schedule.find(params[:id])
         
-    @schedule.update_attributes(params[:schedule])
+    @schedule.update_attributes(schedule_params)
     redirect_to schedules_path  
   end
 
@@ -38,6 +38,12 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.find(params[:id])
     @schedule.destroy   
     redirect_to schedules_path
+  end
+
+  private
+
+  def schedule_params
+    params.require(:schedule).permit(:unit_id, :room_id, :starttime , :endtime )
   end
 
 end

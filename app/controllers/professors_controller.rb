@@ -17,16 +17,15 @@ class ProfessorsController < ApplicationController
   end
 
   def create
-    @professor = Professor.new(params[:professor])
-
-    @professor.save
+    @professor = Professor.new(professor_params)
+    @professor.save!
     redirect_to professors_path
   end
 
   def update
     @professor = Professor.find(params[:id])
         
-    @professor.update_attributes(params[:professor])
+    @professor.update_attributes(professor_params)
     redirect_to professors_path  
   end
 
@@ -34,6 +33,10 @@ class ProfessorsController < ApplicationController
     @professor = Professor.find(params[:id])
     @professor.destroy   
     redirect_to professors_path
+  end
+
+  def professor_params
+    params.require(:professor).permit(:name, :age , :gender)
   end
 
 end

@@ -5,10 +5,11 @@ DayMan::Application.routes.draw do
  resources :professors
  resources :schedules
  resources :units
+ resources :subjects
 
  get '/admin', to: 'admin#index'
 
- get '/admin/subjects', to: 'admin#subjects'
+ get '/admin/subjects', to: 'subjects#index'
 
  get '/admin/professors', to: 'professors#index'
 

@@ -1,6 +1,7 @@
 class UnitsController < ApplicationController
 
   def index
+    @units = Unit.all
   end
 
   def show
@@ -16,7 +17,7 @@ class UnitsController < ApplicationController
   end
 
   def create
-    @unit = Unit.new(params[:classUnits])
+    @unit = Unit.new(unit_params)
 
     @unit.save
     redirect_to units_path
@@ -25,7 +26,7 @@ class UnitsController < ApplicationController
   def update
     @unit = Unit.find(params[:id])
         
-    @unit.update_attributes(params[:classUnits])
+    @unit.update_attributes(unit_params)
     redirect_to units_path  
   end
 
@@ -34,5 +35,11 @@ class UnitsController < ApplicationController
     @units.destroy   
     redirect_to units_path
   end
+
+
+  def unit_params
+    params.require(:unit).permit(:name, :id, :subject_id, :professor_id , :batch_id)
+  end
+
 
 end
