@@ -16,11 +16,16 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.find(params[:id])
   end
 
+  def create_more
+    @schedule = Schedule.new
+  end
+
   def create
     @schedule = Schedule.new(schedule_params)
 
-    @schedule.save
-    redirect_to schedules_path
+    @schedule.save!
+
+    redirect_to new_schedule_path
   end
 
   def show

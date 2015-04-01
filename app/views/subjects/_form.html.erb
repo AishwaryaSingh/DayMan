@@ -1,24 +1,24 @@
 <head>
     <title>subject</title>
   </head>
-  <%= form_for @subject do |s| %>
+  <%= form_for @subject do |subject| %>
   <br />
   <br/ >
-  Name : <%= s.text_field :name %>
+  Name : <%= subject.text_field :name %>
   <br />
   <br />
-  Branch : 
+  Branch :
   <table>
     <tbody>
       <% Branch.all.each do |branch| %>
-      <tr>
-        <td>
-          <%= check_box_tag "branch_ids[]", branch.id %>
+       <tr>
+       <td>
+         <%= check_box_tag "branch_ids[]", branch.id,  @subject.branches.detect{|item| item.id == branch.id} %>
+       </td>
+       <td>
+         <label><%= branch.name %></label>
         </td>
-        <td>
-          <label><%= branch.name %></label>
-        </td>
-      </tr>
+        </tr>
       <% end %>
     </tbody>
   </table>
@@ -30,7 +30,7 @@
       <% Semester.all.each do |semester| %>
       <tr>
         <td>
-          <%= check_box_tag "semester_ids[]", semester.id %>
+          <%= check_box_tag "semester_ids[]", semester.id , @subject.semesters.detect{|item| item.id == semester.id } %>
         </td>
         <td> 
           <label><%= semester.name %></label>
@@ -41,7 +41,7 @@
   </table>
   <br />
   <br />
-  <%= s.submit %>
+  <%= subject.submit %>
   <% end %>
   </div>
 </html>

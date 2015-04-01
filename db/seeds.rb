@@ -27,6 +27,13 @@ Semester.create!(:name => "VI")
 Semester.create!(:name => "VII")
 Semester.create!(:name => "VIII")
 
+Day.create!(:name => "Monday")
+Day.create!(:name => "Tuesday")
+Day.create!(:name => "Wedday")
+Day.create!(:name => "Thursday")
+Day.create!(:name => "Friday")
+Day.create!(:name => "Saturday")
+
 #Subject.create!(:name => "TOC" , :branch_id => "[1,2]" , :semester_id => "[]" )#, :branch_semester_id => "5")
 #Subject.create!(:name => "OS" , :branch_id => "[1,2]" , :semester_id => "[]")#:branch_semester_id => "5")
 #Subject.create!(:name => "JAVA",:branch_id => "" , :semester_id => "") #:branch_semester_id => "4")

@@ -15,7 +15,9 @@ DayMan::Application.routes.draw do
 
  get 'admin/addSchedules' , to: 'schedules#index'
 
-  get 'admin/units' , to: 'units#index'
+ get 'admin/units' , to: 'units#index'
+
+ get 'schedules/new' , to: 'schedules#create_more'
 
  #get '/', to: 'index'
 

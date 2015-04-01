@@ -1,36 +1,75 @@
 <html>
 <head><title>Schedule</title>
+
+<!-- cdn for modernizr, if you haven't included it already -->
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+<!-- polyfiller file to detect and load polyfills -->
+<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+<script>
+  webshims.setOptions('waitReady', false);
+  webshims.setOptions('forms-ext', {types: 'date'});
+  webshims.polyfill('forms forms-ext');
+</script>
 </head>
 
-<%= form_for @schedule do |s| %>
+<%= form_for @schedule do |schedule| %>
 
 <br />
 <br/ >
 
-class_unit : 
-<% unit_array = Unit.all.map { |b| [b.name, b.id] } %>
-<%= s.select(:unit_id , options_for_select(unit_array), { include_blank: true}) %>
+Branch : 
+<% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:branch_id , options_for_select(branch_array), { include_blank: true }) %>
 <br />
 <br />
 
+Semester : 
+<% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:semester_id , options_for_select(semester_array), { include_blank: true}) %>
+<br />
+<br />
+
+Subject : 
+<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+<br />
+<br />
+
+Professor : 
+<% professor_array = Professor.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:professor_id , options_for_select(professor_array), { include_blank: true}) %>
+<br />
+<br />
+
+Batch : 
+<% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:batch_id , options_for_select(batch_array), {} ,  { include_blank: true}) %>
+<br />
+<br />
 
 Room : 
 <% room_array = Room.all.map { |b| [b.name, b.id] } %>
-<%= s.select(:room_id , options_for_select(room_array), { include_blank: true}) %>
+<%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true}) %>
+<br />
+<br />
+
+
+Day : 
+	<input type="date" name="datetime-local">
 <br />
 <br />
 
 Start Time:
-<%= s.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
+<%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
 <br />
 <br />
 
 End Time:
-<%= s.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
+<%= schedule.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
 <br />
 <br />
 
-<%= s.submit %>
+<%= schedule.submit %>
 <% end %>
 </div>
 </html>

@@ -16,7 +16,7 @@ class Subject < ActiveRecord::Base
 
 	has_and_belongs_to_many :professors
 
-	belongs_to :schedule
+	has_many :schedule
 
 	validates :name , uniqueness: true ,
 						presence: true
