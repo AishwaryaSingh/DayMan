@@ -1,32 +1,22 @@
  <html>
  <head>
     <title>subject</title>
-    <script type="text/javascript" charset="utf-8">
-
-    $(function()
-    { 
-
-    });
-
   </script>  
   </head>
 
   <body>
   <div class="center">
 
-<% if @subject.errors.any? %>
-<% @subject.errors.full_messages.each do |msg| %>
-<div style="color:red"><%= msg %> !</div>
-<br />
-<% end %>
-<% end %>
   <%= form_for @subject do |subject| %>
   <br />
   <br/ >
   Name : <%= subject.text_field :name %>
+ <span style="color:red">
   <% if @subject.errors[:name] %>
-  <span style="color:red"><%= @subject.errors[:name] %></span>
+    <% a= @subject.errors.full_messages_for(:name) %>
+    <%= a[0] %>
   <% end %>
+  </span>
 
   <br />
   <br />
@@ -46,9 +36,12 @@
       <% end %>
     </tbody>
   </table>
+  <span style="color:red">
   <% if @subject.errors[:branch_ids] %>
-  <span style="color:red"><%= @subject.errors.full_message(:branch_ids, "is not selected!") %></span>
+    <% a = @subject.errors.full_messages_for(:branch_ids) %>
+    <%= a[0] %>
   <% end %>
+  </span>
   <br />
   <br />
   </div>
@@ -68,9 +61,12 @@
       <% end %>
     </tbody>
   </table>
+  <span style="color:red">
   <% if @subject.errors[:semester_ids] %>
-  <span style="color:red"><%= @subject.errors[:semester_ids] %></span>
+    <% a=@subject.errors.full_messages_for(:semester_ids) %>
+    <%= a[0] %>
   <% end %>
+  </span>
   <br />
   <br />
 

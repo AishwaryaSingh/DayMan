@@ -1,6 +1,4 @@
 class Ability
-  include CanCan::Ability
-
   # Add in CanCan's ability definition DSL
   include CanCan::Ability
 
