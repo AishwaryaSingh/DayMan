@@ -31,10 +31,12 @@ class SubjectsController < ApplicationController
 		@subject = Subject.find(params[:id])
 		@subject.branches = Branch.find(params[:branch_ids].nil? && [] || params[:branch_ids] )
 		@subject.semesters = Semester.find(params[:semester_ids].nil? && [] || params[:semester_ids])
-		if @subject.update_attributes!(subject_params)
+		
+		if @subject.valid?
+			@subject.update_attributes!(subject_params)
 			redirect_to subjects_path
 		else
-			flash[:notice] = "Please fill all parameters"
+			render 'edit'
 		end
 
 	end
