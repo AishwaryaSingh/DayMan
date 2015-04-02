@@ -19,6 +19,8 @@ DayMan::Application.routes.draw do
 
  get 'schedules/new' , to: 'schedules#create_more'
 
+ #mount FullcalendarEngine::Engine => "/fullcalendar_engine"
+
  #get '/', to: 'index'
 
   # The priority is based upon order of creation:

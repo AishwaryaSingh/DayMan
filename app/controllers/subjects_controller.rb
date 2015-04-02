@@ -11,10 +11,16 @@ class SubjectsController < ApplicationController
 
 	def create
 		@subject = Subject.new(subject_params)
-		@subject.branches = Branch.find(params[:branch_ids])
-		@subject.semesters = Semester.find(params[:semester_ids])
-		@subject.save!
-		redirect_to subjects_path
+		@subject.branches = Branch.find(params[:branch_ids].nil? && [] || params[:branch_ids] )
+		@subject.semesters = Semester.find(params[:semester_ids].nil? && [] || params[:semester_ids])
+		
+		if @subject.valid?
+		   @subject.save
+		   redirect_to subjects_path
+		else 
+			render 'new'
+		end	
+
 	end
 
 	def edit
@@ -23,10 +29,14 @@ class SubjectsController < ApplicationController
 
 	def update
 		@subject = Subject.find(params[:id])
-		@subject.branches = Branch.find(params[:branch_ids])
-		@subject.semesters = Semester.find(params[:semester_ids])
-		@subject.update_attributes(subject_params)
-		redirect_to subjects_path
+		@subject.branches = Branch.find(params[:branch_ids].nil? && [] || params[:branch_ids] )
+		@subject.semesters = Semester.find(params[:semester_ids].nil? && [] || params[:semester_ids])
+		if @subject.update_attributes!(subject_params)
+			redirect_to subjects_path
+		else
+			flash[:notice] = "Please fill all parameters"
+		end
+
 	end
 
 	def destroy
@@ -37,14 +47,6 @@ class SubjectsController < ApplicationController
 
 	def subject_params
 		params.require(:subject).permit(:name, :branch_ids=>[] , :semester_ids=>[] )
-	end
-
-	def checked_branches
-		@subject.branches = Branch.find(params[:branch_ids[]])
-	end
-
-	def checked_semesters
-		@subject.semesters = Semester.find(params[:semester_ids])
 	end
 
 

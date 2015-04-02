@@ -1,15 +1,39 @@
-<head>
+ <html>
+ <head>
     <title>subject</title>
+    <script type="text/javascript" charset="utf-8">
+
+    $(function()
+    { 
+
+    });
+
+  </script>  
   </head>
+
+  <body>
+  <div class="center">
+
+<% if @subject.errors.any? %>
+<% @subject.errors.full_messages.each do |msg| %>
+<div style="color:red"><%= msg %> !</div>
+<br />
+<% end %>
+<% end %>
   <%= form_for @subject do |subject| %>
   <br />
   <br/ >
   Name : <%= subject.text_field :name %>
+  <% if @subject.errors[:name] %>
+  <span style="color:red"><%= @subject.errors[:name] %></span>
+  <% end %>
+
   <br />
   <br />
   Branch :
   <table>
     <tbody>
+    <div class="branch">
       <% Branch.all.each do |branch| %>
        <tr>
        <td>
@@ -22,8 +46,13 @@
       <% end %>
     </tbody>
   </table>
+  <% if @subject.errors[:branch_ids] %>
+  <span style="color:red"><%= @subject.errors.full_message(:branch_ids, "is not selected!") %></span>
+  <% end %>
   <br />
   <br />
+  </div>
+
   Semester :
   <table>
     <tbody>
@@ -39,9 +68,15 @@
       <% end %>
     </tbody>
   </table>
+  <% if @subject.errors[:semester_ids] %>
+  <span style="color:red"><%= @subject.errors[:semester_ids] %></span>
+  <% end %>
   <br />
   <br />
+
   <%= subject.submit %>
   <% end %>
+
   </div>
+  </body>
 </html>

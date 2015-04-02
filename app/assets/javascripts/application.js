@@ -12,4 +12,10 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require_tree .
+//= require jquery.js
+function validateCheckbox()
+{
+    if( $('#checkbox').attr('checked')){
+      alert("you have to accept the terms first");
+    }
+}
