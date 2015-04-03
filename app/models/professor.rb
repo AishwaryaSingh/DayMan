@@ -7,4 +7,9 @@ class Professor < ActiveRecord::Base
 
    has_and_belongs_to_many :subjects
 
+    validates :age , presence: true ,
+ 	validates :name , presence: true ,
+ 					  uniqueness: true
+ 	validates :gender , presence: true ,
+
 end

@@ -18,5 +18,14 @@ class AdminController < ApplicationController
 	def units
 		@unit = Unit.new
 	end
+	
+	def branches
+		@branches = Branch.new
+	end
+	
+	def semesters
+		@semesters = Semester.new
+	end
+	
 
 end

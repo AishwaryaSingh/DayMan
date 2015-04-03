@@ -14,7 +14,7 @@
  <span style="color:red">
   <% if @subject.errors[:name] %>
     <% a= @subject.errors.full_messages_for(:name) %>
-    <%= a[0] %>
+    <%= a.join(", ") %>
   <% end %>
   </span>
 
@@ -39,7 +39,7 @@
   <span style="color:red">
   <% if @subject.errors[:branch_ids] %>
     <% a = @subject.errors.full_messages_for(:branch_ids) %>
-    <%= a[0] %>
+    <%= a.join(", ") %>
   <% end %>
   </span>
   <br />
@@ -64,7 +64,7 @@
   <span style="color:red">
   <% if @subject.errors[:semester_ids] %>
     <% a=@subject.errors.full_messages_for(:semester_ids) %>
-    <%= a[0] %>
+    <%= a.join(", ") %>
   <% end %>
   </span>
   <br />

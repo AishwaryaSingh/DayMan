@@ -18,15 +18,24 @@ class ProfessorsController < ApplicationController
 
   def create
     @professor = Professor.new(professor_params)
-    @professor.save!
-    redirect_to professors_path
+
+   if @professor.valid?
+       @professor.save
+       redirect_to professors_path
+    else 
+      render 'new'
+    end
   end
 
   def update
     @professor = Professor.find(params[:id])
         
-    @professor.update_attributes(professor_params)
-    redirect_to professors_path  
+    if @professor.valid?
+      @professor.update_attributes!(unit_params)
+      redirect_to professors_path 
+    else
+      render 'edit'
+    end 
   end
 
   def destroy

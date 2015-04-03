@@ -2,10 +2,16 @@ DayMan::Application.routes.draw do
  
  #match "signin" => "admin/signin"
 
+  resources :dashboard do
+    get :get_events, on: :collection
+  end
+
  resources :professors
  resources :schedules
  resources :units
  resources :subjects
+ resources :branches
+ resources :semesters
 
  get '/admin', to: 'admin#index'
 
@@ -16,6 +22,10 @@ DayMan::Application.routes.draw do
  get 'admin/addSchedules' , to: 'schedules#index'
 
  get 'admin/units' , to: 'units#index'
+
+ get '/admin/branches', to: 'branches#index'
+
+ get '/admin/semesters', to: 'semesters#index'
 
  get 'schedules/new' , to: 'schedules#create_more'
 

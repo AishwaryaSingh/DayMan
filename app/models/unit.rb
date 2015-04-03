@@ -6,6 +6,10 @@ class Unit < ActiveRecord::Base
   belongs_to :professor
   belongs_to :batch
   belongs_to :subject
+
+  
+ 	validates :name , presence: true ,
+ 					  uniqueness: true
   
 end
 

@@ -1,22 +1,39 @@
 <html>
 <head><title>Schedule</title>
 
-<!-- cdn for modernizr, if you haven't included it already -->
-<script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
-<!-- polyfiller file to detect and load polyfills -->
-<script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
-<script>
-  webshims.setOptions('waitReady', false);
-  webshims.setOptions('forms-ext', {types: 'date'});
-  webshims.polyfill('forms forms-ext');
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() {
+    // page is now ready, initialize the calendar...
+    $('#calendar').fullCalendar({
+     editable: true,
+     header: 
+     {
+	     left: "prev,next today ",
+	     center: "title",
+	     right: "month, agendaWeek, agendaDay",
+		 defaultView: "month",
+	     height: 500,
+		 slotMinutes: 15,
+	     events: "/dashboard/get_events",
+	     timeFormat: "h:mm t{ - h:mm t} ",
+	     dragOpacity: "0.5"
+	 }
+    });
+});
+
 </script>
+
+
 </head>
 
 <%= form_for @schedule do |schedule| %>
 
 <br />
 <br/ >
-
+<table width="120%">
+<tr>
+<td>
+<div class="left" align="right">
 Branch : 
 <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
 <%= schedule.select(:branch_id , options_for_select(branch_array), { include_blank: true }) %>
@@ -29,35 +46,6 @@ Semester :
 <br />
 <br />
 
-Subject : 
-<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
-<br />
-<br />
-
-Professor : 
-<% professor_array = Professor.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:professor_id , options_for_select(professor_array), { include_blank: true}) %>
-<br />
-<br />
-
-Batch : 
-<% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:batch_id , options_for_select(batch_array), {} ,  { include_blank: true}) %>
-<br />
-<br />
-
-Room : 
-<% room_array = Room.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true}) %>
-<br />
-<br />
-
-
-Day : 
-	<input type="date" name="datetime-local">
-<br />
-<br />
 
 Start Time:
 <%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
@@ -69,7 +57,15 @@ End Time:
 <br />
 <br />
 
-<%= schedule.submit %>
+</div>
+</td>
+<td>
+<div id="calendar" style="width:60% ; height: 60%;" align="left"></div>
+</td>
+</tr>
+
+<tr><td></td><td><%= schedule.submit %></td></tr>
+</table>
 <% end %>
 </div>
 </html>

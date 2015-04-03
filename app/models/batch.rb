@@ -9,5 +9,9 @@ class Batch < ActiveRecord::Base
   belongs_to :semester
   belongs_to :professor
   belongs_to :schedule
+
+  
+ 	validates :name , presence: true ,
+ 					  uniqueness: true
   
 end

@@ -1,0 +1,53 @@
+
+Subject : 
+<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+<br />
+<br />
+
+Professor : 
+<% professor_array = Professor.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:professor_id , options_for_select(professor_array), { include_blank: true}) %>
+<br />
+<br />
+
+Batch : 
+<% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:batch_id , options_for_select(batch_array), {} ,  { include_blank: true}) %>
+<br />
+<br />
+
+Room : 
+<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true}) %>
+<br />
+<br />
+
+
+Day : 
+	<input type="date" name="datetime-local">
+<br />
+<br />
+
+Start Time:
+<%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
+<br />
+<br />
+
+End Time:
+<%= schedule.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
+<br />
+<br />
+======================================================================================================
+|   <!-- cdn for modernizr, if you haven't included it already -->
+|   <script src="http://cdn.jsdelivr.net/webshim/1.12.4/extras/modernizr-custom.js"></script>
+|   <!-- polyfiller file to detect and load polyfills -->
+|   <script src="http://cdn.jsdelivr.net/webshim/1.12.4/polyfiller.js"></script>
+|   <script>
+    webshims.setOptions('waitReady', false);
+    webshims.setOptions('forms-ext', {types: 'date'});
+    webshims.polyfill('forms forms-ext');
+    </script>
+
+
+   //= require fullcalendar

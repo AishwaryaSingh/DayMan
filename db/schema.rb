@@ -19,11 +19,6 @@ ActiveRecord::Schema.define(version: 20150401124238) do
     t.datetime "updated_at"
   end
 
-  create_table "branch_semester", force: true do |t|
-    t.integer "branch_id"
-    t.integer "semester_id"
-  end
-
   create_table "branch_semesters", force: true do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -34,6 +29,11 @@ ActiveRecord::Schema.define(version: 20150401124238) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "branches_semesters", force: true do |t|
+    t.integer "branch_id"
+    t.integer "semester_id"
   end
 
   create_table "branches_subjects", force: true do |t|
