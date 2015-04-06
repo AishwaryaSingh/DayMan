@@ -12,25 +12,27 @@
 <br />
 <br />
 <%= button_to 'Create New' , new_schedule_path , method: :get %>
-<table width="100%" style="font-size:20px;" cellspacing="20">
-  <tr style="font-size:20px; text-align:center; color:LightCoral ">
-    <th>Schedule ID</th>
-  <th>Subject</th>
-  <th>Professor</th>
-  <th>Batch</th>
-  <th>Start Time</th>
-  <th>End Time</th>
-  <th></th>
-  <th></th>
-</tr>
-<% @schedules.each do |schedule| %>
-  <tr style="font-size:20px; text-align:center; color:PaleVioletRed">
-  <td style="font-size:16px"><%= schedule.id %></td>
-    <td><%= button_to 'Edit', edit_schedule_path(schedule) , method: :get %></td>
-    <td><%= button_to 'Destroy', schedule, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
+
+
+
+
+
 </div>
+
 </body>
+<pre>
+<div align="bottom"> 
+
+Display schedules like this :
+* 2011
+* 2012
+* 2013...
+
+...on click => drop down of branches :
+
+which will link to a page with options of which semester ((1,3,5,7) or (2,4,6,8));
+there schedule while be displayed accordingly.
+</div>
+</pre>
+
 </html>

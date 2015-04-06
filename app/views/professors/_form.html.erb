@@ -1,41 +1,5 @@
-<%= form_for(@professor) do |f| %>
 <div align="center">
-<<<<<<< HEAD
-<table>
-<tr><td>  Name   : </td><td><%= f.text_field :name %>
-  </td><td>
-  <span style="color:red"><% if @professor.errors[:name] %>
-    <% a= @professor.errors.full_messages_for(:name) %>
-    <%= a.join(", ") %>
-  <% end %>
-  </span>
-  </td></tr>
-
-  <br />
-  <tr><td>
-  Age    : </td><td><%= f.text_field :age %>
-  </td><td><span style="color:red"><% if @professor.errors[:age] %>
-    <% a= @professor.errors.full_messages_for(:age) %>
-    <%= a.join(", ") %>
-  <% end %>
-  </span></td>
-  </tr>
-  <br />
-  <tr><td>
-  Gender : </td><td>
-  <%= f.radio_button :gender , "Female" %>Female
-  <%= f.radio_button :gender , "Male" %>Male
-  </td>
-  <td><span style="color:red"><% if @professor.errors[:gender] %>
-    <% a= @professor.errors.full_messages_for(:gender) %>
-    <%= a.join(", ") %>
-  <% end %>
-  </span></td>
-  </tr>
-  </table>
-  <br />
-  <%= f.submit  %>
-=======
+<%= form_for(@professor) do |f| %>
 <table cellspacing="20">
 <tr>
   <td>Name  : </td>
@@ -79,6 +43,5 @@
 </table>
 <br />
 <%= f.submit  %>
->>>>>>> 569a0c52fd4ed047a4607f2ce3d7f4956704d35d
 <% end %>
 </div>

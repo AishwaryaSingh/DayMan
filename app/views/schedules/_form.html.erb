@@ -2,38 +2,66 @@
 <head><title>Schedule</title>
 
 <script type="text/javascript" charset="utf-8">
-$(document).ready(function() {
+$(document).ready(function() 
+{
     // page is now ready, initialize the calendar...
+
+    $(".data").hide();
+
+
     $('#calendar').fullCalendar({
-     editable: true,
-     header: 
-     {
-	     left: "prev,next today ",
-	     center: "title",
-	     right: "month, agendaWeek, agendaDay",
-		 defaultView: "month",
-	     height: 500,
-		 slotMinutes: 15,
-	     events: "/dashboard/get_events",
-	     timeFormat: "h:mm t{ - h:mm t} ",
-	     dragOpacity: "0.5"
-	 }
+
+    	events: [],
+
+    	header: 
+    	{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+
+	    editable: true,
+		defaultView: "month",
+		height: 500,
+		slotMinutes: 15,
+		events: "/dashboard/get_events",
+		timeFormat: "h:mm t{ - h:mm t} ",
+		dragOpacity: "0.5",
+
+        dayClick: function(date, allDay, jsEvent, view)
+        {
+            $('#calendar').fullCalendar('gotoDate', date);
+            $('#calendar').fullCalendar('changeView', 'agendaDay');
+        }
+    });
+
+    $('#calendar').dblclick(function(subject_name)
+    {   
+    	$("#calendar").hide();
+        $(".data").show();
+        $("button").on("click",function()
+	    {
+	    	$(".data").hide();
+	    	$("#calendar").show();
+        })
     });
 });
 
 </script>
 
-
 </head>
 
-<%= form_for @schedule do |schedule| %>
+<body>
+	<div id="calendar" style="width:60% ; height: 60%; z-index:0" align="center"></div>
+</body>
 
+<div class="data" style="z-index:2000000000" align="center">
+
+<%= form_for @schedule do |schedule| %>
+<span style="font-size:25px ; color:powderblue ;">Enter Event Details</span>
 <br />
 <br/ >
-<table width="120%">
-<tr>
-<td>
-<div class="left" align="right">
+
 Branch : 
 <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
 <%= schedule.select(:branch_id , options_for_select(branch_array), { include_blank: true }) %>
@@ -46,7 +74,6 @@ Semester :
 <br />
 <br />
 
-
 Start Time:
 <%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
 <br />
@@ -57,15 +84,13 @@ End Time:
 <br />
 <br />
 
-</div>
-</td>
-<td>
-<div id="calendar" style="width:60% ; height: 60%;" align="left"></div>
-</td>
-</tr>
+Room No. : 
+<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+<br />
+<br />
 
-<tr><td></td><td><%= schedule.submit %></td></tr>
-</table>
+<%= schedule.submit %>
 <% end %>
 </div>
 </html>

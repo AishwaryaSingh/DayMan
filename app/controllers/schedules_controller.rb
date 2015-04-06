@@ -29,9 +29,12 @@ class SchedulesController < ApplicationController
   def create
     @schedule = Schedule.new(schedule_params)
 
-    @schedule.save!
-
-    redirect_to new_schedule_path
+    if @schedule.valid?
+      @schedule.save
+      render 'new'
+    else
+      flash[:notice] = "There has been an error due to incomplete information!"
+    end
   end
 
   def show
