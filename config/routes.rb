@@ -19,7 +19,7 @@ DayMan::Application.routes.draw do
 
  get '/admin/professors', to: 'professors#index'
 
- get 'admin/addSchedules' , to: 'schedules#index'
+ get 'admin/schedules' , to: 'schedules#index'
 
  get 'admin/units' , to: 'units#index'
 

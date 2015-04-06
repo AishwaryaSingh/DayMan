@@ -7,7 +7,7 @@ class AdminController < ApplicationController
 		@subjects = Subject.all
 	end
 
-	def addSchedules
+	def schedules
 		@schedule = Schedule.new
 	end
 
