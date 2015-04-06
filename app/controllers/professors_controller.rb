@@ -18,6 +18,7 @@ class ProfessorsController < ApplicationController
 
   def create
     @professor = Professor.new(professor_params)
+    
 
    if @professor.valid?
        @professor.save

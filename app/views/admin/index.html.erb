@@ -1,24 +1,59 @@
 <html>
+	<head>
+		<title>Admin Page</title>
 
-<div class="header"></div>
+		<style type="text/css">
+			a{
+				display:block;
+				width:100%;
+				height:100%;
+				font-family:verdana,arial,helvetica,sans-serif;
+				font-size:16px;
+				color:#666;
+				text-decoration:none;
+			}
+		</style>
+	</head>
 
-<div class="tabs">
+	<div class="header"></div>
 	
-
-</div>
-
-<div align="center">
-
-<h1> Admin Home Page</h1>
-
- <%= button_to 'admin_subjects', admin_subjects_path , method: :get %><br>
- <%= button_to 'admin_professors', admin_professors_path , method: :get %><br>
- <%= button_to 'admin_schedules', admin_addSchedules_path , method: :get %><br>
- <%= button_to 'admin_class', admin_units_path , method: :get %><br>
- <%= button_to 'admin_branches', admin_branches_path , method: :get %><br>
- <%= button_to 'admin_semesters', admin_semesters_path , method: :get %><br>
-
-
-</div>
-
+	<div class="tabs"></div>
+	
+	<body style="background-color:#004040 ">
+		<div align="center">
+			<h1 style="color:PapayaWhip"> Admin Home Page</h1>
+			<table cellpadding="70px" width="100%" >
+				<tr>
+					<td style="background-color:LightPink "></td>
+					<td style="background-color:LightBlue "></td>
+					<td style="background-color:Salmon "></td>
+					<td style="background-color:Aquamarine"><%= link_to 'Subjects', admin_subjects_path , method: :get %><br></td>
+					<td style="background-color:PapayaWhip "><%= link_to 'Professors', admin_professors_path , method: :get %><br></td>
+					<td style="background-color:MediumTurquoise "></td>
+					<td style="background-color:Bisque "></td>
+					<td style="background-color:LightSkyBlue"></td>
+			 	</tr>
+			 	<tr>
+			 		<td style="background-color:#70B8FF"></td>
+					<td style="background-color:#FF5050  "></td>
+					<td style="background-color:Turquoise " ></td>
+			 		<td style="background-color:PeachPuff   "><%= link_to 'Schedules', admin_schedules_path , method: :get %><br></td>
+			 		<td style="background-color:PowderBlue  "><%= link_to 'Class', admin_units_path , method: :get %><br></td>
+			 		<td style="background-color:IndianRed "></td>
+					<td style="background-color:LightCyan "></td>
+					<td style="background-color:MistyRose "></td>			 	
+			 	</tr>
+			 	<tr>
+			 		<td style="background-color:AntiqueWhite "></td>
+					<td style="background-color:LightSlateGray "></td>
+					<td style="background-color:Tomato"></td>
+					<td style="background-color:LightCyan "><%= link_to 'Branches', admin_branches_path , method: :get %><br></td>
+					<td style="background-color:LightSalmon  "><%= link_to 'Semesters', admin_semesters_path , method: :get %><br></td>
+					<td style="background-color:MediumAquaMarine "></td>
+					<td style="background-color:Salmon"></td>
+					<td style="background-color:DeepSkyBlue "></td>
+				</tr>
+			</table>
+	 	</div>
+	</body>
 </html>
