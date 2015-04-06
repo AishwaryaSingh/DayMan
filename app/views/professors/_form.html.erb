@@ -21,7 +21,10 @@
   </tr>
   <br />
   <tr><td>
-  Gender : </td><td><%= f.text_field :gender %></td>
+  Gender : </td><td>
+  <%= f.radio_button :gender , "Female" %>Female
+  <%= f.radio_button :gender , "Male" %>Male
+  </td>
   <td><span style="color:red"><% if @professor.errors[:gender] %>
     <% a= @professor.errors.full_messages_for(:gender) %>
     <%= a.join(", ") %>

@@ -31,7 +31,7 @@ class ProfessorsController < ApplicationController
     @professor = Professor.find(params[:id])
         
     if @professor.valid?
-      @professor.update_attributes!(unit_params)
+      @professor.update_attributes!(professor_params)
       redirect_to professors_path 
     else
       render 'edit'
