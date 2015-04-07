@@ -17,9 +17,25 @@
   </tr>
 <% end %>
 
-**************************
+***************************************************************************************
+
+
+
 <% for Year.all.each do |y| %>
   <ul>
     <li><%= y.name %></li>
   </ul>
 <% end %>
+ 
+
+ ************************************************************************************** 
+ 
+Start Time:
+<%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
+<br />
+<br />
+
+End Time:
+<%= schedule.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
+<br />
+<br />

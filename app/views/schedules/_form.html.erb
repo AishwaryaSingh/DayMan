@@ -5,46 +5,83 @@
 $(document).ready(function() 
 {
     // page is now ready, initialize the calendar...
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var t = date.getTime();
 
     $(".data").hide();
 
 
     $('#calendar').fullCalendar({
 
-    	events: [],
+        events: [
+        {
+            title: "",
+        }
+        ],
 
-    	header: 
-    	{
+
+        events: function(start, end, timezone, callback) {
+        
+            
+        },
+
+        //Header initialization
+
+
+        header: 
+        {
             left: 'prev,next today',
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
 
-	    editable: true,
-		defaultView: "month",
-		height: 500,
-		slotMinutes: 15,
-		events: "/dashboard/get_events",
-		timeFormat: "h:mm t{ - h:mm t} ",
-		dragOpacity: "0.5",
+        slotMinutes: 15,                        //NOT WORKING!
+        defaulEventEnd: 60,
+        defaultView: "agendaWeek",
+        selectable: true,
+        selectHelper: true,
+        editable: true,
+        height: 500,
+     //   events: "/dashboard/get_events",
+        timeFormat: "h:mm ",
+        dragOpacity: "0.5",
+
+        titleFormat: 
+        {
+            month: 'MMMM YYYY',    
+        },
+        columnFormat: {
+            week: 'ddd, DD/MM ',
+            day: 'dddd'
+        },
 
         dayClick: function(date, allDay, jsEvent, view)
-        {
+        {    
             $('#calendar').fullCalendar('gotoDate', date);
-            $('#calendar').fullCalendar('changeView', 'agendaDay');
+            $('#calendar').fullCalendar('changeView', 'agendaDay');            
+        },
+
+        select: function(start, end, allDay)
+        {
+            $("#calendar").hide();
+            $(".data").show();
+            var starttime = start;
+            console.log('yes')
+            
+            $("button").on("click",function()
+            {
+                //How to save time ?
+                $(".data").hide(); 
+                $("#calendar").show();
+            });        
+            calendar.fullCalendar('unselect');                
         }
     });
 
-    $('#calendar').dblclick(function(subject_name)
-    {   
-    	$("#calendar").hide();
-        $(".data").show();
-        $("button").on("click",function()
-	    {
-	    	$(".data").hide();
-	    	$("#calendar").show();
-        })
-    });
+
 });
 
 </script>
@@ -52,7 +89,7 @@ $(document).ready(function()
 </head>
 
 <body>
-	<div id="calendar" style="width:60% ; height: 60%; z-index:0" align="center"></div>
+    <div id="calendar" style="width:60% ; height: 60%; z-index:0" align="center"></div>
 </body>
 
 <div class="data" style="z-index:2000000000" align="center">
@@ -60,36 +97,90 @@ $(document).ready(function()
 <%= form_for @schedule do |schedule| %>
 <span style="font-size:25px ; color:powderblue ;">Enter Event Details</span>
 <br />
-<br/ >
-
-Branch : 
-<% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+<br />
+<table>
+<tr>
+<td>Branch :</td>
+<td><% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
 <%= schedule.select(:branch_id , options_for_select(branch_array), { include_blank: true }) %>
-<br />
-<br />
+</td>
+<td><span style="color:red">
+  <% if @schedule.errors[:branch_id] %>
+    <% a = @schedule.errors.full_messages_for(:branch_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span></td>
+</tr>
 
-Semester : 
-<% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+
+<tr>
+<td>Semester : 
+</td><td><% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
 <%= schedule.select(:semester_id , options_for_select(semester_array), { include_blank: true}) %>
-<br />
-<br />
+</td><td><span style="color:red">
+  <% if @schedule.errors[:semester_id] %>
+    <% a = @schedule.errors.full_messages_for(:semester_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span></td>
+</tr>
 
-Start Time:
-<%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
-<br />
-<br />
+<tr><td>
+Professor : 
+</td><td><% professor_array = Professor.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:professor_id , options_for_select(professor_array), { include_blank: true})%></td><td>
+<span style="color:red">
+  <% if @schedule.errors[:professor_id] %>
+    <% a = @schedule.errors.full_messages_for(:professor_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span></td></tr>
 
-End Time:
-<%= schedule.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
-<br />
-<br />
+<tr><td>
+Subject :</td><td>
+<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+</td><td><span style="color:red">
+  <% if @schedule.errors[:subject_id] %>
+    <% a = @schedule.errors.full_messages_for(:subject_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span></td></tr>
 
-Room No. : 
+<tr><td>
+Batch : </td><td>
+<% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
+</td><td><span style="color:red">
+  <% if @schedule.errors[:batch_id] %>
+    <% a = @schedule.errors.full_messages_for(:batch_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span></td></tr>
+
+<tr><td>
+Room No. :</td><td> 
 <% room_array = Room.all.map { |b| [b.name, b.id] } %>
 <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
-<br />
-<br />
-
+</td><td><span style="color:red">
+  <% if @schedule.errors[:room_id] %>
+    <% a = @schedule.errors.full_messages_for(:room_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+ </span></td></tr>
+<tr>
+<td>
+Start Time:
+</td><td><%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
+</td>
+</tr>
+<tr>
+<td>
+End Time:
+</td><td><%= schedule.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
+</td>
+</tr>
+</table>
 <%= schedule.submit %>
 <% end %>
 </div>

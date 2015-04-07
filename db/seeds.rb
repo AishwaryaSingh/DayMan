@@ -8,11 +8,11 @@
 
 
 
-Professor.create!( name: "Smita Mahajan" , age: "49" , gender: "Female")
+Professor.create!( name: "Kalyani Kadam" , age: "49" , gender: "Female")
 Professor.create!( :name => "Praveen Gubala" , :age => "55" , :gender => "Male")
 Professor.create!( :name => "Suman Tanwar" , :age => "34" , :gender => "Female")
 Professor.create!( :name => "Shruti Patil" , :age => "35" , :gender => "Female")
-Professor.create!( :name => "Suman Tanwar" , :age => "34" , :gender => "Female")
+Professor.create!( :name => "Pooja Kamath" , :age => "34" , :gender => "Female")
 Professor.create!( :name => "B.H. Rathore" , :age => "55" , :gender => "Male")
 Professor.create!( :name => "Shilpa Pawar" , :age => "40" , :gender => "Female")
 

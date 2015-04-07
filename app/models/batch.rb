@@ -2,8 +2,8 @@ class Batch < ActiveRecord::Base
    #attr_accessible :name #title, :body
 
   has_many :students
-   has_many :units
-   has_many :schedules
+  has_many :units
+  has_many :schedules
 
   belongs_to :branch
   belongs_to :semester
@@ -11,7 +11,7 @@ class Batch < ActiveRecord::Base
   belongs_to :schedule
 
   
- 	validates :name , presence: true ,
- 					  uniqueness: true
+  validates :name , presence: true ,
+ 					uniqueness: true
   
 end

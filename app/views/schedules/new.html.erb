@@ -3,7 +3,10 @@
 <div class="tabs" align="right"><%= button_to 'Back', schedules_path , method: :get %></div>
 <div align="center">
 
+
 <h1>Enter Schedule Details :</h1>
+
+    <div id="calendar" style="width:60% ; height: 60%; z-index:0" align="center"></div>
 
 <%= render 'form' %>
 

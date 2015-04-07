@@ -6,9 +6,9 @@ class CreateSchedules < ActiveRecord::Migration
         t.references :subject
         t.references :batch
         t.references :professor
-    	t.references :day
+#    	t.references :day
         t.references :room   
-        t.references :unit
+#       t.references :unit
         t.timestamps
         t.datetime :starttime
         t.datetime :endtime

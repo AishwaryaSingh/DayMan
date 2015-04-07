@@ -28,12 +28,11 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = Schedule.new(schedule_params)
-
     if @schedule.valid?
       @schedule.save
       render 'new'
     else
-      flash[:notice] = "There has been an error due to incomplete information!"
+      render 'form'
     end
   end
 
@@ -57,7 +56,7 @@ class SchedulesController < ApplicationController
   private
 
   def schedule_params
-    params.require(:schedule).permit(:unit_id, :room_id, :starttime , :endtime )
+    params.require(:schedule).permit(:branch_id, :semester_id, :professor_id, :subject_id, :batch_id, :room_id, :starttime , :endtime, :unit_id, :room_id, :starttime , :endtime )
   end
 
 end

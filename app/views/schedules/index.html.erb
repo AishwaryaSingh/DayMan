@@ -13,9 +13,12 @@
 <br />
 <%= button_to 'Create New' , new_schedule_path , method: :get %>
 
-
-
-
+Existing Schedules :
+<ul>
+<% Year.all.each do |y| %>
+<li><%= link_to y.name, schedule_path %></li>
+<% end %>
+</ul>
 
 </div>
 

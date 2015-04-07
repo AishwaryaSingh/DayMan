@@ -72,14 +72,11 @@ ActiveRecord::Schema.define(version: 20150401124238) do
     t.integer  "subject_id"
     t.integer  "batch_id"
     t.integer  "professor_id"
-    t.datetime "starttime"
-    t.datetime "endtime"
-    t.integer  "day_id"
     t.integer  "room_id"
-    t.integer  "integer_id"
-    t.integer  "unit_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "starttime"
+    t.datetime "endtime"
   end
 
   create_table "semesters", force: true do |t|
