@@ -25,7 +25,10 @@ gem 'jquery-rails'
 
 gem 'cancancan', '~> 1.9'
 
+#gem 'therubyracer'
 gem 'devise'
+gem 'omniauth'
+gem 'omniauth-digitalocean'
 
 gem 'fullcalendar-rails' , '~>2.0.2.0'
 

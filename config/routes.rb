@@ -1,5 +1,13 @@
 DayMan::Application.routes.draw do
  
+   devise_for :users
+  #root to: 'users#index'
+   
+   Rails.application.routes.draw do
+    resources :users
+    root 'users#index'
+   end
+
  #match "signin" => "admin/signin"
 
 #  resources :dashboard do
