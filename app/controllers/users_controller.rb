@@ -10,7 +10,7 @@ class UsersController < ApplicationController
   end
 
 	def index
-#		    @sent_messages = current_user.sent_messages.all
+    redirect_to new_user_session_path
 	end
 
   private

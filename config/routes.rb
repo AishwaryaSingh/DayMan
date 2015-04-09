@@ -1,12 +1,10 @@
 DayMan::Application.routes.draw do
  
    devise_for :users
-  #root to: 'users#index'
+  root to: 'home#homepage'
    
-   Rails.application.routes.draw do
-    resources :users
-    root 'users#index'
-   end
+  resources :users
+  
 
  #match "signin" => "admin/signin"
 

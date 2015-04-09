@@ -33,7 +33,13 @@ GEM
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
     arel (4.0.2)
+    autoprefixer-rails (5.1.8.1)
+      execjs
+      json
     bcrypt (3.1.10)
+    bootstrap-sass (3.3.4.1)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.2.19)
     builder (3.1.4)
     cancancan (1.10.1)
     coffee-rails (4.1.0)
@@ -149,6 +155,7 @@ PLATFORMS
 
 DEPENDENCIES
   activesupport (~> 4.0.2)
+  bootstrap-sass (~> 3.3.4)
   cancancan (~> 1.9)
   coffee-rails
   devise
