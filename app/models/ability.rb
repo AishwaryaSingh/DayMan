@@ -1,17 +1,22 @@
 class Ability
-  # Add in CanCan's ability definition DSL
   include CanCan::Ability
 
   def initialize(user)
 
-    # Handle the case where we don't have a current_user i.e. the user is a guest
-    user ||= User.new
-
-    # Define a few sample abilities
-    can    :manage , Subject
-    cannot :manage , 
-    can    :read   , Tag , released: true
-  end
+    # Define abilities for the passed in user here.
+    user ||= User.new # guest user (not logged in)
+    # a signed-in user can do everything
+    
+    if user.has_role? :admin
+     # an admin can do everything
+      can :manage, :all
+    elsif user.has_role? :professor
+      can :manage, :all #schedules
+      can [:read, :create, :update], Schedule
+      can :read, :all
+    elsif user.has_role? :student
+      can :read, :all
+    end
 
     # Define abilities for the passed in user here. For example:
     #

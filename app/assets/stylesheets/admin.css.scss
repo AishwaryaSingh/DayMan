@@ -1,22 +1,3 @@
 // Place all the styles related to the admin controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
-
-.button {
-    display: block;
-    height: 100px;
-    width: 300px;
-    background: #34696f;
-    border: 2px solid rgba(33, 68, 72, 0.59);
-     
-    /*Step 3: Text Styles*/
-    color: rgba(0, 0, 0, 0.55);
-    text-align: center;
-    font: bold 3.2em/100px "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;
-}
- 
-/*Step 3: Link Styling*/
-a.button {
-    text-decoration: none;
-}
-

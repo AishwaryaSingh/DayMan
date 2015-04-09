@@ -1,11 +1,9 @@
 <header class="navbar navbar-fixed-top navbar-inverse">
   <div class="navbar-inner">
     <div class="container">
-      <%= link_to "Day Man",root_url, id: "logo" %>
+      <%= link_to "Day Manager",root_url, id: "logo" %>
       <nav>
-        <ul class="nav pull-right">
-          
-          
+        <ul class="nav pull-right">          
           <% if signed_in? %>
             <li><%= link_to "Home", root_path %></li>
             <li id="fat-menu" class="dropdown">

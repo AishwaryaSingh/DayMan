@@ -41,6 +41,7 @@ GEM
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
     builder (3.1.4)
+    cancan (1.6.10)
     cancancan (1.10.1)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
@@ -118,6 +119,7 @@ GEM
     ref (1.0.5)
     responders (1.1.2)
       railties (>= 3.2, < 4.2)
+    role_model (0.8.2)
     sass (3.4.13)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
@@ -156,6 +158,7 @@ PLATFORMS
 DEPENDENCIES
   activesupport (~> 4.0.2)
   bootstrap-sass (~> 3.3.4)
+  cancan
   cancancan (~> 1.9)
   coffee-rails
   devise
@@ -166,6 +169,7 @@ DEPENDENCIES
   omniauth
   omniauth-digitalocean
   rails (= 4.0.2)
+  role_model
   sass-rails
   therubyracer
   uglifier (>= 1.0.3)

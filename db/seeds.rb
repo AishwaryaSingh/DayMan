@@ -7,6 +7,9 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 
+Role.create!(:name => "admin")
+Role.create!(:name => "professor")
+Role.create!(:name => "student")
 
 Professor.create!( name: "Kalyani Kadam" , age: "49" , gender: "Female")
 Professor.create!( :name => "Praveen Gubala" , :age => "55" , :gender => "Male")

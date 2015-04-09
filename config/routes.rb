@@ -1,9 +1,9 @@
 DayMan::Application.routes.draw do
  
-   devise_for :users
   root to: 'home#homepage'
+
+  devise_for :users #,  :controllers => { :registrations => "users/registrations" }
    
-  resources :users
   
 
  #match "signin" => "admin/signin"
@@ -11,7 +11,8 @@ DayMan::Application.routes.draw do
 #  resources :dashboard do
 #    get :get_events, on: :collection
 #  end
-
+ 
+ resources :users
  resources :professors
  resources :schedules
  resources :units
