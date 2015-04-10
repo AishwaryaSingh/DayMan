@@ -23,13 +23,23 @@ end
 
 gem 'jquery-rails'
 
+#authorization / roles ?
 gem 'cancancan', '~> 1.9'
 
-#gem 'therubyracer'
-gem 'devise'
-gem 'omniauth'
-gem 'omniauth-digitalocean'
 
+# To upload excel sheets
+gem 'roo'
+
+gem 'iconv'
+
+# Authentication
+gem 'devise'
+
+#not using with devise
+	gem 'omniauth'
+	gem 'omniauth-digitalocean'
+
+#Jquery plugin for calendar
 gem 'fullcalendar-rails' , '~>2.0.2.0'
 
 gem 'momentjs-rails', '>= 2.8.1', :github => 'derekprior/momentjs-rails'

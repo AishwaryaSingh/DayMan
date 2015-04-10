@@ -28,7 +28,7 @@ test:
   database: DayMan_test
   pool: 5
   username: root
-  password: passwordforMySQL
+  password: #passwordforMySQL
   socket: /var/run/mysqld/mysqld.sock
 
 production:
@@ -38,5 +38,5 @@ production:
   database: DayMan_production
   pool: 5
   username: root
-  password: passwordforMySQL
+  password: #passwordforMySQL
   socket: /var/run/mysqld/mysqld.sock

@@ -2,7 +2,7 @@ DayMan::Application.routes.draw do
  
   root to: 'home#homepage'
 
-  devise_for :users #,  :controllers => { :registrations => "users/registrations" }
+  devise_for :users, :controllers => { :registrations => "users/registrations" }
    
   
 
@@ -13,6 +13,7 @@ DayMan::Application.routes.draw do
 #  end
  
  resources :users
+ resources :students
  resources :professors
  resources :schedules
  resources :units
@@ -33,6 +34,16 @@ DayMan::Application.routes.draw do
  get '/admin/branches', to: 'branches#index'
 
  get '/admin/semesters', to: 'semesters#index'
+
+ get '/admin/students', to: 'students#import'
+
+ get '/admin/users', to: 'users#index'
+
+ get '/home', to: 'home#index'
+
+ get '/studenthome', to: 'home#studenthome'
+
+ get '/professorhome', to: 'home#professorhome'
 
  #mount FullcalendarEngine::Engine => "/fullcalendar_engine"
 

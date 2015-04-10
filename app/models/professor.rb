@@ -5,6 +5,8 @@ class Professor < ActiveRecord::Base
    has_many :units
    has_many :schedules
 
+   belongs_to :user
+
    has_and_belongs_to_many :subjects
 
 

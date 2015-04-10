@@ -12,8 +12,7 @@ class Ability
       can :manage, :all
     elsif user.has_role? :professor
       can :manage, :all #schedules
-      can [:read, :create, :update], Schedule
-      can :read, :all
+      cannot :change_role
     elsif user.has_role? :student
       can :read, :all
     end
@@ -45,4 +44,5 @@ class Ability
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
   end
+
 end
