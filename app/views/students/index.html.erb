@@ -12,3 +12,10 @@
 <div align="center">
 <%= button_to 'New Student', new_student_path , method: :get %>
 </div>
+<div align="bottom">
+Choose a file to import.. :
+<%= form_tag import_students_path, multipart: true do %> 
+	<%= file_field_tag :file %>
+  	<%= submit_tag "Import Students!" %>
+<% end %>
+</div>

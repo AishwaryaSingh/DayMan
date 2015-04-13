@@ -13,11 +13,8 @@ gem 'mysql'
 group :assets do
   gem 'sass-rails'
   gem 'coffee-rails'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-
- gem 'therubyracer', :platforms => :ruby
-
+# See https://github.com/sstephenson/execjs#readme for more supported runtimes
+  gem 'therubyracer', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
 end
 
@@ -27,17 +24,21 @@ gem 'jquery-rails'
 gem 'cancancan', '~> 1.9'
 
 
-# To upload excel sheets
+# To upload excel/CSV sheets
 gem 'roo'
-
 gem 'iconv'
+
+gem 'spreadsheet'
 
 # Authentication
 gem 'devise'
 
 #not using with devise
-	gem 'omniauth'
-	gem 'omniauth-digitalocean'
+gem 'omniauth'
+gem 'omniauth-digitalocean'
+
+#to send mails
+gem 'mailcatcher'
 
 #Jquery plugin for calendar
 gem 'fullcalendar-rails' , '~>2.0.2.0'

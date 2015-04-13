@@ -1,26 +1,35 @@
+require 'roo'
+
 class StudentsController < ApplicationController
 
   def import
+    if Student.import(params[:file])
+      flash[:success] = "Students uploaded"
+    else
+      flash[:error] = "Some error occured! Please try again!"
+    end
+    #Student.import(params[:file])
+    #redirect_to root_url, notice: "Students imported."
   end
 
   def index
-    @students = Professor.all
+    @students = Student.all
   end
 
   def show
-    @student = Professor.all #find(params[:id])
+    @student = Student.all #find(params[:id])
   end
 
   def new
-    @student = Professor.new
+    @student = Student.new
   end
 
   def edit
-    @student = Professor.find(params[:id])
+    @student = Student.find(params[:id])
   end
 
   def create
-    @student = Professor.new(student_params)
+    @student = Student.new(student_params)
     
 
    if @student.valid?
@@ -32,7 +41,7 @@ class StudentsController < ApplicationController
   end
 
   def update
-    @student = Professor.find(params[:id])
+    @student = Student.find(params[:id])
         
     if @student.valid?
       @student.update_attributes!(student_params)
@@ -43,13 +52,13 @@ class StudentsController < ApplicationController
   end
 
   def destroy
-    @student = Professor.find(params[:id])
+    @student = Student.find(params[:id])
     @student.destroy   
     redirect_to students_path
   end
 
   def student_params
-    params.require(:student).permit(:name, :age , :gender)
+    params.require(:student).permit(:name, :batch_id)
   end
 
 end

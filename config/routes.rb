@@ -3,6 +3,15 @@ DayMan::Application.routes.draw do
   root to: 'home#homepage'
 
   devise_for :users, :controllers => { :registrations => "users/registrations" }
+
+
+  resources :students do
+    collection { post :import }
+  end
+
+  resources :professors do
+    collection { post :import }
+  end
    
   
 
@@ -35,7 +44,7 @@ DayMan::Application.routes.draw do
 
  get '/admin/semesters', to: 'semesters#index'
 
- get '/admin/students', to: 'students#import'
+ get '/admin/students', to: 'students#index'
 
  get '/admin/users', to: 'users#index'
 

@@ -1,4 +1,18 @@
+require 'roo'
+
+
 class ProfessorsController < ApplicationController
+
+  def import
+    if Professor.import(params[:file])
+      flash[:success] = "Professor uploaded"
+      redirect_to professors_path
+    else
+      flash[:error] = "Some error occured! Please try again!"
+    end
+    #Student.import(params[:file])
+    #redirect_to root_url, notice: "Students imported."
+  end
 
   def index
     @professors = Professor.all

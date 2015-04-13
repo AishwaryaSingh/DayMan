@@ -10,11 +10,15 @@ class Ability
     if user.has_role? :admin
      # an admin can do everything
       can :manage, :all
+
     elsif user.has_role? :professor
-      can :manage, :all #schedules
+      can :manage, Schedule
       cannot :change_role
+
     elsif user.has_role? :student
       can :read, :all
+      cannot :change_role
+      
     end
 
     # Define abilities for the passed in user here. For example:

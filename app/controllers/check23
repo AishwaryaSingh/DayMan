@@ -1,0 +1,85 @@
+
+name: string, user_name: string, email: string, role: string,
+#How will I inout THIS?
+encrypted_password: string,
+reset_password_token: string, reset_password_sent_at: datetime,
+remember_created_at: datetime, sign_in_count: integer, current_sign_in_at: datetime,
+last_sign_in_at: datetime, current_sign_in_ip: string, last_sign_in_ip: string, 
+provider: string, uid: string
+
++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+		spreadsheet = Roo::Excelx.new(file.path, nil, :ignore)
+		headers = spreadsheet.row(1)
+		columns = ["name","batch_id"]
+		valid = (columns & headers).count == columns.count ? true : false
+		if valid
+			(2..spreadsheet.last_row).each do |i|
+				row = Hash[[headers, spreadsheet.row(i)].transpose]
+				attrs = row.to_hash
+#				student = where(["email = ?","#{attrs['email']}"]).first || new
+				student.attributes = attrs
+				student.first_login_token = student.create_token(student.email)
+				student.save!
+			end
+			true
+		else
+			false
+		end
+
+================================================================================================
+
+    if params[:excel_file].nil?
+      redirect_to user_new_import_path, :flash => { :error => 'You have not selected a file'}
+    else
+      test_file = params[:excel_file]
+      file = ExcelUploader.new
+      file.store!(test_file)
+      book = Spreadsheet.open "#{file.store_path}"
+      sheet1 = book.worksheet 0
+      sheet1.each 1 do |row|
+        name = row[0]
+        email = row[2]
+        generated_password = Devise.friendly_token.first(6) 
+        temp_password = generated_password
+        @user = User.create(:name => name, :email => email,
+           :password => temp_password, :password_confirmation => temp_password)     
+         UserMailer.password_send(@user).deliver
+      end
+      if @user.save
+        redirect_to users_path, :notice => "success"
+      else
+        redirect_to new_import_user_path, :flash => { :error => 'error. try again' }
+      end
+    end
+
+================================================================================================
+
+		CSV.foreach(file.path, headers: true) do |row|
+	    	Student.create! row.to_hash
+	  	end
+	end
+
+================================================================================================
+
+require 'iconv'
+require 'roo'
+require 'csv'
+
+================================================================================================
+
+# recent removal from student controller
+
+
+
+===============================================================================================
+
+  ex = Excel.new("#{Rails.root}/public/studentdata.ods")
+    ex.default_sheet = ex.sheets[1] #Mention the sheet number
+    3.upto(1000) do |line| #start and end of row
+    name = ex.cell(line,'A')
+    batch_id = ex.cell(line,'B')
+    @student = Student.create(:name => name,:batch_id => batch_id)
+end
+
+===============================================================================================
