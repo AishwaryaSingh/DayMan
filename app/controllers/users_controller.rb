@@ -1,14 +1,14 @@
 class UsersController < ApplicationController
-
-
-  def login
-    
+  
+  def import
+    if Uaser.import(params[:file])
+      flash[:success] = "Uploaded"
+      redirect_to students_path
+    else
+      flash[:error] = "Some error occured! Please try again!"
+    end
   end
-
-  def register
-    
-  end
-
+  
 	def index
     redirect_to new_user_session_path
 	end

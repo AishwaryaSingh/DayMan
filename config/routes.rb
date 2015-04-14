@@ -12,6 +12,10 @@ DayMan::Application.routes.draw do
   resources :professors do
     collection { post :import }
   end
+
+  resources :users do
+    collection { post :import }
+  end
    
   
 

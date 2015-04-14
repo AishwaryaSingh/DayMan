@@ -2,17 +2,13 @@ class HomeController < ApplicationController
  
   def homepage
     if user_signed_in?
-      if current_user.has_role? :admin
-        puts "I was here in HomePage admin"
+      if current_user.has_role? :admin 
         redirect_to admin_path
       elsif current_user.has_role? :student
-        puts "I was here in HomePage student"
-        redirect_to studenthome_path
+        redirect_to student_path
       elsif current_user.has_role? :professor
-        puts "I was here in HomePage professor"
-        redirect_to professorhome_path
+        redirect_to professor_path
       else
-        puts "I was here in HomePage"
         redirect_to home_path
       end
     else
@@ -26,6 +22,7 @@ class HomeController < ApplicationController
   def professorhome
   end
   def studenthome
+    @student= Student.all
   end
 
   private
