@@ -1,0 +1,11 @@
+Welcome to Day Manager <%= @user.name %>
+
+      You have successfully been registered with us!
+      
+      Your username is: <%= @user.email %> and the default password is: "12345678".
+
+ 	  Please change the password when you first login!
+
+      To login to the site, just follow this link: <%= @url %>.
+
+      Thanks for joining!! Have a great day! 

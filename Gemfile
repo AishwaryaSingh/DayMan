@@ -30,6 +30,9 @@ gem 'iconv'
 
 gem 'spreadsheet'
 
+#emails checking
+gem 'letter_opener', :group => :development
+
 # Authentication
 gem 'devise'
 

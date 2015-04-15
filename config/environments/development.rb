@@ -38,4 +38,20 @@ DayMan::Application.configure do
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
+  #Letter_opener
+  config.action_mailer.delivery_method = :letter_opener
+
+   #SMTP Server Settings :
+  # For Gmail:
+  config.action_mailer.delivery_method = :smtp
+  config.action_mailer.smtp_settings = {
+  address:              'smtp.gmail.com',
+  port:                 25,
+  domain:               'http://localhost:3000/users',
+  user_name:            '1994aishwaryasingh@gmail.com',
+  password:             'prithvisingh',
+  authentication:       'plain',
+  enable_starttls_auto: true  }
+
+
 end

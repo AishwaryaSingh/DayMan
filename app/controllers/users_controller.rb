@@ -1,18 +1,17 @@
 class UsersController < ApplicationController
   
   def import
-    if Uaser.import(params[:file])
+    if User.import(params[:file])
       flash[:success] = "Uploaded"
-      redirect_to students_path
+      redirect_to users_path
     else
       flash[:error] = "Some error occured! Please try again!"
     end
   end
-  
-	def index
-    redirect_to new_user_session_path
-	end
 
+	def index    
+	end
+  
   private
 
   def ensure_admin!

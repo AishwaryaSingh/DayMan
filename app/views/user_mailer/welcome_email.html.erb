@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Welcome to Day Manager <%= @user.name %></h1>
+    <p>
+      You have successfully been registered with us!
+      Your email is: <%= @user.email %> and the default password is: "12345678".<br>
+    </p>
+    <p>Please change the password when you first login!<br /></p>
+    <p>
+      To login to the site, just follow this link: <%= @url %>.
+    </p>
+    <p>Thanks for joining!! Have a great day!</p>
+  </body>
+</html>
