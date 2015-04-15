@@ -8,8 +8,8 @@ class Unit < ActiveRecord::Base
   belongs_to :subject
 
   
- 	validates :name , presence: true ,
- 					  uniqueness: true
+  validates :name , presence: true ,
+    				uniqueness: true
   
 end
 

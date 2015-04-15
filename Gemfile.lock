@@ -208,5 +208,6 @@ DEPENDENCIES
   role_model
   roo
   sass-rails
+  spreadsheet
   therubyracer
   uglifier (>= 1.0.3)

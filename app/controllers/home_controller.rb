@@ -13,6 +13,7 @@ class HomeController < ApplicationController
         redirect_to professorhome_path
       else
         puts "I was here in HomePage"
+        flash[:error] = "You don't have an assignned role yet! Sign out and sign in again to access default page!"
         redirect_to home_path
       end
     else
