@@ -11,7 +11,7 @@ Role.create!(:name => "admin")
 Role.create!(:name => "professor")
 Role.create!(:name => "student")
 
-#Professor.create!( name: "Kalyani Kadam" , age: "49" , gender: "Female" ,email: "kk@sitpune.edu.in", role_id:"2")
+Professor.create!( name: "Kalyani Kadam" , age: "49" , gender: "Female" ,email: "kk@sitpune.edu.in", role_id:"2")
 #Professor.create!( :name => "Praveen Gubala" , :age => "55" , :gender => "Male")
 #Professor.create!( :name => "Suman Tanwar" , :age => "34" , :gender => "Female")
 #Professor.create!( :name => "Shruti Patil" , :age => "35" , :gender => "Female")

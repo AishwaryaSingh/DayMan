@@ -7,15 +7,15 @@ class Ability
     user ||= User.new # guest user (not logged in)
     # a signed-in user can do everything
     
-    if user.has_role? :admin
+    if user.role? :admin
      # an admin can do everything
       can :manage, :all
 
-    elsif user.has_role? :professor
+    elsif user.role? :professor
       can :manage, Schedule
       cannot :change_role
 
-    elsif user.has_role? :student
+    elsif user.role? :student
       can :read, :all
       cannot :change_role
       
