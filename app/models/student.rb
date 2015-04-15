@@ -18,7 +18,9 @@ class Student < ActiveRecord::Base
 		    student = find_by_id(row["id"]) || new
 		    #student.attributes = row.to_hash.slice(*accessible_attributes)
 		    student.name = row['name']
+		    student.email = row['email']
 		    student.batch_id = row['batch_id']
+            student.role_id = "3"
 		    student.save!
 		  end
 	end

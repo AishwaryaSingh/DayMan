@@ -2,16 +2,6 @@ require 'roo'
 
 class StudentsController < ApplicationController
 
-  def import
-    if Student.import(params[:file])
-      flash[:success] = "Students uploaded"
-    else
-      flash[:error] = "Some error occured! Please try again!"
-    end
-    #Student.import(params[:file])
-    #redirect_to root_url, notice: "Students imported."
-  end
-
   def index
     @students = Student.all
   end
@@ -30,8 +20,6 @@ class StudentsController < ApplicationController
 
   def create
     @student = Student.new(student_params)
-    
-
    if @student.valid?
        @student.save
        redirect_to students_path

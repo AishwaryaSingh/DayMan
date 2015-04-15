@@ -1,49 +1,47 @@
-
-#require 'role_model'
+require 'iconv'
 
 class User < ActiveRecord::Base
-  
-  #before_save :setup_role
-  #before_create :set_default_role
-
-  	# Include default devise modules. Others available are:
-  	# :confirmable, :lockable, :timeoutable and :omniauthable
 
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 	
-#	include RoleModel
-
-	# Setup accessible (or protected) attributes for your model
-  	#attr_accessible :email, :password, :password_confirmation, :remember_me, :roles, :roles_mask
- 
-  	# optionally set the integer attribute to store the roles in,
-  	# :roles_mask is the default
-#  	roles_attribute :roles_mask
- 
-  	# declare the valid roles -- do not change the order if you add more
-  	# roles later, always append them at the end!
-
-# 	roles :admin, :professor, :student
-
-	has_and_belongs_to_many :roles
+  has_one :role
 	has_many :professors
 	has_many :students
-#	has_many :admins
+
 
   def has_role?(role_sym)
     roles.any? { |r| r.name.underscore.to_sym == role_sym }
   end
-    def setup_role 
-    if self.role_ids.empty?     
-      self.role_ids = [2] 
+
+#To import a file :-
+  def self.import(file)
+      spreadsheet = Roo::Excelx.new(file.path, nil, :ignore)
+      header = spreadsheet.row(1)
+      (2..spreadsheet.last_row).each do |i|
+        row = Hash[[header, spreadsheet.row(i)].transpose]
+        student = find_by_id(row["id"]) || new
+        #student.attributes = row.to_hash.slice(*accessible_attributes)
+        user.name = row['name']
+        user.email = row['email']
+        user.encrypted_password = "123"
+        user.role = row['role']
+        user.save!
+      end
+  end
+
+  def self.open_spreadsheet(file)
+    case File.extname(file.original_filename)
+    when ".csv" then CSV.new(file.path)
+    when ".xls" then Excel.new(file.path, nil, :ignore)
+    when ".xlsx" then Excelx.new(file.path, nil, :ignore)
+    else 
+      raise "Unknown file type: #{file.original_filename}"
     end
   end
 
-  private
-  
-  def set_default_role
-    self.role ||= Role.find_by_name('student')
+  def original_filename
+    return File.extname
   end
 
 end

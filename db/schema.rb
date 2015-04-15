@@ -49,8 +49,10 @@ ActiveRecord::Schema.define(version: 20150409125800) do
 
   create_table "professors", force: true do |t|
     t.string   "name"
+    t.string   "email"
     t.integer  "age"
     t.string   "gender"
+    t.integer  "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -70,6 +72,8 @@ ActiveRecord::Schema.define(version: 20150409125800) do
     t.integer "role_id"
     t.integer "user_id"
   end
+
+  add_index "roles_users", ["role_id", "user_id"], name: "index_roles_users_on_role_id_and_user_id", unique: true, using: :btree
 
   create_table "rooms", force: true do |t|
     t.string   "name"
@@ -103,6 +107,8 @@ ActiveRecord::Schema.define(version: 20150409125800) do
 
   create_table "students", force: true do |t|
     t.string   "name"
+    t.string   "email"
+    t.integer  "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "batch_id"
@@ -127,6 +133,8 @@ ActiveRecord::Schema.define(version: 20150409125800) do
   end
 
   create_table "users", force: true do |t|
+    t.string   "name"
+    t.integer  "role_id"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "email",                  default: "", null: false
