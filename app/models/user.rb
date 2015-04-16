@@ -2,7 +2,8 @@ require 'iconv'
 
 class User < ActiveRecord::Base
 
-  after_create :email_to_user
+ # after_create :email_to_user
+  before_create :set_default_role
 
   devise :database_authenticatable, :registerable,
          :recoverable,:validatable, :rememberable, :trackable
@@ -12,13 +13,12 @@ class User < ActiveRecord::Base
 	has_many :students
 
 
-#email after upload or signup
+#Send Email after upload by admin only  (NOT USED YET)
   def email_to_user
     UserMailer.welcome_email(self).deliver
   end
 
 #To check role
-
   def has_role?(role_sym)
 #   roles.any? { |r| r.name.underscore.to_sym == role_sym }
     if r = Role.find_by_id(self.role_id)
@@ -50,7 +50,9 @@ class User < ActiveRecord::Base
         user.email = row['email']
         user.password = "12345678"
         user.role_id = row['role_id']
+        user.sign_up_count = "1"
         user.save!
+    UserMailer.welcome_email(user).deliver
       end
   end
 
@@ -66,6 +68,13 @@ class User < ActiveRecord::Base
 
   def original_filename
     return File.extname
+  end
+
+  private
+ 
+ #Set Default Role as "user"
+  def set_default_role
+    self.role ||= Role.find_by_name('user')
   end
 
 end

@@ -149,6 +149,7 @@ ActiveRecord::Schema.define(version: 20150409125800) do
     t.string   "provider"
     t.string   "uid"
     t.integer  "role_id"
+    t.integer  "sign_up_count"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
