@@ -1,12 +1,7 @@
-
-<div><%= 'List Students' %></div>
-
-<div><%=  'List professors' %></div>
-
-<div align="bottom">
-Choose a file to import users.. :
-<%= form_tag import_users_path, multipart: true do %> 
-	<%= file_field_tag :file %>
-  	<%= submit_tag "Import!" %>
-<% end %>
+<div><h1>Hello <%= @user.name %>!!</h1></div>
+<div>
+	<ul>
+		<li><%= button_to 'Your Scedule for Today!', schedules_path , method: :get %></li>
+	</ul>
 </div>
+

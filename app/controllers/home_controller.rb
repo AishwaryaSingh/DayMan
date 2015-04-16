@@ -32,9 +32,9 @@ class HomeController < ApplicationController
     if current_user.role.name == "admin"
       redirect_to admin_path #and return
     elsif current_user.role.name == "professor"
-      redirect_to professors_path #and return
+      redirect_to users_path #and return
     elsif current_user.role.name == "student"
-      redirect_to students_path #and return
+      redirect_to users_path #and return
     else
       redirect_to home_path
     end

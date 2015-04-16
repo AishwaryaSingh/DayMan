@@ -1,35 +1,18 @@
-<html>
-	<head>
-		<title>Admin Page</title>
-
-		<style type="text/css">
-			a{
-				display:block;
-				width:100%;
-				height:100%;
-				font-family:verdana,arial,helvetica,sans-serif;
-				font-size:16px;
-				color:#666;
-				text-decoration:none;
-			}
-		</style>
-	</head>
-	
+<html>	
 	<body>
 		<div align="center">
-			<h1 style="color:PapayaWhip"> Admin Home Page</h1>
 			<table cellpadding="70px" width="100%" >
 				<tr>
-					<td><%= link_to 'Subjects', admin_subjects_path , method: :get %><br></td>
-			 		<td><%= link_to 'Users', users_path , method: :get %><br></td>
+					<td><%= link_to 'Subjects', admin_subjects_path , method: :get , id: "admin_a" %><br></td>
+			 		<td><%= link_to 'Users', admin_users_path , method: :get , id: "admin_a" %><br></td>
 			 	</tr>
 			 	<tr>
-			 		<td><%= link_to 'Schedules', admin_schedules_path , method: :get %><br></td>
-			 		<td><%= link_to 'Class', admin_units_path , method: :get %><br></td>
+			 		<td><%= link_to 'Schedules', admin_schedules_path , method: :get , id: "admin_a" %><br></td>
+			 		<td><%= link_to 'Class', admin_units_path , method: :get , id: "admin_a" %><br></td>
 			 	</tr>
 			 	<tr>
-			 		<td><%= link_to 'Branches', admin_branches_path , method: :get %><br></td>
-					<td><%= link_to 'Semesters', admin_semesters_path , method: :get %><br></td>
+			 		<td><%= link_to 'Branches', admin_branches_path , method: :get , id: "admin_a" %><br></td>
+					<td><%= link_to 'Semesters', admin_semesters_path , method: :get , id: "admin_a"%><br></td>
 				</tr>
 			</table>
 	 	</div>

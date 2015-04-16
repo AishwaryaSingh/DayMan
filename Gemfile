@@ -1,13 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails', '4.0.2'
-
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-
 gem 'mysql'
-#gem 'activerecord-mysql-adapter'
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -17,18 +13,23 @@ group :assets do
   gem 'therubyracer', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
 end
-
 gem 'jquery-rails'
+
+
 
 #authorization / roles ?
 gem 'cancancan', '~> 1.9'
 
-
 # To upload excel/CSV sheets
 gem 'roo'
 gem 'iconv'
-
 gem 'spreadsheet'
+
+# To upload images
+gem 'paperclip', '~> 4.1'
+
+#gem "rmagick"
+#gem "carrierwave"
 
 #emails checking
 gem 'letter_opener', :group => :development

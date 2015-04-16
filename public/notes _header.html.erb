@@ -1,0 +1,87 @@
+      ======================================================= original no dp modified with dp
+
+      <nav>
+        <ul class="nav pull-right">          
+          <% if signed_in? %>
+            <li><%= link_to "Home", root_path %></li>
+           
+            <li id="fat-menu"class="dropdown" ><a href="#" class="dropdown-toggle" data-toggle="dropdown"><div class="round-image-50"><%= image_tag(current_user.avatar.url(:thumb)) %><b class="caret"></b></div></a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Profile", '#' %></li>
+                <li><%= link_to "Settings", edit_user_registration_path %></li>
+                <li><%= button_to "Logout", destroy_user_session_path, method: "delete" %></li>
+              </ul>
+            </li>
+          <% else %>
+              <li><%= link_to 'Sign In', new_user_session_path %></li>
+          <% end %>
+        </ul>
+      </nav>
+
+
+      =================================================================== original picture one
+      <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+            <li><%= link_to 'Notifications', '#' %></li>
+            <% if current_user %>
+            <li><%= link_to 'Edit Profile',edit_user_registration_path %></li>
+            <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+
+            <li class="round-image-50"><%= image_tag(current_user.avatar.url(:medium)) %></li>
+
+            <% else %>
+            <li><%= link_to 'Login', new_user_session_path %></li>
+            <% end %>
+        </ul>
+    </div>
+============================================================================================
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+    <%= link_to "Day Manager",root_url, id: "logo" %>
+    <div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+            <% if current_user %>
+            <li><%= link_to 'Notifications', '#' %></li>
+            <li id="fat-menu"class="dropdown" >
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <div class="round-image-50">
+                    <%= image_tag(current_user.avatar.url(:thumb)) %></div></a>
+                 <ul class="dropdown-menu">
+                    <li><%= link_to "Edit Profile", edit_user_registration_path %></li>
+                    <li>
+                    <%= button_to "Logout", destroy_user_session_path, method: "delete" %></li>
+                  </ul>
+                  </li>
+            <% else %>
+            <li><%= link_to 'Login', new_user_session_path %></li>
+            <% end %>
+        </ul>
+    </div>
+
+    </div>
+  </div>
+
+</header>
+=============================================================================FINAL WORK
+<header class="navbar navbar-fixed-top navbar-inverse">
+  <div class="navbar-inner">
+    <div class="container">
+      <%= link_to "Day Manager",root_url, id: "logo" %>
+<div class="collapse navbar-collapse" id="navbar-collapse-1">
+        <ul class="nav navbar-nav navbar-right">
+            <% if current_user %>
+            <li><%= link_to 'Notifications', '#' %></li>
+            <li><%= link_to 'Edit Profile',edit_user_registration_path %></li>
+            <li><%= link_to 'Logout', destroy_user_session_path, method: :delete %></li>
+            <li class="round-image-50"><%= image_tag(current_user.avatar.url(:thumb)) %></li>
+            <% else %>
+            <li><%= link_to 'Login', new_user_session_path %></li>
+            <% end %>
+        </ul>
+    </div>
+
+    </div>
+  </div>
+
+</header>

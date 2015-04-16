@@ -10,6 +10,10 @@ class SchedulesController < ApplicationController
 
   end
 
+  def schedule_prof(uid)
+    @data=Schedule.find_by_user_id(uid)
+  end
+
   def show
     @schedule = Schedule.all #find(params[:id])
   end
@@ -56,7 +60,7 @@ class SchedulesController < ApplicationController
   private
 
   def schedule_params
-    params.require(:schedule).permit(:branch_id, :semester_id, :professor_id, :subject_id, :batch_id, :room_id, :starttime , :endtime, :unit_id, :room_id, :starttime , :endtime )
+    params.require(:schedule).permit(:branch_id, :semester_id, :user_id, :subject_id, :batch_id, :room_id, :starttime , :endtime, :unit_id, :room_id, :starttime , :endtime )
   end
 
 end

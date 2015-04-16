@@ -3,13 +3,18 @@ class UsersController < ApplicationController
   def import
     if User.import(params[:file])
       flash[:success] = "Uploaded"
-      redirect_to users_path
+      redirect_to admin_users_path
     else
       flash[:error] = "Some error occured! Please try again!"
     end
   end
 
-	def index    
+  def import_users
+  end
+
+	def index
+    id=current_user.id
+    @user=User.find(id)    
 	end
   
   private

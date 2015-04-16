@@ -5,7 +5,7 @@ class Schedule < ActiveRecord::Base
   	belongs_to :branch
   	belongs_to :semester
   	belongs_to :subject
-  	belongs_to :professor
+  	belongs_to :user
   	belongs_to :batch
 	
 	validates :branch_id , presence: true

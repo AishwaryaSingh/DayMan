@@ -104,7 +104,7 @@ p {
 }
 
 #logo:hover {
-  color: #fff;
+  color: LightCoral;//#fff;
   text-decoration: none;
 }
 
@@ -452,4 +452,19 @@ li.title-li{
 .inner-1-block .btn {
   margin: 0px 10px;
   float: right;
+}
+
+/*Avatar */
+
+.round-image-50 {
+    background-color: white;
+    border: 1px solid #d9d9d9;
+    border-radius: 30px;
+    -moz-border-radius: 30px;
+    -webkit-border-radius: 30px;
+    height: 60px;
+    width: 60px;
+    overflow: hidden;
+    text-align: center;
+    img { width: 100% }
 }

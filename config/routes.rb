@@ -4,20 +4,9 @@ DayMan::Application.routes.draw do
 
   devise_for :users, :controllers => { :registrations => "users/registrations" }
 
-
-  resources :students do
-    collection { post :import }
-  end
-
-  resources :professors do
-    collection { post :import }
-  end
-
   resources :users do
     collection { post :import }
   end
-   
-  
 
  #match "signin" => "admin/signin"
 
@@ -50,7 +39,7 @@ DayMan::Application.routes.draw do
 
  get '/admin/students', to: 'students#index'
 
- get '/admin/users', to: 'users#index'
+ get '/admin/users', to: 'users#import_users'
 
  get '/home', to: 'home#index'
 
@@ -58,6 +47,8 @@ DayMan::Application.routes.draw do
 
  get '/professorhome', to: 'home#professorhome'
 
+ #get '/users', to: 'users#index'
+ 
  #mount FullcalendarEngine::Engine => "/fullcalendar_engine"
 
  #get '/', to: 'index'

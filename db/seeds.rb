@@ -12,6 +12,10 @@ Role.create!(:name => "professor")
 Role.create!(:name => "student")
 Role.create!(:name => "user")
 
+User.create!(name: "Admin Test", email: "admin@test.com", password: "aaaaaaaa", role_id: "1")
+User.create!(name: "Professor Test", email: "professor@test.com", password: "aaaaaaaa", role_id: "2")
+User.create!(name: "Student Test", email: "student@test.com", password: "aaaaaaaa", role_id: "3")
+
 Professor.create!( name: "Kalyani Kadam" , age: "49" , gender: "Female" ,email: "kk@sitpune.edu.in", role_id:"2")
 #Professor.create!( :name => "Praveen Gubala" , :age => "55" , :gender => "Male")
 #Professor.create!( :name => "Suman Tanwar" , :age => "34" , :gender => "Female")

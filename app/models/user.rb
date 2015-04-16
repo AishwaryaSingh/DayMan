@@ -9,9 +9,15 @@ class User < ActiveRecord::Base
          :recoverable,:validatable, :rememberable, :trackable
 	
   belongs_to :role
-	has_many :professors
-	has_many :students
+  belongs_to :batch
+  has_many :schedules
 
+# has_many :professors
+#	has_many :students
+
+#To Upload a Profile Avatar
+has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
+  validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
 #Send Email after upload by admin only  (NOT USED YET)
   def email_to_user
