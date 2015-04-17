@@ -12,6 +12,18 @@ class UsersController < ApplicationController
   def import_users
   end
 
+  def show
+    if current_user.role.name == "professor"
+      @data=Schedule.find_all_by_user_id(current_user.id)
+    else
+      @data=Schedule.find_all_by_batch_id(current_user.batch_id)
+    end
+  end
+
+  def get_schedules
+#    @data=Schedule.find_all_by_user_id(current_user.id)
+  end
+
 	def index
     id=current_user.id
     @user=User.find(id)    
@@ -30,3 +42,4 @@ class UsersController < ApplicationController
   end
 
 end
+

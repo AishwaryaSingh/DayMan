@@ -47,6 +47,8 @@ DayMan::Application.routes.draw do
 
  get '/professorhome', to: 'home#professorhome'
 
+ #get '/users/get_schedules', to: 'schedules#get_schedules'  #NOT WORKING!!!
+
  #get '/users', to: 'users#index'
  
  #mount FullcalendarEngine::Engine => "/fullcalendar_engine"

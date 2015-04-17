@@ -1,0 +1,23 @@
+<html>
+<body>
+<p>User Show!</p>
+<table width="80%">
+	<% @data.each do |d| %>
+	<tr>
+		<td><%= d.subject.name %></td>
+		<td>for</td>
+		<td><%= d.batch.name %></td>
+		<td>by</td>
+		<td><%= d.user.name %></td>
+		<td>from</td>
+		<td><%= d.starttime %></td>
+		<td>to</td>
+		<td><%= d.endtime %></td>
+		<td>in room</td>
+		<td><%= d.room.name %></td>
+	</tr>
+	<% end %>
+</table>
+	 <div id="calendar"></div>
+</body>
+</html>

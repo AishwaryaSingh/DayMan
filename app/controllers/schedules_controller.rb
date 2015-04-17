@@ -10,8 +10,8 @@ class SchedulesController < ApplicationController
 
   end
 
-  def schedule_prof(uid)
-    @data=Schedule.find_by_user_id(uid)
+  def get_schedule(uid)
+#    @data=Schedule.find_by_user_id(uid)
   end
 
   def show

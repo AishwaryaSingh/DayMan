@@ -1,7 +1,7 @@
 <div><h1>Hello <%= @user.name %>!!</h1></div>
 <div>
 	<ul>
-		<li><%= button_to 'Your Scedule for Today!', schedules_path , method: :get %></li>
+		<li><%= button_to 'User Show!', user_path(@user) , method: :get %></li>
 	</ul>
 </div>
-
+<div id="calendar"></div>

@@ -7,13 +7,13 @@ class Schedule < ActiveRecord::Base
   	belongs_to :subject
   	belongs_to :user
   	belongs_to :batch
+    belongs_to :room
 	
-	validates :branch_id , presence: true
+	  validates :branch_id , presence: true
   	validates :semester_id , presence: true
-  	validates :professor_id , presence: true
-	validates :subject_id , presence: true
- 	validates :batch_id , presence: true
+  	validates :user_id , presence: true
+	  validates :subject_id , presence: true
+ 	  validates :batch_id , presence: true
   	validates :room_id , presence: true
-
 
 end

@@ -1,7 +1,7 @@
 class Subject < ActiveRecord::Base
  
 	has_many :units
-	has_many :schedule
+	has_many :schedules
 	has_and_belongs_to_many :branches
 	has_and_belongs_to_many :semesters
 	has_and_belongs_to_many :professors

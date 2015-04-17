@@ -1,10 +1,32 @@
-<html>
-<head><title>Schedules</title>
-	<script type="text/javascript" charset="utf-8">
-	$(document).ready(function() 
-	{
-	    $('#calendar').fullCalendar({
-	    	//Header initialization
+$(document).ready(function() 
+{
+    // page is now ready, initialize the calendar...
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var t = date.getTime();
+
+    $(".data").hide();
+
+
+    $('#calendar').fullCalendar({
+
+        events: [
+        {
+            title: "",
+        }
+        ],
+
+
+        events: function(start, end, timezone, callback) {
+        
+            
+        },
+
+        //Header initialization
+
+
         header: 
         {
             left: 'prev,next today',
@@ -53,14 +75,7 @@
             });        
             calendar.fullCalendar('unselect');                
         }
-	    });
-	}
-	</script>
-</head>
+    });
 
-<body>
-Schedule index
-<div id="calendar" style="width:60% ; height: 60%; z-index:0" align="center"></div>
-</body>
 
-</html>
+});
