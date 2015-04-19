@@ -48,8 +48,8 @@ DayMan::Application.configure do
   address:              'smtp.gmail.com',
   port:                 25,
   domain:               'http://localhost:3000/users',
-  user_name:            '1994aishwaryasingh@gmail.com',
-  password:             'prithvisingh',
+  user_name:            'ab.de.mn.ij.no@gmail.com',
+  password:             'as1df2m!3io4nm5',
   authentication:       'plain',
   enable_starttls_auto: true  }
 

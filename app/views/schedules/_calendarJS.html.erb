@@ -51,7 +51,7 @@ $(document).ready(function()
             month: 'MMMM YYYY',    
         },
         columnFormat: {
-            week: 'ddd, DD/MM ',
+            week: 'dddd, DD-MM ',
             day: 'dddd'
         },
 
@@ -63,17 +63,8 @@ $(document).ready(function()
 
         select: function(start, end, allDay)
         {
-            $("#calendar").hide();
-            $(".data").show();
             var starttime = start;
             console.log('yes')
-            
-            $("button").on("click",function()
-            {
-                //How to save time ?
-                $(".data").hide(); 
-                $("#calendar").show();
-            });        
             calendar.fullCalendar('unselect');                
         }
     });
