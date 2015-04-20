@@ -2,19 +2,13 @@
 <body>
 <p>User Show!</p>
 <table width="80%">
-	<% @data.each do |d| %>
+	<% @dd.each do |d| %>
 	<tr>
-		<td><%= d.subject.name %></td>
-		<td>for</td>
-		<td><%= d.batch.name %></td>
-		<td>by</td>
-		<td><%= d.user.name %></td>
+		<td><%= d[0] %></td>
 		<td>from</td>
-		<td><%= d.starttime %></td>
+		<td><%= d[1] %></td>
 		<td>to</td>
-		<td><%= d.endtime %></td>
-		<td>in room</td>
-		<td><%= d.room.name %></td>
+		<td><%= d[2] %></td>
 	</tr>
 	<% end %>
 </table>

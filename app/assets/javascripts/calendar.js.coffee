@@ -7,8 +7,6 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
-    $(".data").hide();
-
 
     $('#calendar').fullCalendar({
 
@@ -62,17 +60,8 @@ $(document).ready(function()
 
         select: function(start, end, allDay)
         {
-            $("#calendar").hide();
-            $(".data").show();
             var starttime = start;
             console.log('yes')
-            
-            $("button").on("click",function()
-            {
-                //How to save time ?
-                $(".data").hide(); 
-                $("#calendar").show();
-            });        
             calendar.fullCalendar('unselect');                
         }
     });
