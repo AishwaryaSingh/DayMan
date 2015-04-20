@@ -6,17 +6,22 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
-
 Role.create!(:name => "admin")
 Role.create!(:name => "professor")
 Role.create!(:name => "student")
 Role.create!(:name => "user")
 
 User.create!(name: "Admin Test", email: "admin@test.com", password: "aaaaaaaa", role_id: "1")
-User.create!(name: "Professor Test", email: "professor@test.com", password: "aaaaaaaa", role_id: "2")
-User.create!(name: "Student Test", email: "student@test.com", password: "aaaaaaaa", role_id: "3")
+User.create!(name: "Professor 1 Test", email: "professor1@test.com", password: "aaaaaaaa", role_id: "2")
+User.create!(name: "Student 1 Test", email: "student1@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "1")
+User.create!(name: "Professor 2 Test", email: "professor2@test.com", password: "aaaaaaaa", role_id: "2")
+User.create!(name: "Student 2 Test", email: "student2@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "2")
+User.create!(name: "Professor 3 Test", email: "professor3@test.com", password: "aaaaaaaa", role_id: "2")
+User.create!(name: "Student 3 Test", email: "student3@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "3")
 
 Professor.create!( name: "Kalyani Kadam" , age: "49" , gender: "Female" ,email: "kk@sitpune.edu.in", role_id:"2")
+Professor.create!( name: "Praveen Guballa" , age: "49" , gender: "Male" ,email: "pg@sitpune.edu.in", role_id:"2")
+
 #Professor.create!( :name => "Praveen Gubala" , :age => "55" , :gender => "Male")
 #Professor.create!( :name => "Suman Tanwar" , :age => "34" , :gender => "Female")
 #Professor.create!( :name => "Shruti Patil" , :age => "35" , :gender => "Female")
@@ -140,7 +145,15 @@ BranchSemester.create!(:name => "Civil VI")
 BranchSemester.create!(:name => "Civil VII")
 BranchSemester.create!(:name => "Civil VIII")
 
-
+Schedule.create!( branch_id: "1", semester_id:"1", subject_id: "1", batch_id: "1", user_id: "2", room_id: "1", starttime: "9:00 am", endtime: "10:00 am")
+Schedule.create!( branch_id: "1", semester_id:"1", subject_id: "2", batch_id: "1", user_id: "4", room_id: "1", starttime: "10:00 am", endtime: "11:00 am")
+Schedule.create!( branch_id: "1", semester_id:"1", subject_id: "3", batch_id: "1", user_id: "6", room_id: "1", starttime: "11:00 am", endtime: "12:00 am")
+Schedule.create!( branch_id: "2", semester_id:"1", subject_id: "3", batch_id: "2", user_id: "6", room_id: "2", starttime: "9:00 am", endtime: "10:00 am")
+Schedule.create!( branch_id: "2", semester_id:"1", subject_id: "1", batch_id: "2", user_id: "2", room_id: "2", starttime: "10:00 am", endtime: "11:00 am")
+Schedule.create!( branch_id: "2", semester_id:"1", subject_id: "2", batch_id: "2", user_id: "4", room_id: "2", starttime: "11:00 am", endtime: "12:00 am")
+Schedule.create!( branch_id: "4", semester_id:"1", subject_id: "2", batch_id: "3", user_id: "4", room_id: "3", starttime: "9:00 am", endtime: "10:00 am")
+Schedule.create!( branch_id: "4", semester_id:"1", subject_id: "3", batch_id: "3", user_id: "6", room_id: "3", starttime: "10:00 am", endtime: "11:00 am")
+Schedule.create!( branch_id: "4", semester_id:"1", subject_id: "1", batch_id: "3", user_id: "2", room_id: "3", starttime: "11:00 am", endtime: "12:00 am")
 
 # habtm by vishal
 #Branch.all.each do |a|

@@ -27,25 +27,23 @@ DayMan::Application.routes.draw do
 
  get '/admin/subjects', to: 'subjects#index'
 
- get '/admin/professors', to: 'professors#index'
+ #get '/admin/professors', to: 'professors#index'
 
  get '/admin/schedules' , to: 'schedules#index'
 
- get '/admin/units' , to: 'units#index'
+ #get '/admin/units' , to: 'units#index'
 
  get '/admin/branches', to: 'branches#index'
 
  get '/admin/semesters', to: 'semesters#index'
 
- get '/admin/students', to: 'students#index'
+# get '/admin/students', to: 'students#index'
 
  get '/admin/users', to: 'users#import_users'
 
  get '/home', to: 'home#index'
 
- get '/studenthome', to: 'home#studenthome'
-
- get '/professorhome', to: 'home#professorhome'
+ #get '/users/get_schedules', to: 'schedules#get_schedules'  #NOT WORKING!!!
 
  #get '/users', to: 'users#index'
  
