@@ -147,13 +147,13 @@ BranchSemester.create!(:name => "Civil VIII")
 
 Schedule.create!( branch_id: "1", semester_id:"1", subject_id: "1", batch_id: "1", user_id: "2", room_id: "1", starttime: "9:00 am", endtime: "10:00 am")
 Schedule.create!( branch_id: "1", semester_id:"1", subject_id: "2", batch_id: "1", user_id: "4", room_id: "1", starttime: "10:00 am", endtime: "11:00 am")
-Schedule.create!( branch_id: "1", semester_id:"1", subject_id: "3", batch_id: "1", user_id: "6", room_id: "1", starttime: "11:00 am", endtime: "12:00 am")
+Schedule.create!( branch_id: "1", semester_id:"1", subject_id: "3", batch_id: "1", user_id: "6", room_id: "1", starttime: "11:00 am", endtime: "12:00 pm")
 Schedule.create!( branch_id: "2", semester_id:"1", subject_id: "3", batch_id: "2", user_id: "6", room_id: "2", starttime: "9:00 am", endtime: "10:00 am")
 Schedule.create!( branch_id: "2", semester_id:"1", subject_id: "1", batch_id: "2", user_id: "2", room_id: "2", starttime: "10:00 am", endtime: "11:00 am")
-Schedule.create!( branch_id: "2", semester_id:"1", subject_id: "2", batch_id: "2", user_id: "4", room_id: "2", starttime: "11:00 am", endtime: "12:00 am")
+Schedule.create!( branch_id: "2", semester_id:"1", subject_id: "2", batch_id: "2", user_id: "4", room_id: "2", starttime: "11:00 am", endtime: "12:00 pm")
 Schedule.create!( branch_id: "4", semester_id:"1", subject_id: "2", batch_id: "3", user_id: "4", room_id: "3", starttime: "9:00 am", endtime: "10:00 am")
 Schedule.create!( branch_id: "4", semester_id:"1", subject_id: "3", batch_id: "3", user_id: "6", room_id: "3", starttime: "10:00 am", endtime: "11:00 am")
-Schedule.create!( branch_id: "4", semester_id:"1", subject_id: "1", batch_id: "3", user_id: "2", room_id: "3", starttime: "11:00 am", endtime: "12:00 am")
+Schedule.create!( branch_id: "4", semester_id:"1", subject_id: "1", batch_id: "3", user_id: "2", room_id: "3", starttime: "11:00 am", endtime: "12:00 pm")
 
 # habtm by vishal
 #Branch.all.each do |a|

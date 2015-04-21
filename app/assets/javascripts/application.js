@@ -27,40 +27,41 @@ $(document).ready(function()
 
     $('#calendar').fullCalendar({
 
-
-        events: function(start, end, timezone, callback) {
+ 		events: function(start, end, timezone, callback)
+        {
             alert("In events function()");
 
-        $.ajax({
-
-            url: '/schedule.json',//'/users/:id',
-            dataType : 'json',
-          //  dd: {"start" : start , "end" : end},
-
-            success: function(doc)
-            {
-                alert("In success function");
-                var events = [];
-
-               
-              //  callback(events);
-            //}
-
-               events = doc.events;
-                alert(events);
-
-                callback(events);
-            },
-             error: function(xhr, status, error) {
+            $.ajax({
+                url: 'schedule.json',//'/users/:id',
+                dataType : 'json',
+              //  dd: {"start" : start , "end" : end},
+                success: function(data)
+                {
+                	alert("In success function");
+                    $.each( data , function(index, event)
+                    {
+   	                	alert("In success each function");
+                        event = new Object();  
+   	                	var d = data[index]
+                        event.title = d['name'];    
+                        event.start = d['starttime']; 
+                        event.end = d['endtime'];
+                        event.allDay = false;                   
+	                    var events = [];
+	                    events.push(event);
+              //        events = doc.events;
+                    	callback(events);
+                    	alert(event.start);
+                	});
+                },
+                error: function(xhr, status, error)
+                {
                     var err = eval("(" + xhr.responseText + ")");
                     alert(err.Message);
-            }
-                  
-        });
-    },
-
+                }      
+            });
+        },
        // allDayDefault : true,
-       
         //Header initialization
         header: 
         {
@@ -97,46 +98,3 @@ $(document).ready(function()
         slotMinutes: 15                        //NOT WORKING!
     });
 });
-
-
-function loadFullCalendarData(start,end)
-{
-
-    alert("In loading");
-    $.ajax({
-        
-        type: "POST",
-       // data: '{startDate: "' + $.fullCalendar.formatDate(start, 'M/d/yyyy')
-       // + '",' + 'endDate: "' + $.fullCalendar.formatDate(end, 'M/d/yyyy') + '" }',
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        url : '/schedule.json',
-      
-        success: function(dd)
-        {
-        
-            var obj = jQuery.parseJSON(dd);
-            /*var events = new Array();
-            $.each( obj, function(index, event)
-            {
-                event = new Object();       
-                event.start = value['starttime']; 
-                event.end = value['endtime'];
-                event.allDay = false;
-                events.push(event);
-           
-                $('#calendar').fullCalendar('removeEvents');
-                $('#calendar').fullCalendar('addEventSource', events);         
-                $('#calendar').fullCalendar('rerenderEvents' );
-           //     $('#calendar').fullCalendar('renderEvent', event);
-                
-            });*/
-
-
-                $('#calendar').fullCalendar('removeEvents');
-                $('#calendar').fullCalendar('addEventSource', obj);         
-                $('#calendar').fullCalendar('rerenderEvents' );
-           //     $('#calendar').fullCalendar('renderEvent', event);
-        }
-    });
-}

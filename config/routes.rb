@@ -43,7 +43,15 @@ DayMan::Application.routes.draw do
 
  get '/home', to: 'home#index'
 
+
  #get '/users/get_schedules', to: 'schedules#get_schedules'  #NOT WORKING!!!
+
+ get '/studenthome', to: 'home#studenthome'
+
+ get '/professorhome', to: 'home#professorhome'
+
+ get '/users/schedules', to: 'schedules#get_schedules'  #NOT WORKING!!!
+
 
  #get '/users', to: 'users#index'
  

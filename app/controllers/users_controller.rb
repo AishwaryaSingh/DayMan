@@ -1,6 +1,32 @@
 class UsersController < ApplicationController
   
+  def index
+    id=current_user.id
+    @user=User.find(id)    
+  end
+
+  def show
+    if current_user.role.name == "professor"
+      @data=Schedule.find_all_by_user_id(current_user.id)
+      @data.each do |d|
+      d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
+      d.save!
+    end
+    else
+      @data=Schedule.find_all_by_batch_id(current_user.batch_id)
+      @data.each do |d|
+          d.name= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
+          d.save!
+      end
+    end
+    respond_to do |format|  
+      format.html # index.html.erb  
+      format.json { render :json => @data }  
+   end 
+  end
+
   def import
+    puts "I HAVE ENTERED USER#IMPORT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"   
     if User.import(params[:file])
       flash[:success] = "Uploaded"
       redirect_to admin_users_path
@@ -12,81 +38,9 @@ class UsersController < ApplicationController
   def import_users
   end
 
-  def show
-    if current_user.role.name == "professor"
-      @dd=Schedule.find_all_by_user_id(current_user.id)
- #     render json: @dd
-    else
-      @dd=Schedule.find_all_by_batch_id(current_user.batch_id)
- #     render json: @dd
-    end
-  #  respond_to do |format|  
-#    format.html # index.html.erb  
- #     format.json { render :json => @dd }  
-  # end 
-
-  end
-
-
-  def show3
-    puts "I HAVE ENTERED USER#SHOW!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-
-    @data= Array.new()           #Array = [[title, start.end],[title,start,end]...]
-    if current_user.role.name == "professor"
-      dd=Schedule.find_all_by_user_id(current_user.id)  
-      dd.each do |d|
-          title= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
-          start=d.starttime
-          endtime = d.endtime
-          arr =Array.new()
-          arr=[title,start,endtime]
-          @data.push arr
-      end
-    else
-      dd=Schedule.find_all_by_batch_id(current_user.batch_id)
-      
-      dd.each do |d|
-          title= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
-          start=d.starttime
-          endtime = d.endtime
-          arr =Array.new()
-          arr=[title,start,endtime]
-          @data.push arr
-          
-      end
-    end
-    render json: @data
-  end
-
-
-#  def show
-#    if current_user.role.name == "professor"
-#      @data=Schedule.find_all_by_user_id(current_user.id)
-#    else
-#      @data=Schedule.find_all_by_batch_id(current_user.batch_id)
-#    end
-#  end
-
   def get_schedules
+    puts "I HAVE ENTERED USER#GET_SCHEDULE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 #    @data=Schedule.find_all_by_user_id(current_user.id)
   end
 
-	def index
-    id=current_user.id
-    @user=User.find(id)    
-	end
-  
-  private
-
-  def ensure_admin!
-    unless current_user.admin?
-      sign_out current_user
-
-      redirect_to root_path
-
-      return false
-    end
-  end
-
 end
-

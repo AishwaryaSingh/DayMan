@@ -82,6 +82,7 @@ ActiveRecord::Schema.define(version: 20150416085943) do
   end
 
   create_table "schedules", force: true do |t|
+    t.string   "name"
     t.integer  "branch_id"
     t.integer  "semester_id"
     t.integer  "subject_id"

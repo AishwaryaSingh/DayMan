@@ -11,6 +11,7 @@ class SchedulesController < ApplicationController
   end
 
   def get_schedule(uid)
+        puts "I HAVE ENTERED USER#GET_SCHEDULE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
 #    @data=Schedule.find_by_user_id(uid)
   end
 
