@@ -1,6 +1,7 @@
 class SchedulesController < ApplicationController
 	
   def index
+    puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     @schedules = Schedule.all
 
     respond_to do |format|
@@ -10,39 +11,34 @@ class SchedulesController < ApplicationController
 
   end
 
-  def get_schedule(uid)
-        puts "I HAVE ENTERED USER#GET_SCHEDULE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-#    @data=Schedule.find_by_user_id(uid)
-  end
-
-  def show
-    @schedule = Schedule.all #find(params[:id])
-  end
-
   def new
     @schedule = Schedule.new
+    puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! In new !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+
   end
 
   def edit
     @schedule = Schedule.find(params[:id])
   end
 
-  def create_more
-    @schedule = Schedule.new
-  end
-
   def create
     @schedule = Schedule.new(schedule_params)
+ puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! In create !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     if @schedule.valid?
+      @schedule.name= @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
       @schedule.save
+
+ puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Rendering new !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       render 'new'
     else
+
+ puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! In form !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
       render 'form'
     end
   end
 
   def show
-    @schedule = Schedule.find(params[:id])
+ puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! In show !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
   end
 
   def update

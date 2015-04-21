@@ -1,6 +1,58 @@
 <html>
 <head><title>Schedule</title>
 
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+     $(function()
+    {
+        $("#dialog").dialog({
+            autoOpen: false,
+         //   height: 650,
+            width: 570
+        }); /*
+        $("#dialogBSB").dialog({
+            autoOpen: false,
+         //   height: 650,
+            width: 570
+        });
+        $("#button").on("click", function() {
+            $("#dialogBSB").dialog("open");
+        }); */
+    });
+
+     jQuery.fn.serializeObject = function() {
+          var arrayData, objectData;
+          arrayData = this.serializeArray();
+          objectData = {};
+
+          $.each(arrayData, function() {
+            var value;
+
+            if (this.value != null) {
+              value = this.value;
+            } else {
+              value = '';
+            }
+
+            if (objectData[this.name] != null) {
+              if (!objectData[this.name].push) {
+                objectData[this.name] = [objectData[this.name]];
+              }
+
+              objectData[this.name].push(value);
+            } else {
+              objectData[this.name] = value;
+            }
+          });
+
+          return objectData;
+        };
+
+
+</script>
+
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() 
 {
@@ -11,26 +63,9 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
-    $(".data").hide();
-
-
     $('#calendar').fullCalendar({
-
-        events: [
-        {
-            title: "",
-        }
-        ],
-
-
-        events: function(start, end, timezone, callback) {
-        
-            
-        },
-
+      
         //Header initialization
-
-
         header: 
         {
             left: 'prev,next today',
@@ -38,14 +73,13 @@ $(document).ready(function()
             right: 'month,agendaWeek,agendaDay'
         },
 
-        slotMinutes: 15,                        //NOT WORKING!
+        slotDuration: '00:15:00',                        
         defaulEventEnd: 60,
         defaultView: "agendaWeek",
         selectable: true,
         selectHelper: true,
         editable: true,
         height: 500,
-     //   events: "/dashboard/get_events",
         timeFormat: "h:mm ",
         dragOpacity: "0.5",
 
@@ -53,7 +87,8 @@ $(document).ready(function()
         {
             month: 'MMMM YYYY',    
         },
-        columnFormat: {
+        columnFormat:
+        {
             week: 'ddd, DD/MM ',
             day: 'dddd'
         },
@@ -65,123 +100,88 @@ $(document).ready(function()
         },
 
         select: function(start, end, allDay)
-        {
-            $("#calendar").hide();
-            $(".data").show();
-            var starttime = start;
-            console.log('yes')
-            
-            $("button").on("click",function()
-            {
-                //How to save time ?
-                $(".data").hide(); 
-                $("#calendar").show();
-            });        
+        {    
+            $("#startTime").text(start);
+            $("#endTime").text(end);
+            $("#dialog").dialog("open");
             calendar.fullCalendar('unselect');                
         }
+    });
+
+    
+    $("#new_schedule").submit(function(event)
+    {
+        event.preventDefault();
+        var formObject = $('#new_schedule').serializeObject();
+        alert(formObject);
+        formObject.branch_id = $("#branch_id").val();
+        var bid = formObject.branch_id;
+        alert(bid);
+        formObject.semester_id = $("#semester_id").val();
+        var sid =formObject.semester_id;
+        alert(sid);
+        formObject.batch_id = $("#batch_id").val();
+        var bd =formObject.batch_id;
+        alert(bd);
     });
 
 
 });
 
 </script>
-
 </head>
 
 <body>
-    <div id="calendar" style="width:60% ; height: 60%; z-index:0" align="center"></div>
+
+                <p>Branch : <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+                <%= bid = select_tag(:branch_id , options_for_select(branch_array), { include_blank: true}) %>
+                </p>
+                <p>Semester : <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+                <%= sid = select_tag(:semester_id, options_for_select(semester_array ), { include_blank: true } ) %>
+                </p>
+
+                <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                <%= bd =select_tag(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
+                </p>   
+                <% @schedule.semester_id = bid %>
+
+                <% @schedule.semester_id = sid %>
+
+                <% @schedule.semester_id = bd %>
+
+    <div id="dialog" title="Enter Event Details">
+    
+            <%= form_for @schedule , :html => { :id => "new_schedule" } do |schedule| %>
+             
+                <p>
+                Start Time:<span id="startTime"></span>
+                </p>
+
+                <p>
+                End Time:<span id="endTime"></span>
+                </p>
+
+                
+                <p>
+                Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:user_id , options_for_select(professor_array), { include_blank: true})%>
+               </p>
+
+                <p>
+                Subject :<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+                </p>
+
+                <p>
+                Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+                </p>
+
+                
+                <%= schedule.submit %>
+
+            <% end %>
+    </div>
+
 </body>
-
-<div class="data" style="z-index:2000000000" align="center">
-
-<%= form_for @schedule do |schedule| %>
-<span style="font-size:25px ; color:powderblue ;">Enter Event Details</span>
-<br />
-<br />
-<table>
-<tr>
-<td>Branch :</td>
-<td><% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:branch_id , options_for_select(branch_array), { include_blank: true }) %>
-</td>
-<td><span style="color:red">
-  <% if @schedule.errors[:branch_id] %>
-    <% a = @schedule.errors.full_messages_for(:branch_id) %>
-    <%= a.join(", ") %>
-  <% end %>
-</span></td>
-</tr>
-
-
-<tr>
-<td>Semester : 
-</td><td><% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:semester_id , options_for_select(semester_array), { include_blank: true}) %>
-</td><td><span style="color:red">
-  <% if @schedule.errors[:semester_id] %>
-    <% a = @schedule.errors.full_messages_for(:semester_id) %>
-    <%= a.join(", ") %>
-  <% end %>
-</span></td>
-</tr>
-
-<tr><td>
-Professor : 
-</td><td><% professor_array = Professor.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:professor_id , options_for_select(professor_array), { include_blank: true})%></td><td>
-<span style="color:red">
-  <% if @schedule.errors[:professor_id] %>
-    <% a = @schedule.errors.full_messages_for(:professor_id) %>
-    <%= a.join(", ") %>
-  <% end %>
-</span></td></tr>
-
-<tr><td>
-Subject :</td><td>
-<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
-</td><td><span style="color:red">
-  <% if @schedule.errors[:subject_id] %>
-    <% a = @schedule.errors.full_messages_for(:subject_id) %>
-    <%= a.join(", ") %>
-  <% end %>
-</span></td></tr>
-
-<tr><td>
-Batch : </td><td>
-<% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
-</td><td><span style="color:red">
-  <% if @schedule.errors[:batch_id] %>
-    <% a = @schedule.errors.full_messages_for(:batch_id) %>
-    <%= a.join(", ") %>
-  <% end %>
-</span></td></tr>
-
-<tr><td>
-Room No. :</td><td> 
-<% room_array = Room.all.map { |b| [b.name, b.id] } %>
-<%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
-</td><td><span style="color:red">
-  <% if @schedule.errors[:room_id] %>
-    <% a = @schedule.errors.full_messages_for(:room_id) %>
-    <%= a.join(", ") %>
-  <% end %>
- </span></td></tr>
-<tr>
-<td>
-Start Time:
-</td><td><%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
-</td>
-</tr>
-<tr>
-<td>
-End Time:
-</td><td><%= schedule.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
-</td>
-</tr>
-</table>
-<%= schedule.submit %>
-<% end %>
-</div>
 </html>

@@ -9,14 +9,14 @@ class UsersController < ApplicationController
     if current_user.role.name == "professor"
       @data=Schedule.find_all_by_user_id(current_user.id)
       @data.each do |d|
-      d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
-      d.save!
-    end
+        d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
+        d.save!
+      end
     else
       @data=Schedule.find_all_by_batch_id(current_user.batch_id)
       @data.each do |d|
-          d.name= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
-          d.save!
+        d.name= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
+        d.save!
       end
     end
     respond_to do |format|  
