@@ -9,48 +9,48 @@
     {
         $("#dialog").dialog({
             autoOpen: false,
-         //   height: 650,
-            width: 570
-        }); /*
-        $("#dialogBSB").dialog({
-            autoOpen: false,
-         //   height: 650,
             width: 570
         });
-        $("#button").on("click", function() {
-            $("#dialogBSB").dialog("open");
-        }); */
+       
     });
-
-     jQuery.fn.serializeObject = function() {
+     jQuery.fn.serializeObject = function()
+     {
           var arrayData, objectData;
           arrayData = this.serializeArray();
           objectData = {};
+                      //alert("arrayData : "+arrayData);
+                        //          alert("objectData : "+objectData);
 
-          $.each(arrayData, function() {
-            var value;
+          $.each(arrayData, function(index)
+          {
+            var value = arrayData[index];  // changed
 
-            if (this.value != null) {
+
+            if (this.value != null)
+            {
               value = this.value;
-            } else {
+            } 
+            else 
+            {
               value = '';
             }
-
-            if (objectData[this.name] != null) {
-              if (!objectData[this.name].push) {
-                objectData[this.name] = [objectData[this.name]];
+            var n =this.name;
+            if (objectData.n != null) 
+            {
+              if (!objectData.n.push) 
+              {
+                objectData.n = [objectData.n];
               }
 
-              objectData[this.name].push(value);
-            } else {
-              objectData[this.name] = value;
+              objectData.n.push(value);
+            } 
+            else 
+            {
+              objectData.n = value;
             }
           });
-
           return objectData;
         };
-
-
 </script>
 
 <script type="text/javascript" charset="utf-8">
@@ -64,7 +64,6 @@ $(document).ready(function()
     var t = date.getTime();
 
     $('#calendar').fullCalendar({
-      
         //Header initialization
         header: 
         {
@@ -104,55 +103,88 @@ $(document).ready(function()
             $("#startTime").text(start);
             $("#endTime").text(end);
             $("#dialog").dialog("open");
-            calendar.fullCalendar('unselect');                
+          //  calendar.fullCalendar('unselect');                
         }
     });
 
-    
+function call_events () 
+{
+    // body...
+ 
+}
+
     $("#new_schedule").submit(function(event)
-    {
+    {    
         event.preventDefault();
+/*      
+        var fobj = $('#new_schedule');
+        fobj.branch_id = $("#branch_id").val();
+        fobj.semester_id = $("#semester_id").val();
+        fobj.subject_id = $("#subject]_id").val();
+        fobj.batch_id = $("#batch_id").val();
+        fobj.user_id = $("#user_id").val();
+        fobj.startTime = $("#startTime").val();
+        fobj.endTime = $("#endTime").val();
+        fobj.room_id = $("#room_id").val();
+        alert(fobj);
+*/
+        
         var formObject = $('#new_schedule').serializeObject();
-        alert(formObject);
+        //var formObject = {};
+        //alert("formObject.subject_id : "+formObject.schedule_subject_id);
         formObject.branch_id = $("#branch_id").val();
-        var bid = formObject.branch_id;
-        alert(bid);
+        alert("formObject[schedule[branch_id]] : "+formObject.branch_id);
         formObject.semester_id = $("#semester_id").val();
-        var sid =formObject.semester_id;
-        alert(sid);
         formObject.batch_id = $("#batch_id").val();
-        var bd =formObject.batch_id;
-        alert(bd);
+        formObject.starttime = $("#startTime").text();
+        formObject.endtime = $("#endTime").text();
+        var jObject = JSON.strigify(formObject);
+        var jsonObject = JSON.parse(jObject);
+        alert("jsonObject : "+jsonObject);
+
+        //alert(formObject);
+//        $.each( fobj , function(index, event)
+   //     {
+//            var d=fobj[index];
+  //          var json= {};
+  //      });
+
+        $.ajax({
+
+            url : '/schedules.json',
+            type: 'POST',
+            dataType: 'json' ,
+            data : jsonObject , 
+            success : function(response){
+                console.log(success)
+            },
+            error : function(error){
+
+            }
+        });
     });
-
-
 });
-
+//, :onchange => "call_events();"
 </script>
 </head>
 
 <body>
-
                 <p>Branch : <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
-                <%= bid = select_tag(:branch_id , options_for_select(branch_array), { include_blank: true}) %>
+                <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
                 </p>
+
                 <p>Semester : <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-                <%= sid = select_tag(:semester_id, options_for_select(semester_array ), { include_blank: true } ) %>
+                 <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
                 </p>
 
                 <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                <%= bd =select_tag(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
-                </p>   
-                <% @schedule.semester_id = bid %>
-
-                <% @schedule.semester_id = sid %>
-
-                <% @schedule.semester_id = bd %>
+                <%= select_tag(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
+                </p>  
 
     <div id="dialog" title="Enter Event Details">
+
+        <%= form_for(@schedule, :remote => true, :format => :json, :html => { :id => "new_schedule" }) do |schedule| %>               
     
-            <%= form_for @schedule , :html => { :id => "new_schedule" } do |schedule| %>
-             
                 <p>
                 Start Time:<span id="startTime"></span>
                 </p>
@@ -160,8 +192,7 @@ $(document).ready(function()
                 <p>
                 End Time:<span id="endTime"></span>
                 </p>
-
-                
+    
                 <p>
                 Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:user_id , options_for_select(professor_array), { include_blank: true})%>
@@ -176,12 +207,11 @@ $(document).ready(function()
                 Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
                 </p>
-
-                
+  
                 <%= schedule.submit %>
 
-            <% end %>
+        <% end %>
     </div>
-
+   
 </body>
 </html>

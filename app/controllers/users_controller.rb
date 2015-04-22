@@ -37,10 +37,5 @@ class UsersController < ApplicationController
 
   def import_users
   end
-
-  def get_schedules
-    puts "I HAVE ENTERED USER#GET_SCHEDULE !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-#    @data=Schedule.find_all_by_user_id(current_user.id)
-  end
-
+  
 end

@@ -1,19 +1,16 @@
 class SchedulesController < ApplicationController
 	
   def index
-    puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
     @schedules = Schedule.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @schedules }
     end
-
   end
 
   def new
     @schedule = Schedule.new
-    puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! In new !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    @all_schedules = Schedule.all
 
   end
 
@@ -22,23 +19,11 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    @schedule = Schedule.new(schedule_params)
- puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! In create !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-    if @schedule.valid?
-      @schedule.name= @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
-      @schedule.save
-
- puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! Rendering new !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-      render 'new'
-    else
-
- puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! In form !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
-      render 'form'
+    respond_to do |format|
+       format.html {render text: "Your data was sucessfully loaded. Thanks"}
+       format.json{render :json => @schedule, :status => :created, :location => @schedule }
     end
-  end
-
-  def show
- puts "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! In show !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"
+    puts "In schedule create() !!!!!!!!!!!!!!!!!!!!!"     
   end
 
   def update
