@@ -26,7 +26,6 @@ class UsersController < ApplicationController
   end
 
   def import
-    puts "I HAVE ENTERED USER#IMPORT !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!"   
     if User.import(params[:file])
       flash[:success] = "Uploaded"
       redirect_to admin_users_path
