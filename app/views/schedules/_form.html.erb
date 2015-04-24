@@ -11,15 +11,7 @@
             autoOpen: false,
          //   height: 650,
             width: 570
-        }); /*
-        $("#dialogBSB").dialog({
-            autoOpen: false,
-         //   height: 650,
-            width: 570
         });
-        $("#button").on("click", function() {
-            $("#dialogBSB").dialog("open");
-        }); */
     });
 
      jQuery.fn.serializeObject = function() {
@@ -111,18 +103,16 @@ $(document).ready(function()
     
     $("#new_schedule").submit(function(event)
     {
-        event.preventDefault();
+     /* event.preventDefault();
         var formObject = $('#new_schedule').serializeObject();
-        alert(formObject);
         formObject.branch_id = $("#branch_id").val();
         var bid = formObject.branch_id;
-        alert(bid);
         formObject.semester_id = $("#semester_id").val();
         var sid =formObject.semester_id;
-        alert(sid);
         formObject.batch_id = $("#batch_id").val();
         var bd =formObject.batch_id;
-        alert(bd);
+
+        */
     });
 
 
@@ -134,25 +124,26 @@ $(document).ready(function()
 <body>
 
                 <p>Branch : <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
-                <%= bid = select_tag(:branch_id , options_for_select(branch_array), { include_blank: true}) %>
+                <%= bid = select_tag(:branch_id , options_for_select(branch_array, :selected => @schedule.branch_id ), { include_blank: true}) %>
                 </p>
                 <p>Semester : <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-                <%= sid = select_tag(:semester_id, options_for_select(semester_array ), { include_blank: true } ) %>
+                <%= sid = select_tag(:semester_id, options_for_select(semester_array,:selected => @schedule.semester_id ), { include_blank: true } ) %>
                 </p>
 
                 <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                <%= bd =select_tag(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
+                <%= bd =select_tag(:batch_id , options_for_select(batch_array, :selected => @schedule.batch_id), { include_blank: true}) %>
                 </p>   
-                <% @schedule.semester_id = bid %>
-
-                <% @schedule.semester_id = sid %>
-
-                <% @schedule.semester_id = bd %>
 
     <div id="dialog" title="Enter Event Details">
     
             <%= form_for @schedule , :html => { :id => "new_schedule" } do |schedule| %>
-             
+
+                <%= @schedule.branch_id %>
+
+                <%= @schedule.semester_id  %>
+
+                <%= @schedule.batch_id %>
+
                 <p>
                 Start Time:<span id="startTime"></span>
                 </p>
