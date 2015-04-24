@@ -5,7 +5,7 @@
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <script>
-     $(function()
+    $(function()
     {
         $("#dialog").dialog({
             autoOpen: false,
@@ -13,8 +13,10 @@
         });
        
     });
-     jQuery.fn.serializeObject = function()
-     {
+
+
+    jQuery.fn.serializeObject = function()
+    {
           var arrayData, objectData;
           arrayData = this.serializeArray();
           objectData = {};
@@ -63,18 +65,46 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
+/*  CODE FOR TIME SLOT CONFLICT.
+
+function checkOverlap(event) {  
+
+    var start = new Date(event.start);
+    var end = new Date(event.end);
+
+    var overlap = $('#calendar').fullCalendar('clientEvents', function(ev) {
+        if( ev == event)
+            return false;
+        var estart = new Date(ev.start);
+        var eend = new Date(ev.end);
+
+        return (Math.round(estart)/1000 < Math.round(end)/1000 && Math.round(eend) > Math.round(start));
+    });
+
+    if (overlap.length){  
+            //either move this event to available timeslot or remove it
+       }                  
+  }
+
+*/
+
+    var isValidEvent = function(start,end)
+    {
+        return $("#calendar").fullCalendar('clientEvents', function (event) 
+        {
+            return (event.rendering === "background" && (start.isAfter(event.start) || start.isSame(event.start,'minute')) && (end.isBefore(event.end) || end.isSame(event.end,'minute')));
+        }).length > 0;
+    };
+
     $('#calendar').fullCalendar({
 
         events: function(start, end, timezone, callback)
         {
-            alert("in events");
             $.ajax({
                 url : '/schedules.json',
                 dataType: 'json' ,
                 success : function(schedule)
                 {
-                    alert(schedule.name+" in events ajax");
-
                     var events = [];
 
                     $.each( schedule , function(index, event)
@@ -97,6 +127,36 @@ $(document).ready(function()
             }); 
         },
 
+        //eventDrop update!
+        eventDrop: function(event, delta, revertFunc)
+        {
+            alert(event.title + " was dropped on " + event.start.format());
+            if (!confirm("Are you sure about this change?")) 
+            {
+                 alert(
+                    event.title + " was moved " +
+                    dayDelta + " days and " +
+                    minuteDelta + " minutes."
+                );
+
+                if (allDay)
+                {
+                    alert("Event is now all-day");
+                }
+                else
+                {
+                    alert("Event has a time-of-day");
+                }
+                if (!confirm("Are you sure about this change?"))
+                {
+                    revertFunc();
+                }
+
+                //send a call to update time!!!!
+            }
+        },
+
+
         //Header initialization
         header: 
         {
@@ -115,6 +175,9 @@ $(document).ready(function()
         timeFormat: "h:mm ",
         dragOpacity: "0.5",
         editable: true,
+        slotEventOverlap:false,
+        eventOverlap: false,
+        durationEditable: true,
 
         titleFormat: 
         {
@@ -130,6 +193,37 @@ $(document).ready(function()
         {    
             $('#calendar').fullCalendar('gotoDate', date);
             $('#calendar').fullCalendar('changeView', 'agendaDay');            
+        },
+
+        eventClick: function(calEvent, jsEvent, view)
+        {
+            $('#dialog').dialog("open");    
+        },
+
+        select: function (start, end, jsEvent, view)
+        {
+            if(isValidEvent(start,end))      //only add it if it's valid
+            { 
+                $("#calendar").fullCalendar('addEventSource', [{
+                start: start,
+                end: end,
+                }] );
+            }        
+            //$("#calendar").fullCalendar("unselect");
+        },
+        eventDrop: function( event, delta, revertFunc, jsEvent, ui, view )
+        {
+            if(!isValidEvent(event.start,event.end))
+            {
+                revertFunc();
+            }
+        },
+        eventResize: function( event, delta, revertFunc, jsEvent, ui, view )
+        {
+            if(!isValidEvent(event.start,event.end))
+            {
+                revertFunc();
+            }
         },
 
         select: function(start, end, allDay)
