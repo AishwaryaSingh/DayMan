@@ -12,7 +12,6 @@ class SchedulesController < ApplicationController
 
   def new
     @schedule = Schedule.new
-
   end
 
   def edit
@@ -21,11 +20,8 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = Schedule.new(schedule_params)
-    if @schedule.save #.valid?
+    if @schedule.valid?
       @schedule.name= @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
-    
-   # @data=Schedule.find_all_by_batch_id(@schedule.batch_id)
-    
       @schedule.save
     end
     respond_to do |format|

@@ -66,7 +66,36 @@ $(document).ready(function()
     $('#calendar').fullCalendar({
 
         events: function(start, end, timezone, callback)
-        {},
+        {
+            alert("in events");
+            $.ajax({
+                url : '/schedules.json',
+                dataType: 'json' ,
+                success : function(schedule)
+                {
+                    alert(schedule.name+" in events ajax");
+
+                    var events = [];
+
+                    $.each( schedule , function(index, event)
+                    {
+                     //   alert("in each in events success");
+                        event = {};  
+                        var d = schedule[index];
+                        event.title = d['name'];    
+                        event.start = d['starttime']; 
+                        event.end = d['endtime'];
+                        event.allDay = false;                   
+                        events.push(event);
+                    });
+                    callback(events);
+                },
+                error : function(error)
+                {
+                    alert("in error in events!!");
+                }
+            }); 
+        },
 
         //Header initialization
         header: 
@@ -85,6 +114,7 @@ $(document).ready(function()
         height: 500,
         timeFormat: "h:mm ",
         dragOpacity: "0.5",
+        editable: true,
 
         titleFormat: 
         {
@@ -103,7 +133,7 @@ $(document).ready(function()
         },
 
         select: function(start, end, allDay)
-        {    
+        {   
             $("#startTime").text(start);
             $("#endTime").text(end);
             $("#dialog").dialog("open");               
@@ -112,7 +142,7 @@ $(document).ready(function()
 
 function call_events()
 {
-
+    $('#calendar').fullCalendar( 'refetchEvents' );
 }
 
     $("#new_schedule").submit(function(event)
@@ -129,7 +159,6 @@ function call_events()
         formObject["schedule[endtime]"] = $("#endTime").text();
 
         var jObject = JSON.stringify(formObject);
-
         var jsonObject = JSON.parse(jObject);
 
         $.ajax({
@@ -141,24 +170,12 @@ function call_events()
 
             success : function(response)
             {
-                alert("in success");
-                alert(JSON.stringify(response));
-                var events = [];
-                $.each( response , function(index, event)
-                {
-                    event = {};  
-                    var d = response;
-                    event.title = d['name'];    
-                    event.start = d['starttime']; 
-                    event.end = d['endtime'];
-                    event.allDay = false;                   
-                    events.push(event);
-                });
-            callback(events);
+                $("#dialog").dialog("close");
+                $('#calendar').fullCalendar( 'refetchEvents' );
             },    
             error : function(error)
             {
-               alert("in error!!");
+               alert("An error occured! Please try again!");
             }
         });
     });
