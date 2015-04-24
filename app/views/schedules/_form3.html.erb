@@ -11,43 +11,23 @@
             autoOpen: false,
          //   height: 650,
             width: 570
+        }); /*
+        $("#dialogBSB").dialog({
+            autoOpen: false,
+         //   height: 650,
+            width: 570
         });
+        $("#button").on("click", function() {
+            $("#dialogBSB").dialog("open");
+        }); */
     });
-
-     jQuery.fn.serializeObject = function() {
-          var arrayData, objectData;
-          arrayData = this.serializeArray();
-          objectData = {};
-
-          $.each(arrayData, function() {
-            var value;
-
-            if (this.value != null) {
-              value = this.value;
-            } else {
-              value = '';
-            }
-
-            if (objectData[this.name] != null) {
-              if (!objectData[this.name].push) {
-                objectData[this.name] = [objectData[this.name]];
-              }
-
-              objectData[this.name].push(value);
-            } else {
-              objectData[this.name] = value;
-            }
-          });
-
-          return objectData;
-        };
-
-
 </script>
 
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() 
 {
+
+
     // page is now ready, initialize the calendar...
     var date = new Date();
     var d = date.getDate();
@@ -56,7 +36,35 @@ $(document).ready(function()
     var t = date.getTime();
 
     $('#calendar').fullCalendar({
-      
+      events: function(start, end, timezone, callback)
+        {
+            $.ajax({
+                url: '/schedule', //'/users/:id',
+                dataType : 'json',
+                success: function(data)
+                {
+                    var events = [];
+                    $.each( data , function(index, event)
+                    {
+                        event = {};  
+                        var d = data[index]
+                        event.title = d['name'];    
+                        event.start = d['starttime']; 
+                        event.end = d['endtime'];
+                        event.allDay = false;                   
+                        events.push(event);
+                    });
+
+                    callback(events);
+                },
+                error: function(xhr, status, error)
+                {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                }      
+            });
+        },
+
         //Header initialization
         header: 
         {
@@ -93,66 +101,32 @@ $(document).ready(function()
 
         select: function(start, end, allDay)
         {    
-            $("#startTime").text(start);
-            $("#endTime").text(end);
-            $("#dialog").dialog("open");
-            calendar.fullCalendar('unselect');                
+            $("#dialog").dialog("open");               
         }
     });
-
-    
-    $("#new_schedule").submit(function(event)
-    {
-     /* event.preventDefault();
-        var formObject = $('#new_schedule').serializeObject();
-        formObject.branch_id = $("#branch_id").val();
-        var bid = formObject.branch_id;
-        formObject.semester_id = $("#semester_id").val();
-        var sid =formObject.semester_id;
-        formObject.batch_id = $("#batch_id").val();
-        var bd =formObject.batch_id;
-
-        */
-    });
-
-
 });
-
 </script>
 </head>
 
 <body>
 
-                <p>Branch : <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
-                <%= bid = select_tag(:branch_id , options_for_select(branch_array, :selected => @schedule.branch_id ), { include_blank: true}) %>
-                </p>
-                <p>Semester : <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-                <%= sid = select_tag(:semester_id, options_for_select(semester_array,:selected => @schedule.semester_id ), { include_blank: true } ) %>
-                </p>
-
-                <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                <%= bd =select_tag(:batch_id , options_for_select(batch_array, :selected => @schedule.batch_id), { include_blank: true}) %>
-                </p>   
 
     <div id="dialog" title="Enter Event Details">
     
-            <%= form_for @schedule , :html => { :id => "new_schedule" } do |schedule| %>
+            <%= form_for @schedule do |schedule| %>
 
-                <%= @schedule.branch_id %>
-
-                <%= @schedule.semester_id  %>
-
-                <%= @schedule.batch_id %>
-
-                <p>
-                Start Time:<span id="startTime"></span>
+                <p>Branch : <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:branch_id , options_for_select(branch_array), { include_blank: true }) %>
                 </p>
 
-                <p>
-                End Time:<span id="endTime"></span>
+                <p>Semester : <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:semester_id , options_for_select(semester_array), { include_blank: true}) %>
                 </p>
 
-                
+                <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
+                </p>
+
                 <p>
                 Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:user_id , options_for_select(professor_array), { include_blank: true})%>
@@ -168,7 +142,13 @@ $(document).ready(function()
                 <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
                 </p>
 
-                
+                <p>
+                Start Time:<%= schedule.time_select(:starttime, {minute_step: 5 , :ampm => true }) %>
+                </p>
+
+                <p>
+                End Time:<%= schedule.time_select(:endtime, {minute_step: 5 ,:ampm => true }) %>
+                </p>
                 <%= schedule.submit %>
 
             <% end %>

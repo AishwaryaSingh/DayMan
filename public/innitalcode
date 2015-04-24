@@ -1,0 +1,271 @@
+<html>
+<head><title>Schedule</title>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+     $(function()
+    {
+        $("#dialog").dialog({
+            autoOpen: false,
+         //   height: 650,
+            width: 570
+        });
+    });
+
+     jQuery.fn.serializeObject = function() {
+          var arrayData, objectData;
+          arrayData = this.serializeArray();
+          objectData = {};
+
+          $.each(arrayData, function() {
+            var value;
+
+            if (this.value != null) {
+              value = this.value;
+            } else {
+              value = '';
+            }
+
+            if (objectData[this.name] != null) {
+              if (!objectData[this.name].push) {
+                objectData[this.name] = [objectData[this.name]];
+              }
+
+              objectData[this.name].push(value);
+            } else {
+              objectData[this.name] = value;
+            }
+          });
+
+          return objectData;
+        };
+
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() 
+{
+    // page is now ready, initialize the calendar...
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var t = date.getTime();
+
+    $('#calendar').fullCalendar({
+      
+      events: function(start, end, timezone, callback)
+        {
+         //   alert("in events");
+           /* $.ajax({
+              //  url: 'schedule.json', //'/users/:id',
+                dataType : 'json',
+                success: function(formObject)
+                {
+                    var events = [];
+                    $.each( formObject , function(index, event)
+                    {
+                        event = {};  
+                        var d = formObject[index]
+                        event.title = d['name'];    
+                        event.start = d['starttime']; 
+                        event.end = d['endtime'];
+                        event.allDay = false;                   
+                        events.push(event);
+                    });
+
+                    callback(events);
+                },
+                error: function(xhr, status, error)
+                {
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                }      
+            });  */
+        },
+
+        //Header initialization
+        header: 
+        {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+
+        slotDuration: '00:15:00',                        
+        defaulEventEnd: 60,
+        defaultView: "agendaWeek",
+        selectable: true,
+        selectHelper: true,
+        editable: true,
+        height: 500,
+        timeFormat: "h:mm ",
+        dragOpacity: "0.5",
+
+        titleFormat: 
+        {
+            month: 'MMMM YYYY',    
+        },
+        columnFormat:
+        {
+            week: 'ddd, DD/MM ',
+            day: 'dddd'
+        },
+
+        dayClick: function(date, allDay, jsEvent, view)
+        {    
+            $('#calendar').fullCalendar('gotoDate', date);
+            $('#calendar').fullCalendar('changeView', 'agendaDay');            
+        },
+
+        select: function(start, end, allDay)
+        {    
+            $("#startTime").text(start);
+            $("#endTime").text(end);
+            $("#dialog").dialog("open");
+            calendar.fullCalendar('unselect');                
+        }
+    });
+
+
+function call_events()
+{
+alert("in call_events()");
+};
+    
+    $("#new_schedule").submit(function(event)
+    {
+<<<<<<< HEAD:app/views/schedules/_form.html.erb
+     /* event.preventDefault();
+        var formObject = $('#new_schedule').serializeObject();
+        formObject.branch_id = $("#branch_id").val();
+        var bid = formObject.branch_id;
+        formObject.semester_id = $("#semester_id").val();
+        var sid =formObject.semester_id;
+        formObject.batch_id = $("#batch_id").val();
+        var bd =formObject.batch_id;
+
+=======
+         
+        event.preventDefault();
+        var formObject = $('#new_schedule').serializeObject();
+        alert("formObject.subject_id");
+        alert(formObject.subject_id);
+        formObject.branch_id = $("#branch_id").val();
+        alert("!!!");
+        formObject.semester_id = $("#semester_id").val();
+        formObject.batch_id = $("#batch_id").val();
+        console.log(formObject);
+
+        alert(formObject);
+        $.each( formObject , function(index, event)
+        {
+            var d=formObject[index];
+            var json= {};  
+            json.name= d['name'];    
+            event.start = d['starttime']; 
+            event.end = d['endtime'];
+            event.allDay = false;                   
+            events.push(event);
+        });
+
+                      
+        $.ajax({
+
+            url : '/schedule/new',
+            type: 'POST',
+            dataType: 'json' ,
+            data : formObject , 
+            success : function(response){
+                console.log(success)
+            },
+            error : function(error){
+
+            }
+        });
+
+      /*  
+>>>>>>> eda83c24ce139bb7f2e20945baf05f32c95051ad:public/innitalcode
+        */
+    });
+
+
+});
+
+</script>
+</head>
+
+<body>
+                <p>Branch : <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+<<<<<<< HEAD:app/views/schedules/_form.html.erb
+                <%= bid = select_tag(:branch_id , options_for_select(branch_array, :selected => @schedule.branch_id ), { include_blank: true}) %>
+=======
+                <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true, :onchange => "call_events();"}) %>
+>>>>>>> eda83c24ce139bb7f2e20945baf05f32c95051ad:public/innitalcode
+                </p>
+            
+                <p>Semester : <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+<<<<<<< HEAD:app/views/schedules/_form.html.erb
+                <%= sid = select_tag(:semester_id, options_for_select(semester_array,:selected => @schedule.semester_id ), { include_blank: true } ) %>
+                </p>
+
+                <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                <%= bd =select_tag(:batch_id , options_for_select(batch_array, :selected => @schedule.batch_id), { include_blank: true}) %>
+                </p>   
+
+=======
+                 <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true } ) %>
+                </p>
+
+                <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
+                </p>   
+>>>>>>> eda83c24ce139bb7f2e20945baf05f32c95051ad:public/innitalcode
+    <div id="dialog" title="Enter Event Details">
+
+        <%= form_for @schedule , :html => { :id => "new_schedule" } do |schedule| %>               
+    
+<<<<<<< HEAD:app/views/schedules/_form.html.erb
+            <%= form_for @schedule , :html => { :id => "new_schedule" } do |schedule| %>
+
+                <%= @schedule.branch_id %>
+
+                <%= @schedule.semester_id  %>
+
+                <%= @schedule.batch_id %>
+
+=======
+>>>>>>> eda83c24ce139bb7f2e20945baf05f32c95051ad:public/innitalcode
+                <p>
+                Start Time:<span id="startTime"></span>
+                </p>
+
+                <p>
+                End Time:<span id="endTime"></span>
+                </p>
+    
+                <p>
+                Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:user_id , options_for_select(professor_array), { include_blank: true})%>
+               </p>
+
+                <p>
+                Subject :<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+                </p>
+
+                <p>
+                Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+                </p>
+  
+                <%= schedule.submit %>
+
+        <% end %>
+    </div>
+   
+</body>
+</html>

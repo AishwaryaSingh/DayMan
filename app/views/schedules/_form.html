@@ -1,0 +1,203 @@
+<html>
+<head><title>Schedule</title>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+     $(function()
+    {
+        $("#dialog").dialog({
+            autoOpen: false,
+            width: 570
+        });
+       
+    });
+     jQuery.fn.serializeObject = function()
+     {
+          var arrayData, objectData;
+          arrayData = this.serializeArray();
+          objectData = {};
+
+          $.each(arrayData, function(index)
+          {
+            var value = arrayData[index];               // Changed from what was done.
+
+            if (this.value != '')
+            {
+              value = this.value;
+            } 
+            else 
+            {
+              alert(this.name+" is null! please fill in all details.");
+              throw new Error(this.name+" is null! please fill in all details.");
+            }
+
+            if (objectData[this.name] != null) 
+            {
+                
+             if (!objectData[this.name].push) 
+              {
+                objectData[this.name] = [objectData[this.name]];
+              }
+
+              objectData[this.name].push(value);
+            } 
+            else 
+            {
+              objectData[this.name] = value;
+            }
+          });
+          return objectData;
+        };
+</script>
+</script>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() 
+{
+    // page is now ready, initialize the calendar...
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var t = date.getTime();
+
+    $('#calendar').fullCalendar({
+
+        events: function(start, end, timezone, callback)
+        {
+        },
+
+        //Header initialization
+        header: 
+        {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+
+        slotDuration: '00:15:00',                        
+        defaulEventEnd: 60,
+        defaultView: "agendaWeek",
+        selectable: true,
+        selectHelper: true,
+        editable: true,
+        height: 500,
+        timeFormat: "h:mm ",
+        dragOpacity: "0.5",
+
+        titleFormat: 
+        {
+            month: 'MMMM YYYY',    
+        },
+        columnFormat:
+        {
+            week: 'ddd, DD/MM ',
+            day: 'dddd'
+        },
+
+        dayClick: function(date, allDay, jsEvent, view)
+        {    
+            $('#calendar').fullCalendar('gotoDate', date);
+            $('#calendar').fullCalendar('changeView', 'agendaDay');            
+        },
+
+        select: function(start, end, allDay)
+        {    
+            $("#startTime").text(start);
+            $("#endTime").text(end);
+            $("#dialog").dialog("open");               
+        }
+    });
+
+function call_events()
+{
+   // $('#calendar').fullCalendar();
+}
+
+    $("#new_schedule").submit(function(event)
+    {    
+        event.preventDefault();
+
+        var formObject = $('#new_schedule').serializeObject();
+
+        formObject.branch_id = $("#branch_id").val();
+        formObject.semester_id = $("#semester_id").val();
+        formObject.batch_id = $("#batch_id").val();
+
+        formObject.starttime = $("#startTime").text();
+        formObject.endtime = $("#endTime").text();
+
+        var jObject = JSON.stringify(formObject);
+         alert("jObject : "+jObject);
+
+        var jsonObject = JSON.parse(jObject);
+
+        $.ajax({
+
+            url : '/schedules.json',
+            type: 'POST',
+            dataType: 'json' ,
+            data : jsonObject , 
+            success : function(response)
+            {
+               alert("in success");
+            },
+            error : function(error)
+            {
+               alert("in error!!");
+            }
+        });
+    });
+});
+</script>
+</head>
+
+<body>
+                <p>Branch : <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+                </p>
+
+                <p>Semester : <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+                 <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+                </p>
+
+                <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:batch_id , options_for_select(batch_array), { include_blank: true , :onchange => "call_events()"}) %>
+                </p>  
+
+    <div id="dialog" title="Enter Event Details">
+
+        <%= form_for(@schedule, :remote => true, :format => :json, :html => { :id => "new_schedule" }) do |schedule| %>               
+    
+                <p>
+                Start Time:<span id="startTime"></span>
+                </p>
+
+                <p>
+                End Time:<span id="endTime"></span>
+                </p>
+    
+                <p>
+                Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
+                <%= select_tag(:user_id , options_for_select(professor_array), { include_blank: true})%>
+               </p>
+
+                <p>
+                Subject :<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+                </p>
+
+                <p>
+                Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:room_id , options_for_select(room_array), { include_blank: true }) %>
+                </p>
+  
+                <%= submit_tag %>
+
+        <% end %>
+    </div>
+   
+</body>
+</html>
