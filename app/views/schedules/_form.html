@@ -65,8 +65,8 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
-/*  CODE FOR TIME SLOT CONFLICT.
-
+// CODE FOR TIME SLOT CONFLICT.
+/*
 function checkOverlap(event) {  
 
     var start = new Date(event.start);
@@ -84,9 +84,8 @@ function checkOverlap(event) {
     if (overlap.length){  
             //either move this event to available timeslot or remove it
        }                  
-  }
-
-*/
+  };
+  */
 
     var isValidEvent = function(start,end)
     {
@@ -95,6 +94,50 @@ function checkOverlap(event) {
             return (event.rendering === "background" && (start.isAfter(event.start) || start.isSame(event.start,'minute')) && (end.isBefore(event.end) || end.isSame(event.end,'minute')));
         }).length > 0;
     };
+
+    function updateEvents(data)
+    {
+        alert("In updateEvents");
+     
+  $.ajax({
+    url:"/schedule", //"/admin/events/" + data.id,
+    type: "PUT",
+    dataType: "json",
+    data:
+      event:
+        title: data.title,
+        starts_at: "" + new Date(data.start).toUTCString(),
+        ends_at: "" + new Date(data.end).toUTCString()
+        });
+        /*
+         $.ajax({
+                url : '/schedules.json',
+                type : 'PUT'
+                dataType: 'json' ,
+
+                success : function(data)
+                {
+                    var events = [];
+
+                    $.each( data , function(index, event)
+                    {
+                     //   alert("in each in events success");
+                        event = {};  
+                        var d = data[index];
+                        event.title = d['name'];    
+                        event.start = d['starttime']; 
+                        event.end = d['endtime'];
+                        event.allDay = false;                   
+                        events.push(event);
+                    });
+                    callback(events);
+                },
+                error : function(error)
+                {
+                    alert("in error in updateEvents!!");
+                }
+            });
+   */ };
 
     $('#calendar').fullCalendar({
 
@@ -126,36 +169,6 @@ function checkOverlap(event) {
                 }
             }); 
         },
-
-        //eventDrop update!
-        eventDrop: function(event, delta, revertFunc)
-        {
-            alert(event.title + " was dropped on " + event.start.format());
-            if (!confirm("Are you sure about this change?")) 
-            {
-                 alert(
-                    event.title + " was moved " +
-                    dayDelta + " days and " +
-                    minuteDelta + " minutes."
-                );
-
-                if (allDay)
-                {
-                    alert("Event is now all-day");
-                }
-                else
-                {
-                    alert("Event has a time-of-day");
-                }
-                if (!confirm("Are you sure about this change?"))
-                {
-                    revertFunc();
-                }
-
-                //send a call to update time!!!!
-            }
-        },
-
 
         //Header initialization
         header: 
@@ -213,14 +226,24 @@ function checkOverlap(event) {
         },
         eventDrop: function( event, delta, revertFunc, jsEvent, ui, view )
         {
-            if(!isValidEvent(event.start,event.end))
+            alert("isValidEvent(event.start,event.end) in drop : "+isValidEvent(event.start,event.end));
+            if(isValidEvent(event.start,event.end))
+            {
+                updateEvents(event);
+            }
+            else
             {
                 revertFunc();
             }
         },
         eventResize: function( event, delta, revertFunc, jsEvent, ui, view )
         {
-            if(!isValidEvent(event.start,event.end))
+            alert("isValidEvent(event.start,event.end) in resize : "+isValidEvent(event.start,event.end));
+            if(isValidEvent(event.start,event.end))
+            {
+               updateEvents(event);
+            }
+           else
             {
                 revertFunc();
             }
