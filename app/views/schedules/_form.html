@@ -9,22 +9,27 @@
     {
         $("#dialog").dialog({
             autoOpen: false,
-            width: 570
+            width: 570,
+            modal: true
         });
-       
+        $("#dialog-editDelete").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 570
+        });      
+        $( "#menu" ).menu({
+            disabled: true
+        });
     });
-
 
     jQuery.fn.serializeObject = function()
     {
           var arrayData, objectData;
           arrayData = this.serializeArray();
           objectData = {};
-
           $.each(arrayData, function(index)
           {
             var value = arrayData[index];               // Changed from what was done.
-
             if (this.value != '')
             {
               value = this.value;
@@ -34,15 +39,12 @@
               alert(this.name+" is null! please fill in all details.");
               throw new Error(this.name+" is null! please fill in all details.");
             }
-
             if (objectData[this.name] != null) 
-            {
-                
+            {             
              if (!objectData[this.name].push) 
               {
                 objectData[this.name] = [objectData[this.name]];
               }
-
               objectData[this.name].push(value);
             } 
             else 
@@ -65,80 +67,7 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
-// CODE FOR TIME SLOT CONFLICT.
-/*
-function checkOverlap(event) {  
-
-    var start = new Date(event.start);
-    var end = new Date(event.end);
-
-    var overlap = $('#calendar').fullCalendar('clientEvents', function(ev) {
-        if( ev == event)
-            return false;
-        var estart = new Date(ev.start);
-        var eend = new Date(ev.end);
-
-        return (Math.round(estart)/1000 < Math.round(end)/1000 && Math.round(eend) > Math.round(start));
-    });
-
-    if (overlap.length){  
-            //either move this event to available timeslot or remove it
-       }                  
-  };
-  */
-
-    var isValidEvent = function(start,end)
-    {
-        return $("#calendar").fullCalendar('clientEvents', function (event) 
-        {
-            return (event.rendering === "background" && (start.isAfter(event.start) || start.isSame(event.start,'minute')) && (end.isBefore(event.end) || end.isSame(event.end,'minute')));
-        }).length > 0;
-    };
-
-    function updateEvents(data)
-    {
-        alert("In updateEvents");
-     
-  $.ajax({
-    url:"/schedule", //"/admin/events/" + data.id,
-    type: "PUT",
-    dataType: "json",
-    data:
-      event:
-        title: data.title,
-        starts_at: "" + new Date(data.start).toUTCString(),
-        ends_at: "" + new Date(data.end).toUTCString()
-        });
-        /*
-         $.ajax({
-                url : '/schedules.json',
-                type : 'PUT'
-                dataType: 'json' ,
-
-                success : function(data)
-                {
-                    var events = [];
-
-                    $.each( data , function(index, event)
-                    {
-                     //   alert("in each in events success");
-                        event = {};  
-                        var d = data[index];
-                        event.title = d['name'];    
-                        event.start = d['starttime']; 
-                        event.end = d['endtime'];
-                        event.allDay = false;                   
-                        events.push(event);
-                    });
-                    callback(events);
-                },
-                error : function(error)
-                {
-                    alert("in error in updateEvents!!");
-                }
-            });
-   */ };
-
+    // Fullcalendar..
     $('#calendar').fullCalendar({
 
         events: function(start, end, timezone, callback)
@@ -152,9 +81,10 @@ function checkOverlap(event) {
 
                     $.each( schedule , function(index, event)
                     {
-                     //   alert("in each in events success");
+                     //   alert("In each() in events success");
                         event = {};  
                         var d = schedule[index];
+                        event.id = d['id'];
                         event.title = d['name'];    
                         event.start = d['starttime']; 
                         event.end = d['endtime'];
@@ -165,7 +95,7 @@ function checkOverlap(event) {
                 },
                 error : function(error)
                 {
-                    alert("in error in events!!");
+                    alert("An error occured while fetching events!!");
                 }
             }); 
         },
@@ -208,60 +138,142 @@ function checkOverlap(event) {
             $('#calendar').fullCalendar('changeView', 'agendaDay');            
         },
 
-        eventClick: function(calEvent, jsEvent, view)
-        {
-            $('#dialog').dialog("open");    
-        },
-
-        select: function (start, end, jsEvent, view)
-        {
-            if(isValidEvent(start,end))      //only add it if it's valid
-            { 
-                $("#calendar").fullCalendar('addEventSource', [{
-                start: start,
-                end: end,
-                }] );
-            }        
-            //$("#calendar").fullCalendar("unselect");
-        },
         eventDrop: function( event, delta, revertFunc, jsEvent, ui, view )
         {
-            alert("isValidEvent(event.start,event.end) in drop : "+isValidEvent(event.start,event.end));
+          //  alert("isValidEvent : "+isValidEvent(event.start,event.end));
             if(isValidEvent(event.start,event.end))
             {
-                updateEvents(event);
-            }
-            else
-            {
-                revertFunc();
-            }
+                if (updateEvents(event))
+                {
+                    alert("Event Updated!");
+                }
+                else
+                {
+                    revertFunc();
+                }
+           }
+           else
+           {
+            alert("Time slot already taken!! in eventDrop");
+           }
         },
+
         eventResize: function( event, delta, revertFunc, jsEvent, ui, view )
         {
-            alert("isValidEvent(event.start,event.end) in resize : "+isValidEvent(event.start,event.end));
+         //   alert("isValidEvent : "+isValidEvent(event.start,event.end));
             if(isValidEvent(event.start,event.end))
             {
-               updateEvents(event);
-            }
+                if (updateEvents(event))
+                {
+                    alert("Event Updated!");
+                }
+                else
+                {
+                    revertFunc();
+                }
+           }
            else
-            {
-                revertFunc();
-            }
+           {
+            alert("Time slot already taken!! in eventResize");
+           }
+        },
+
+        eventClick: function(event, jsEvent, view)
+        {
+            //TODO: event(fullcalendar) => schedule(database) => user_id, subject_id, room_id
+
+            $("#event-data").text(event.title+" at "+event.start.format("HH:mm"));
+
+            $("#delete_event").data("event-id",event.id);
+            $("#edit_event").data("event-id",event.id);
+
+
+            $('#dialog-editDelete').dialog("open");  
+            
+                //On Delete
+                $("#delete_event").on("click" , function()
+                {
+                    var r = confirm("Are you sure you want to delete?");
+                    if (!!r) {
+                         
+                         $.ajax({
+                            url: '/schedules',
+                            type: 'DELETE',
+                            data : {id : $("#delete_event").data("event-id")},
+                            success: function(result) {
+                                // Do something with the result
+                            }
+                        });
+
+                    } 
+                    $('#dialog-editDelete').dialog("close");    
+                    $('#calendar').fullCalendar('removeEvents',event.id);  //Does not update db
+                });
+
+                //On Edit
+                $("#edit_event").on("click" , function()
+                {
+                    $('#dialog-editDelete').dialog("close");  //close 1st dialog
+
+                    $("#startTime").text(event.start.format("HH:mm DD-MM-YYYY")); 
+                    $("#endTime").text(event.end.format("HH:mm DD-MM-YYYY"));
+   
+                    $('#dialog').dialog("open");    
+                });  
+            
         },
 
         select: function(start, end, allDay)
-        {   
-            $("#startTime").text(start);
-            $("#endTime").text(end);
-            $("#dialog").dialog("open");               
+        {
+            if(isValidEvent(start,end))      
+            {
+                $("#startTime").text(start.format(" HH:mm DD-MM-YYYY")); //DD-MM-YYYY HH:mm
+                $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
+                $("#dialog").dialog("open");               
+            }
+            else
+            {
+                alert("Time slot already taken.");
+            }
         }
     });
+    
+   
+    //To check if it is overlapping a time slot
+    var isValidEvent = function(start,end)
+    {
+      return true;
+    };
 
-function call_events()
-{
-    $('#calendar').fullCalendar( 'refetchEvents' );
-}
+    //To update the datbase with new values 
+    var updateEvents = function(schedule)
+    {    
+        $.ajax({
+         
+            url:"/schedules",
+            type: 'POST', //'PUT',//"PATCH",
+            dataType: "json",
+            
+            success : function(schedule)
+            {
+                alert("Success Data : "+data.name);
+            },
+            error : function(error)
+            {
+                alert("An error occured while updating events! Please try again!");
+                 return false //revertFunc();
+            }
+        });
+    };
 
+    ///Onchange of batch_id
+    function call_events()
+    {
+        //event(fullcalendar Batch) => schedule(database(batches)) => user_id,subject_id,room_id
+        $('#calendar').fullCalendar( 'refetchEvents' );
+    }
+
+    //On submiting rails form
     $("#new_schedule").submit(function(event)
     {    
         event.preventDefault();
@@ -318,11 +330,11 @@ function call_events()
         <%= form_for(@schedule, :remote => true, :format => :json, :html => { :id => "new_schedule" }) do |schedule| %>               
     
                 <p>
-                Start Time:<span id="startTime"></span>
+                Start Time : <span id="startTime"></span>
                 </p>
 
                 <p>
-                End Time:<span id="endTime"></span>
+                End Time : <span id="endTime"></span>
                 </p>
     
                 <p>
@@ -345,5 +357,13 @@ function call_events()
         <% end %>
     </div>
    
+
+
+   <div id="dialog-editDelete" title="Event Details :">
+   <span id="event-data" style="font-size:15px"></span>
+   <br />
+   <button id="delete_event">Delete</button> or <button id="edit_event">Edit</button>
+   </div>
+
 </body>
 </html>

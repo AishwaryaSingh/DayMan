@@ -10,12 +10,23 @@ class SchedulesController < ApplicationController
 
   end
 
-  def new
-    @schedule = Schedule.new
+  def edit
+    @schedule = Schedule.find(params[:id]) #schedule_params) #params[:id])
   end
 
-  def edit
-    @schedule = Schedule.find(params[:id])
+  def update
+    @schedule = Schedule.find(params[:id]) #schedule_params)    
+    if @schedule.valid?
+      @schedule.update_attributes(schedule_params)
+    end
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json {render :json => @schedule, :status => :created, :location => @schedule }
+    end
+  end
+
+  def new
+    @schedule = Schedule.new
   end
 
   def create
@@ -30,14 +41,9 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def update
-    @schedule = Schedule.find(params[:id])
-        
-    @schedule.update_attributes(schedule_params)
-    redirect_to schedules_path  
-  end
+  def delete
 
-  def destroy
+
     @schedule = Schedule.find(params[:id])
     @schedule.destroy   
     redirect_to schedules_path
