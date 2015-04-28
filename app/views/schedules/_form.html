@@ -73,15 +73,13 @@ $(document).ready(function()
         events: function(start, end, timezone, callback)
         {
             $.ajax({
-                url : '/schedules.json',
+                url : '/schedules',
                 dataType: 'json' ,
                 success : function(schedule)
                 {
                     var events = [];
-
                     $.each( schedule , function(index, event)
                     {
-                     //   alert("In each() in events success");
                         event = {};  
                         var d = schedule[index];
                         event.id = d['id'];
@@ -140,73 +138,43 @@ $(document).ready(function()
 
         eventDrop: function( event, delta, revertFunc, jsEvent, ui, view )
         {
-          //  alert("isValidEvent : "+isValidEvent(event.start,event.end));
             if(isValidEvent(event.start,event.end))
             {
-                if (updateEvents(event))
-                {
-                    alert("Event Updated!");
-                }
-                else
-                {
-                    revertFunc();
-                }
-           }
-           else
-           {
-            alert("Time slot already taken!! in eventDrop");
-           }
+                updateEvent(event, revertFunc);
+            }
+            else
+            {
+                alert("Can not drop on occupied area!!");
+            }
         },
 
         eventResize: function( event, delta, revertFunc, jsEvent, ui, view )
         {
-         //   alert("isValidEvent : "+isValidEvent(event.start,event.end));
             if(isValidEvent(event.start,event.end))
             {
-                if (updateEvents(event))
-                {
-                    alert("Event Updated!");
-                }
-                else
-                {
-                    revertFunc();
-                }
-           }
-           else
-           {
-            alert("Time slot already taken!! in eventResize");
-           }
+                updateEvent(event,revertFunc);     
+            }
+            else
+            {
+                alert("Can not resize on occupied area!!");
+            }
         },
 
         eventClick: function(event, jsEvent, view)
         {
-            //TODO: event(fullcalendar) => schedule(database) => user_id, subject_id, room_id
-
-            $("#event-data").text(event.title+" at "+event.start.format("HH:mm"));
+            $("#event-data").text(event.title+" at "+event.start.format("HH:mm")); //Event details
 
             $("#delete_event").data("event-id",event.id);
             $("#edit_event").data("event-id",event.id);
 
-            $('#dialog-editDelete').dialog("open");              
-               
-                //On Edit
-                $("#edit_event").on("click" , function()
-                {
-                    $('#dialog-editDelete').dialog("close");  //close 1st dialog
-
-                    $("#startTime").text(event.start.format("HH:mm DD-MM-YYYY")); 
-                    $("#endTime").text(event.end.format("HH:mm DD-MM-YYYY"));
-   
-                    $('#dialog').dialog("open");    
-                });  
-            
+            $('#dialog-editDelete').dialog("open");
         },
 
         select: function(start, end, allDay)
         {
             if(isValidEvent(start,end))      
             {
-                $("#startTime").text(start.format(" HH:mm DD-MM-YYYY")); //DD-MM-YYYY HH:mm
+                $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
                 $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
                 $("#dialog").dialog("open");               
             }
@@ -216,97 +184,108 @@ $(document).ready(function()
             }
         }
     });
-   
+    
+    //On Edit
+    $("#edit_event").on("click" , function()
+    {
+        var event_id = $("#edit_event").data("event-id");
+        var start_time = $('#startTime').text();
+        var end_time = $('#endTime').text();
+
+        $('#dialog-editDelete').dialog("close");  //close 1st dialog
+      
+        $.ajax({
+            url: '/schedules/'+event_id,
+            type: 'PATCH',
+            data: {"schedule[id]" : event_id, "schedule[starttime]" : start_time, "schedule[endtime]" : end_time },
+            dataType: "json",
+        
+            success : function(response)
+            {
+                $('#dialog').dialog("open");
+            },
+            error : function(error)
+            {
+                alert("Could not open form for edit.");
+            }
+        });   
+    });  
+
     //On Delete
-                $("#delete_event").on("click" , function()
+    $("#delete_event").on("click" , function()
+    {
+        var r = confirm("Are you sure you want to delete?");
+        var event_id = $("#delete_event").data("event-id")
+        if (!!r)
+        {
+            $.ajax({
+                url: '/schedules/'+event_id,
+                type: 'DELETE',
+                dataType: "json",
+                data : {id : $("#delete_event").data("event-id")},
+                success : function(response)
                 {
-                    var r = confirm("Are you sure you want to delete?");
-                    var event_id = $("#delete_event").data("event-id")
-                    alert(r);
-                    if (!!r)
-                    {
-                        $.ajax({
-                            url: '/schedules/'+event_id,
-                            type: 'DELETE',
-                            dataType: "json",
-                            data : {id : $("#delete_event").data("event-id")},
-                           
-                            success : function(response)
-                            {
-                                $('#calendar').fullCalendar('removeEvents',response.id);  //Does not update db
-                                $('#dialog-editDelete').dialog("close");
-                                // Do something with the result
-                            },
-
-                            error : function(error)
-                            {
-                                alert("Could not delete. Try again.");
-                            }
-                        });
-
-                    } 
-                   // $('#calendar').fullCalendar('removeEvents',event.id);  //Does not update db
-                });
-
+                    $('#calendar').fullCalendar('removeEvents',response.id);
+                    $('#dialog-editDelete').dialog("close");
+                },
+                error : function(error)
+                {
+                    alert("Could not Delete. Try again.");
+                }
+            });
+        }
+    });
 
     //To check if it is overlapping a time slot
     var isValidEvent = function(start,end)
     {
       return true;
     };
-
-    //To update the datbase with new values 
-    var updateEvents = function(schedule)
-    {    
-        $.ajax({
-         
-            url:"/schedules/"+schedule.id,
-            type: 'PUT', //'PUT',//"PATCH",
-            dataType: "json",
-            
-            success : function(schedule)
-            {
-                alert("Success Data : "+data.name);
-            },
-            error : function(error)
-            {
-                alert("An error occured while updating events! Please try again!");
-                 return false //revertFunc();
-            }
-        });
-    };
-
-    ///Onchange of batch_id
+    
+    //Onchange of batch_id
     function call_events()
     {
         //event(fullcalendar Batch) => schedule(database(batches)) => user_id,subject_id,room_id
         $('#calendar').fullCalendar( 'refetchEvents' );
     }
 
+    //To update the datbase with new values 
+    var  updateEvent = function(event , revertFunc )
+    {    
+        var jobj = JSON.parse(JSON.stringify(event));
+        $.ajax({
+            url:"/schedules/"+event.id,
+            type: "PATCH",
+            data : { "schedule[id]" : event.id, "schedule[name]" : jobj.title, "schedule[starttime]" : jobj.start, "schedule[endtime]" : jobj.end },
+            dataType: "json",
+
+            success : function(schedule)
+            { },
+            error : function(error)
+            {
+                alert("An error occured while updating events! Please try again!");
+                revertFunc();
+            }
+        });
+    };
+
     //On submiting rails form
     $("#new_schedule").submit(function(event)
     {    
         event.preventDefault();
-
         var formObject = $('#new_schedule').serializeObject();
-
         formObject["schedule[branch_id]"] = $("#branch_id").val();
         formObject["schedule[semester_id]"] = $("#semester_id").val();
         formObject["schedule[batch_id]"] = $("#batch_id").val();
-
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
-
         var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
-
         $.ajax({
-
-            url : '/schedules.json',
+            url : '/schedules',
             type: 'POST',
             dataType: 'json' ,
             data : jsonObject , 
-
             success : function(response)
             {
                 $("#dialog").dialog("close");

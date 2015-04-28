@@ -15,13 +15,13 @@ class SchedulesController < ApplicationController
   end
 
   def update
-    @schedule = Schedule.find(params[:id]) #schedule_params)    
+    @schedule = Schedule.find(params[:id])
     if @schedule.valid?
       @schedule.update_attributes(schedule_params)
     end
     respond_to do |format|
       format.html # index.html.erb
-      format.json {render :json => @schedule, :status => :created, :location => @schedule }
+      format.json {render :json => @schedule }
     end
   end
 
@@ -47,15 +47,14 @@ class SchedulesController < ApplicationController
     @schedule.destroy   
     respond_to do |format|
       format.html # index.html.erb
-      format.json {render :json => @schedule } #, :status => :destroyed, :location => @schedule }
+      format.json {render :json => @schedule }
     end
-    #redirect_to schedules_path
   end
 
   private
 
   def schedule_params
-    params.require(:schedule).permit(:branch_id, :semester_id, :user_id, :subject_id, :batch_id, :room_id, :starttime , :endtime, :unit_id, :room_id, :starttime , :endtime )
+    params.require(:schedule).permit(:name, :branch_id, :semester_id, :user_id, :subject_id, :batch_id, :room_id, :starttime , :endtime)
   end
 
 end
