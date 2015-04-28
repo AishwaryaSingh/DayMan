@@ -12,6 +12,10 @@ class SchedulesController < ApplicationController
 
   def edit
     @schedule = Schedule.find(params[:id]) #schedule_params) #params[:id])
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json {render :json => @schedule }
+    end
   end
 
   def update

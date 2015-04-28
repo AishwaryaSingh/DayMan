@@ -97,6 +97,7 @@ $(document).ready(function()
                 }
             }); 
         },
+        
 
         //Header initialization
         header: 
@@ -106,6 +107,10 @@ $(document).ready(function()
             right: 'month,agendaWeek,agendaDay'
         },
 
+        selectOverlap:  false,
+        selectable: false,
+       // slotEventOverlap:false,
+     //   eventOverlap: false,
         slotDuration: '00:15:00',                        
         defaulEventEnd: 60,
         defaultView: "agendaWeek",
@@ -116,8 +121,6 @@ $(document).ready(function()
         timeFormat: "h:mm ",
         dragOpacity: "0.5",
         editable: true,
-        slotEventOverlap:false,
-        eventOverlap: false,
         durationEditable: true,
 
         titleFormat: 
@@ -140,7 +143,7 @@ $(document).ready(function()
         {
             if(isValidEvent(event.start,event.end))
             {
-                updateEvent(event, revertFunc);
+                updateEvents(event, revertFunc);
             }
             else
             {
@@ -152,7 +155,7 @@ $(document).ready(function()
         {
             if(isValidEvent(event.start,event.end))
             {
-                updateEvent(event,revertFunc);     
+                updateEvents(event,revertFunc);     
             }
             else
             {
@@ -161,7 +164,7 @@ $(document).ready(function()
         },
 
         eventClick: function(event, jsEvent, view)
-        {
+        { 
             $("#event-data").text(event.title+" at "+event.start.format("HH:mm")); //Event details
 
             $("#delete_event").data("event-id",event.id);
@@ -189,27 +192,45 @@ $(document).ready(function()
     $("#edit_event").on("click" , function()
     {
         var event_id = $("#edit_event").data("event-id");
-        var start_time = $('#startTime').text();
-        var end_time = $('#endTime').text();
 
-        $('#dialog-editDelete').dialog("close");  //close 1st dialog
+        $('#dialog-editDelete').dialog("close");
       
         $.ajax({
-            url: '/schedules/'+event_id,
-            type: 'PATCH',
-            data: {"schedule[id]" : event_id, "schedule[starttime]" : start_time, "schedule[endtime]" : end_time },
+            url: '/schedules/'+event_id+'/edit',
+            type: 'GET',
             dataType: "json",
         
             success : function(response)
             {
+                onEdit(response); //response.id,response.starttime,response.endtime);
+            },
+            error : function(error)
+            {
+                alert("Could not open form for edit. (1)");
+            }
+        });   
+    });  
+
+    var onEdit = function(response) //event_id,event_start,event_end)
+    {
+        $.ajax({
+            url: '/schedules/'+response.id,
+            type: 'PUT',
+            data: {"schedule[id]" : response.id , "schedule[starttime]" : response.starttime , "schedule[endtime]" : response.endtime},
+            dataType: "json",
+            
+            success : function(response)
+            {
+                $('#startTime').text(response.starttime);
+                $('#endTime').text(response.endtime);
                 $('#dialog').dialog("open");
             },
             error : function(error)
             {
-                alert("Could not open form for edit.");
+                alert("Could not open form for edit. (2)");
             }
-        });   
-    });  
+        });
+    };
 
     //On Delete
     $("#delete_event").on("click" , function()
@@ -239,8 +260,21 @@ $(document).ready(function()
     //To check if it is overlapping a time slot
     var isValidEvent = function(start,end)
     {
-      return true;
+        return true;
+
     };
+
+    function isOverlapping(event){
+    var array = calendar.fullCalendar('clientEvents');
+    for(i in array){
+        if(array[i].id != event.id){
+            if(!(Date(array[i].start) >= Date(event.end) || Date(array[i].end) <= Date(event.start))){
+                return true;
+            }
+        }
+    }
+    return false;
+}
     
     //Onchange of batch_id
     function call_events()
@@ -250,7 +284,7 @@ $(document).ready(function()
     }
 
     //To update the datbase with new values 
-    var  updateEvent = function(event , revertFunc )
+    var  updateEvents = function(event , revertFunc )
     {    
         var jobj = JSON.parse(JSON.stringify(event));
         $.ajax({
@@ -289,7 +323,8 @@ $(document).ready(function()
             success : function(response)
             {
                 $("#dialog").dialog("close");
-                $('#calendar').fullCalendar( 'refetchEvents' );
+                //$('#calendar').fullCalendar( 'renderEvent', response, ["stick"] );
+                $('#calendar').fullCalendar('refetchEvents');
             },    
             error : function(error)
             {
