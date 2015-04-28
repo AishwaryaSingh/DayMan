@@ -41,12 +41,15 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def delete
-
-
+  def destroy
     @schedule = Schedule.find(params[:id])
+    puts @schedule
     @schedule.destroy   
-    redirect_to schedules_path
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json {render :json => @schedule } #, :status => :destroyed, :location => @schedule }
+    end
+    #redirect_to schedules_path
   end
 
   private

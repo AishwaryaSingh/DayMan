@@ -187,29 +187,8 @@ $(document).ready(function()
             $("#delete_event").data("event-id",event.id);
             $("#edit_event").data("event-id",event.id);
 
-
-            $('#dialog-editDelete').dialog("open");  
-            
-                //On Delete
-                $("#delete_event").on("click" , function()
-                {
-                    var r = confirm("Are you sure you want to delete?");
-                    if (!!r) {
-                         
-                         $.ajax({
-                            url: '/schedules',
-                            type: 'DELETE',
-                            data : {id : $("#delete_event").data("event-id")},
-                            success: function(result) {
-                                // Do something with the result
-                            }
-                        });
-
-                    } 
-                    $('#dialog-editDelete').dialog("close");    
-                    $('#calendar').fullCalendar('removeEvents',event.id);  //Does not update db
-                });
-
+            $('#dialog-editDelete').dialog("open");              
+               
                 //On Edit
                 $("#edit_event").on("click" , function()
                 {
@@ -237,8 +216,39 @@ $(document).ready(function()
             }
         }
     });
-    
    
+    //On Delete
+                $("#delete_event").on("click" , function()
+                {
+                    var r = confirm("Are you sure you want to delete?");
+                    var event_id = $("#delete_event").data("event-id")
+                    alert(r);
+                    if (!!r)
+                    {
+                        $.ajax({
+                            url: '/schedules/'+event_id,
+                            type: 'DELETE',
+                            dataType: "json",
+                            data : {id : $("#delete_event").data("event-id")},
+                           
+                            success : function(response)
+                            {
+                                $('#calendar').fullCalendar('removeEvents',response.id);  //Does not update db
+                                $('#dialog-editDelete').dialog("close");
+                                // Do something with the result
+                            },
+
+                            error : function(error)
+                            {
+                                alert("Could not delete. Try again.");
+                            }
+                        });
+
+                    } 
+                   // $('#calendar').fullCalendar('removeEvents',event.id);  //Does not update db
+                });
+
+
     //To check if it is overlapping a time slot
     var isValidEvent = function(start,end)
     {
@@ -250,8 +260,8 @@ $(document).ready(function()
     {    
         $.ajax({
          
-            url:"/schedules",
-            type: 'POST', //'PUT',//"PATCH",
+            url:"/schedules/"+schedule.id,
+            type: 'PUT', //'PUT',//"PATCH",
             dataType: "json",
             
             success : function(schedule)
