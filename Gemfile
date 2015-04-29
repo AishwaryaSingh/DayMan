@@ -13,9 +13,11 @@ group :assets do
   gem 'therubyracer', :platforms => :ruby
   gem 'uglifier', '>= 1.0.3'
 end
+
 gem 'jquery-rails'
 
 
+gem 'actionpack', '~> 4.0.2'
 
 #authorization / roles ?
 gem 'cancancan', '~> 1.9'
@@ -45,9 +47,16 @@ gem 'omniauth-digitalocean'
 gem 'mailcatcher'
 
 #Jquery plugin for calendar
-gem 'fullcalendar-rails'# , '~>2.0.2.0'
 
-gem 'momentjs-rails' #, '>= 2.8.1', :github => 'derekprior/momentjs-rails'
+gem 'fullcalendar-rails', '~> 2.3.1.0'
+
+# gem 'fullcalendar-rails', '~>2.0.2.0'
+
+# gem 'jquery-rails', '~> 4.0.3' #just added
+
+gem 'momentjs-rails', '~> 2.10.2'
+
+# gem 'momentjs-rails', '>= 2.8.1', :github => 'derekprior/momentjs-rails'
 
 gem 'activesupport','~>4.0.2'
 

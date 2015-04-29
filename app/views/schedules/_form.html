@@ -4,6 +4,7 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
+
 <script>
     $(function()
     {
@@ -12,6 +13,11 @@
             width: 570,
             modal: true
         });
+        $("#dialog .edit_schedule").dialog({
+            autoOpen: false,
+            modal: true,
+            width: 570
+        }); 
         $("#dialog-editDelete").dialog({
             autoOpen: false,
             modal: true,
@@ -55,8 +61,6 @@
           return objectData;
         };
 </script>
-</script>
-
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() 
 {
@@ -73,8 +77,9 @@ $(document).ready(function()
         events: function(start, end, timezone, callback)
         {
             $.ajax({
-                url : '/schedules',
-                dataType: 'json' ,
+                url : '/schedules.json',
+                dataType: 'json',
+
                 success : function(schedule)
                 {
                     var events = [];
@@ -97,7 +102,6 @@ $(document).ready(function()
                 }
             }); 
         },
-        
 
         //Header initialization
         header: 
@@ -151,12 +155,17 @@ $(document).ready(function()
 
         eventClick: function(event, jsEvent, view)
         { 
-            $("#event-data").text(event.title+" at "+event.start.format("HH:mm")); //Event details
+
+            console.log($("#dialog").dialog("open"));            
+
+            console.log($("#dialog #edit_schedule_"+event.id).dialog("open"));            
+
+           /* $("#event-data").text(event.title+" at "+event.start.format("HH:mm")); //Event details
 
             $("#delete_event").data("event-id",event.id);
             $("#edit_event").data("event-id",event.id);
 
-            $('#dialog-editDelete').dialog("open");
+            $('#dialog-editDelete').dialog("open"); */
         },
 
         select: function(start, end, allDay)
@@ -176,11 +185,14 @@ $(document).ready(function()
       
         $.ajax({
             url: '/schedules/'+event_id+'/edit',
-            type: 'GET',
+            //type: 'PUT',
+            //data : { "schedule[id]" : event_id },
             dataType: "json",
         
             success : function(response)
-            {
+            {               
+               // console.log($('#dialog').dialog("open"));
+
                 onEdit(response); //response.id,response.starttime,response.endtime);
             },
             error : function(error)
@@ -192,6 +204,10 @@ $(document).ready(function()
 
     var onEdit = function(response) //event_id,event_start,event_end)
     {
+      //  console.log($('#dialog #edit_schedule_'+response.id).dialog("open"));
+
+       // console.log($('#dialog .edit_schedule').dialog("open"));
+/*
         $.ajax({
             url: '/schedules/'+response.id,
             type: 'PUT',
@@ -202,14 +218,14 @@ $(document).ready(function()
             {
                 $('#startTime').text(response.starttime);
                 $('#endTime').text(response.endtime);
-                $('#dialog').dialog("open");
+                $('#dialog #edit_scedule').dialog("open");
             },
             error : function(error)
             {
                 alert("Could not open form for edit. (2)");
             }
         });
-    };
+ */   };
 
     //On Delete
     $("#delete_event").on("click" , function()
@@ -282,7 +298,6 @@ $(document).ready(function()
             success : function(response)
             {
                 $("#dialog").dialog("close");
-               // $('#calendar').fullCalendar( 'renderEvent', response ); //, ["stick"] );
                 $('#calendar').fullCalendar('refetchEvents');
             },    
             error : function(error)
@@ -310,7 +325,7 @@ $(document).ready(function()
 
     <div id="dialog" title="Enter Event Details">
 
-        <%= form_for(@schedule, :remote => true, :format => :json, :html => { :id => "new_schedule" }) do |schedule| %>               
+        <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>               
     
                 <p>
                 Start Time : <span id="startTime"></span>
