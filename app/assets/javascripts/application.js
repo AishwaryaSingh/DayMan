@@ -13,5 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.js
+//= require moment.js
 //= require fullcalendar
 //= require bootstrap

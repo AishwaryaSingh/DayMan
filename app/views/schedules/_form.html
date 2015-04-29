@@ -107,10 +107,10 @@ $(document).ready(function()
             right: 'month,agendaWeek,agendaDay'
         },
 
-        selectOverlap:  false,
-        selectable: false,
-       // slotEventOverlap:false,
-     //   eventOverlap: false,
+        selectable: true,
+        selectOverlap: false,
+        slotEventOverlap:false,
+        eventOverlap: false,
         slotDuration: '00:15:00',                        
         defaulEventEnd: 60,
         defaultView: "agendaWeek",
@@ -141,26 +141,12 @@ $(document).ready(function()
 
         eventDrop: function( event, delta, revertFunc, jsEvent, ui, view )
         {
-            if(isValidEvent(event.start,event.end))
-            {
-                updateEvents(event, revertFunc);
-            }
-            else
-            {
-                alert("Can not drop on occupied area!!");
-            }
+            updateEvents(event, revertFunc);
         },
 
         eventResize: function( event, delta, revertFunc, jsEvent, ui, view )
         {
-            if(isValidEvent(event.start,event.end))
-            {
-                updateEvents(event,revertFunc);     
-            }
-            else
-            {
-                alert("Can not resize on occupied area!!");
-            }
+            updateEvents(event,revertFunc);
         },
 
         eventClick: function(event, jsEvent, view)
@@ -175,16 +161,9 @@ $(document).ready(function()
 
         select: function(start, end, allDay)
         {
-            if(isValidEvent(start,end))      
-            {
-                $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
-                $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
-                $("#dialog").dialog("open");               
-            }
-            else
-            {
-                alert("Time slot already taken.");
-            }
+            $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
+            $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
+            $("#dialog").dialog("open");            
         }
     });
     
@@ -257,30 +236,11 @@ $(document).ready(function()
         }
     });
 
-    //To check if it is overlapping a time slot
-    var isValidEvent = function(start,end)
-    {
-        return true;
-
-    };
-
-    function isOverlapping(event){
-    var array = calendar.fullCalendar('clientEvents');
-    for(i in array){
-        if(array[i].id != event.id){
-            if(!(Date(array[i].start) >= Date(event.end) || Date(array[i].end) <= Date(event.start))){
-                return true;
-            }
-        }
-    }
-    return false;
-}
-    
     //Onchange of batch_id
     function call_events()
     {
         //event(fullcalendar Batch) => schedule(database(batches)) => user_id,subject_id,room_id
-        $('#calendar').fullCalendar( 'refetchEvents' );
+        $('#calendar').fullCalendar('refetchEvents');
     }
 
     //To update the datbase with new values 
@@ -293,8 +253,7 @@ $(document).ready(function()
             data : { "schedule[id]" : event.id, "schedule[name]" : jobj.title, "schedule[starttime]" : jobj.start, "schedule[endtime]" : jobj.end },
             dataType: "json",
 
-            success : function(schedule)
-            { },
+            success : function(schedule) {},
             error : function(error)
             {
                 alert("An error occured while updating events! Please try again!");
@@ -323,7 +282,7 @@ $(document).ready(function()
             success : function(response)
             {
                 $("#dialog").dialog("close");
-                //$('#calendar').fullCalendar( 'renderEvent', response, ["stick"] );
+               // $('#calendar').fullCalendar( 'renderEvent', response ); //, ["stick"] );
                 $('#calendar').fullCalendar('refetchEvents');
             },    
             error : function(error)

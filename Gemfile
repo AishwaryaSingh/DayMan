@@ -45,9 +45,9 @@ gem 'omniauth-digitalocean'
 gem 'mailcatcher'
 
 #Jquery plugin for calendar
-gem 'fullcalendar-rails' , '~>2.0.2.0'
+gem 'fullcalendar-rails'# , '~>2.0.2.0'
 
-gem 'momentjs-rails', '>= 2.8.1', :github => 'derekprior/momentjs-rails'
+gem 'momentjs-rails' #, '>= 2.8.1', :github => 'derekprior/momentjs-rails'
 
 gem 'activesupport','~>4.0.2'
 
