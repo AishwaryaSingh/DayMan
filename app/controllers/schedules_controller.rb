@@ -35,14 +35,14 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = Schedule.new(schedule_params)
-    
+
     puts "in create"
-    if @schedule.valid?
+ #   if @schedule.valid?
     puts "valid" 
-        @schedule.name= @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+        @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
         @schedule.save!
         puts "saved"
-    end
+  #  end
     respond_to do |format|
       format.html # index.html.erb
       format.json {render :json => @schedule, :status => :created, :location => @schedule }
