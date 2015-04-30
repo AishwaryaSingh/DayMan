@@ -1,7 +1,7 @@
 class SchedulesController < ApplicationController
 	
   def index
-    @schedules = Schedule.all
+    @schedules = Schedule.find_all_by_batch_id_and_branch_id_and_semester_id( params[:batch_id], params[:branch_id], params[:semester_id])
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @schedules }
@@ -20,6 +20,8 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.find(params[:id])
     if @schedule.valid?
       @schedule.update_attributes(schedule_params)
+      @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+      @schedule.save
     end
     respond_to do |format|
       format.html # index.html.erb
@@ -33,9 +35,13 @@ class SchedulesController < ApplicationController
 
   def create
     @schedule = Schedule.new(schedule_params)
+    
+    puts "in create"
     if @schedule.valid?
-      @schedule.name= @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
-      @schedule.save
+    puts "valid" 
+        @schedule.name= @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+        @schedule.save!
+        puts "saved"
     end
     respond_to do |format|
       format.html # index.html.erb

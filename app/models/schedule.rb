@@ -9,6 +9,8 @@ class Schedule < ActiveRecord::Base
   	belongs_to :batch
     belongs_to :room
 	
+  #  has_many :batches
+
 	  validates :branch_id , presence: true
   	validates :semester_id , presence: true
   	validates :user_id , presence: true

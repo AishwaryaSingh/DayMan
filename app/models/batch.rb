@@ -9,7 +9,7 @@ class Batch < ActiveRecord::Base
   belongs_to :branch
   belongs_to :semester
 #  belongs_to :professor
-  belongs_to :schedule
+#  belongs_to :schedule
 
   
   validates :name , presence: true ,

@@ -13,16 +13,6 @@
             width: 570,
             modal: true
         });
-        $("#dialog .edit_schedule").dialog({
-            autoOpen: false,
-            modal: true,
-            width: 570
-        }); 
-        $("#dialog-editDelete").dialog({
-            autoOpen: false,
-            modal: true,
-            width: 570
-        });      
         $( "#menu" ).menu({
             disabled: true
         });
@@ -30,11 +20,11 @@
 
     jQuery.fn.serializeObject = function()
     {
-          var arrayData, objectData;
-          arrayData = this.serializeArray();
-          objectData = {};
-          $.each(arrayData, function(index)
-          {
+        var arrayData, objectData;
+        arrayData = this.serializeArray();
+        objectData = {};
+        $.each(arrayData, function(index)
+        {
             var value = arrayData[index];               // Changed from what was done.
             if (this.value != '')
             {
@@ -57,10 +47,12 @@
             {
               objectData[this.name] = value;
             }
-          });
-          return objectData;
-        };
+        });
+        return objectData;
+    };
+
 </script>
+
 <script type="text/javascript" charset="utf-8">
 $(document).ready(function() 
 {
@@ -76,9 +68,13 @@ $(document).ready(function()
 
         events: function(start, end, timezone, callback)
         {
+            var batch_id = $("#batch_id").val();
+            var branch_id = $("#branch_id").val();
+            var semester_id = $("#semester_id").val();
             $.ajax({
-                url : '/schedules.json',
+                url : '/schedules',
                 dataType: 'json',
+                data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
 
                 success : function(schedule)
                 {
@@ -91,7 +87,10 @@ $(document).ready(function()
                         event.title = d['name'];    
                         event.start = d['starttime']; 
                         event.end = d['endtime'];
-                        event.allDay = false;                   
+                        event.allDay = false;       
+                        event.subjectId = d['subject_id'];   
+                        event.roomId = d['room_id'];   
+                        event.userId = d['user_id'];            
                         events.push(event);
                     });
                     callback(events);
@@ -154,84 +153,39 @@ $(document).ready(function()
         },
 
         eventClick: function(event, jsEvent, view)
-        { 
+        {
+            $("#startTime").text(event.start.format(" HH:mm DD-MM-YYYY"));
+            $("#endTime").text(event.end.format(" HH:mm DD-MM-YYYY"));
+           
+            $("#schedule_create").hide();
+            $("#schedule_update").show();
+            $("#delete_event").show();
 
-            console.log($("#dialog").dialog("open"));            
+            $("#dialog").data("event-id",event.id);
 
-            console.log($("#dialog #edit_schedule_"+event.id).dialog("open"));            
+            $("#schedule_subject_id").val(event.subjectId);
+            $("#schedule_room_id").val(event.roomId);
+            $("#schedule_user_id").val(event.userId);
 
-           /* $("#event-data").text(event.title+" at "+event.start.format("HH:mm")); //Event details
-
-            $("#delete_event").data("event-id",event.id);
-            $("#edit_event").data("event-id",event.id);
-
-            $('#dialog-editDelete').dialog("open"); */
+            console.log($("#dialog").dialog("open"));     
         },
 
         select: function(start, end, allDay)
         {
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
+            $("#schedule_create").show();
+            $("#schedule_update").hide();
+            $("#delete_event").hide();
             $("#dialog").dialog("open");            
         }
     });
     
-    //On Edit
-    $("#edit_event").on("click" , function()
-    {
-        var event_id = $("#edit_event").data("event-id");
-
-        $('#dialog-editDelete').dialog("close");
-      
-        $.ajax({
-            url: '/schedules/'+event_id+'/edit',
-            //type: 'PUT',
-            //data : { "schedule[id]" : event_id },
-            dataType: "json",
-        
-            success : function(response)
-            {               
-               // console.log($('#dialog').dialog("open"));
-
-                onEdit(response); //response.id,response.starttime,response.endtime);
-            },
-            error : function(error)
-            {
-                alert("Could not open form for edit. (1)");
-            }
-        });   
-    });  
-
-    var onEdit = function(response) //event_id,event_start,event_end)
-    {
-      //  console.log($('#dialog #edit_schedule_'+response.id).dialog("open"));
-
-       // console.log($('#dialog .edit_schedule').dialog("open"));
-/*
-        $.ajax({
-            url: '/schedules/'+response.id,
-            type: 'PUT',
-            data: {"schedule[id]" : response.id , "schedule[starttime]" : response.starttime , "schedule[endtime]" : response.endtime},
-            dataType: "json",
-            
-            success : function(response)
-            {
-                $('#startTime').text(response.starttime);
-                $('#endTime').text(response.endtime);
-                $('#dialog #edit_scedule').dialog("open");
-            },
-            error : function(error)
-            {
-                alert("Could not open form for edit. (2)");
-            }
-        });
- */   };
-
     //On Delete
     $("#delete_event").on("click" , function()
     {
         var r = confirm("Are you sure you want to delete?");
-        var event_id = $("#delete_event").data("event-id")
+        var event_id = $("#dialog").data("event-id");
         if (!!r)
         {
             $.ajax({
@@ -242,7 +196,7 @@ $(document).ready(function()
                 success : function(response)
                 {
                     $('#calendar').fullCalendar('removeEvents',response.id);
-                    $('#dialog-editDelete').dialog("close");
+                    $('#dialog').dialog("close");
                 },
                 error : function(error)
                 {
@@ -251,13 +205,6 @@ $(document).ready(function()
             });
         }
     });
-
-    //Onchange of batch_id
-    function call_events()
-    {
-        //event(fullcalendar Batch) => schedule(database(batches)) => user_id,subject_id,room_id
-        $('#calendar').fullCalendar('refetchEvents');
-    }
 
     //To update the datbase with new values 
     var  updateEvents = function(event , revertFunc )
@@ -279,7 +226,7 @@ $(document).ready(function()
     };
 
     //On submiting rails form
-    $("#new_schedule").submit(function(event)
+    $("#schedule_create").click(function(event)
     {    
         event.preventDefault();
         var formObject = $('#new_schedule').serializeObject();
@@ -294,7 +241,8 @@ $(document).ready(function()
             url : '/schedules',
             type: 'POST',
             dataType: 'json' ,
-            data : jsonObject , 
+            data : jsonObject ,
+
             success : function(response)
             {
                 $("#dialog").dialog("close");
@@ -306,62 +254,130 @@ $(document).ready(function()
             }
         });
     });
+
+
+    //On updating rails form
+    $("#schedule_update").click(function(event)
+    {    
+        var event_id = $("#dialog").data("event-id");
+        event.preventDefault();
+        var formObject = $('#new_schedule').serializeObject();      
+        formObject["schedule[branch_id]"] = $("#branch_id").val();
+        formObject["schedule[semester_id]"] = $("#semester_id").val();
+        formObject["schedule[batch_id]"] = $("#batch_id").val();
+        formObject["schedule[starttime]"] = $("#startTime").text();
+        formObject["schedule[endtime]"] = $("#endTime").text();
+        var jObject = JSON.stringify(formObject);
+        var jsonObject = JSON.parse(jObject);
+
+        $.ajax({
+           url:"/schedules/"+event_id,
+            type: "PUT",
+            data : jsonObject , 
+            dataType: 'json' ,
+            
+            success : function(response)
+            {
+                $("#dialog").dialog("close");
+                $('#calendar').fullCalendar('refetchEvents');
+            },    
+            error : function(error)
+            {
+               alert("An error occured! Please try again!");
+            }
+        });
+    });
+
+
+    $("#apply").click(function(event)
+    {    
+        $("#calendar").fullCalendar('refetchEvents');
+    });
+
 });
+
 </script>
 </head>
 
 <body>
-                <p>Branch : <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                Branch    
+            </div>
+            <div class="col-md-4">
+                Semester      
+            </div>
+            <div class="col-md-4">
+                Batch     
+            </div>
+        </div>
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
                 <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
-                </p>
+            </div>      
+             
+            <div class="col-md-4">
+                <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+            </div>
+            <div class="col-md-4">
+                <% branch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+            </div>
+        </div>
 
-                <p>Semester : <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-                 <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
-                </p>
-
-                <p>Batch : <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                <%= select_tag(:batch_id , options_for_select(batch_array), { include_blank: true , :onchange => "call_events()"}) %>
-                </p>  
+        <div class="col-md-3">
+            <input type="button" id="apply" value="Apply">
+        </div>
+    </div>
 
     <div id="dialog" title="Enter Event Details">
-
+    
         <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>               
     
                 <p>
-                Start Time : <span id="startTime"></span>
+                    Start Time : <span id="startTime"></span>
                 </p>
 
                 <p>
-                End Time : <span id="endTime"></span>
+                    End Time : <span id="endTime"></span>
                 </p>
     
                 <p>
-                Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
-                <%= schedule.select(:user_id , options_for_select(professor_array), { include_blank: true})%>
-               </p>
-
-                <p>
-                Subject :<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
-                <%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+                    Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
+                    <%= schedule.select(:user_id , options_for_select(professor_array), { include_blank: true})%>
                 </p>
 
                 <p>
-                Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
-                <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+                    Subject :<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+                    <%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
                 </p>
-  
-                <%= schedule.submit %>
+
+                <p>
+                    Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+                    <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+                </p>
+              
+                </table>
+                
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="col-md-4">
+                            <input type="button" id="schedule_create" value="Create"> 
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" id="schedule_update" value="Update"> 
+                        </div>
+                        <div class="col-md-4">
+                            <input type="button" id="delete_event" value="Delete">
+                        </div>
+                    </div>
+                </div>
 
         <% end %>
     </div>
-   
-
-
-   <div id="dialog-editDelete" title="Event Details :">
-   <span id="event-data" style="font-size:15px"></span>
-   <br />
-   <button id="delete_event">Delete</button> or <button id="edit_event">Edit</button>
-   </div>
-
 </body>
 </html>
