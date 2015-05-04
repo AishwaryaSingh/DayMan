@@ -13,9 +13,9 @@ class Schedule < ActiveRecord::Base
 
 	  validates :branch_id , presence: true
   	validates :semester_id , presence: true
-  	validates :user_id , presence: true
+    validates :batch_id , presence: true
+    validates :user_id , presence: true
 	  validates :subject_id , presence: true
- 	  validates :batch_id , presence: true
   	validates :room_id , presence: true
 
 end

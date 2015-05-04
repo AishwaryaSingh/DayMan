@@ -230,18 +230,22 @@ $(document).ready(function()
     {    
         event.preventDefault();
         var formObject = $('#new_schedule').serializeObject();
+       // formObject["schedule[batch_ids[]]"] = $("#batch_ids[]").val();
+       // alert($("#batch_ids[]").val());//formObject["schedule[batch_ids[]]"]);
         formObject["schedule[branch_id]"] = $("#branch_id").val();
         formObject["schedule[semester_id]"] = $("#semester_id").val();
         formObject["schedule[batch_id]"] = $("#batch_id").val();
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
+
         var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
+        
         $.ajax({
             url : '/schedules',
             type: 'POST',
-            dataType: 'json' ,
             data : jsonObject ,
+            dataType: 'json' ,
 
             success : function(response)
             {
@@ -262,6 +266,8 @@ $(document).ready(function()
         var event_id = $("#dialog").data("event-id");
         event.preventDefault();
         var formObject = $('#new_schedule').serializeObject();      
+        formObject["schedule[batch_ids[]]"] = $("#batch_ids[]").val();
+        alert(formObject["schedule[batch_ids[]]"]);
         formObject["schedule[branch_id]"] = $("#branch_id").val();
         formObject["schedule[semester_id]"] = $("#semester_id").val();
         formObject["schedule[batch_id]"] = $("#batch_id").val();
@@ -323,8 +329,8 @@ $(document).ready(function()
                 <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
             </div>
             <div class="col-md-4">
-                <% branch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+                <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
             </div>
         </div>
 
@@ -359,7 +365,15 @@ $(document).ready(function()
                     Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
                     <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
                 </p>
-              
+
+                <table>
+                    <% Batch.all.each do |batch| %>
+                        <tr>
+                            <td><%= check_box_tag 'batch_ids[]', batch.id %></td>
+                            <td><%= batch.name %></td>
+                        </tr>
+                    <% end %>
+                </table>
 
                 <div class="row">
                     <div class="col-md-12">
