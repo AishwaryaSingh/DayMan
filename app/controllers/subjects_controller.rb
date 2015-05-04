@@ -10,17 +10,28 @@ class SubjectsController < ApplicationController
 	end
 
 	def create
-		@subject = Subject.new(subject_params)
-		@subject.branches = Branch.find(params[:branch_ids].nil? && [] || params[:branch_ids] )
-		@subject.semesters = Semester.find(params[:semester_ids].nil? && [] || params[:semester_ids])
-		
+		#@subject.branches = Branch.find(params[:branch_ids].nil? && [] || params[:branch_ids] )
+		#@subject.semesters = Semester.find(params[:semester_ids].nil? && [] || params[:semester_ids])
+		#
 		branches=params[:branch_ids]
 		semesters=params[:semester_ids]
 
-		puts branches
-		puts semesters
+		@subject = Subject.new(subject_params)
+		
 		if @subject.valid?
+
 			@subject.save!
+
+			branches.each do |b|
+				@bss=BranchSemesterSubject.new
+				semesters.each do |s|
+					@bss.branch_id = b
+					@bss.semester_id = s
+					@bss.subject_id = @subject.id
+					@bss.save!
+				end
+			end
+
 		end
 		redirect_to subjects_path
 	end
@@ -50,7 +61,7 @@ class SubjectsController < ApplicationController
 	end
 
 	def subject_params
-		params.require(:subject).permit(:name, :branch_ids=>[] , :semester_ids=>[] )
+		params.require(:subject).permit(:name)
 	end
 
 

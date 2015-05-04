@@ -16,14 +16,14 @@
   <% end %>
   </span>
 
-  <b>Branch :</b>
+  <b>Branch : ,  @subject.branches.detect{|item| item.id == branch.id} </b>
   <table>
     <tbody>
     <div class="branch">
       <% Branch.all.each do |branch| %>
        <tr>
        <td>
-         <%= check_box_tag "branch_ids[]", branch.id,  @subject.branches.detect{|item| item.id == branch.id} %>
+         <%= check_box_tag "branch_ids[]", branch.id %> 
        </td>
        <td>
          <label><%= branch.name %></label>
@@ -42,13 +42,13 @@
   <br />
   </div>
 
-  <b>Semester :</b>
+  <b>Semester :, @subject.semesters.detect{|item| item.id == semester.id }</b>
   <table>
     <tbody>
       <% Semester.all.each do |semester| %>
       <tr>
         <td>
-          <%= check_box_tag "semester_ids[]", semester.id , @subject.semesters.detect{|item| item.id == semester.id } %>
+          <%= check_box_tag "semester_ids[]", semester.id %>
         </td>
         <td> 
           <label><%= semester.name %></label>

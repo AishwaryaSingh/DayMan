@@ -22,29 +22,6 @@
     <td style="font-size:16px"><%= subject.name %></td>
     <td style="font-size:16px">
     
-    <% c=0 %>
-    <%  subject.branches.each do |branch| %>
-    <% if c == 0 %>
-    <%= branch.name  %>
-    <% c=1 %>
-    <% else %>
-    , <%= branch.name  %>
-    <%  end %>
-    <% end %>
-
-     </td>
-    <td style="font-size:16px">
-
-
-     <% c=0 %>      
-    <%  subject.semesters.each do |semester| %>
-    <% if c == 0 %>
-    <%= semester.name  %> 
-    <% c=1 %>
-    <% else %>
-    , <%= semester.name  %> 
-    <%  end %>
-    <% end %>
 
     </td>
     <td><%= button_to 'Edit', edit_subject_path(subject) , method: :get %></td>

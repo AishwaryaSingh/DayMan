@@ -114,7 +114,7 @@ $(document).ready(function()
             right: 'month,agendaWeek,agendaDay'
         },
 
-        theme: true,
+       // theme: true,
         selectable: true,
         selectOverlap: false,
         slotEventOverlap:false,
@@ -177,6 +177,7 @@ $(document).ready(function()
 
         eventMouseover: function( event, jsEvent, view )
         {
+            $(event).addClass("animated shake");
         },
 
         select: function(start, end, allDay)
@@ -354,11 +355,11 @@ $(document).ready(function()
              
             <div class="col-md-4">
                 <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-                <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+                <span id="semester"><%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %></span>
             </div>
             <div class="col-md-4">
                 <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
+                <span id="batch"><%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> </span>
             </div>
         </div>
 
@@ -380,7 +381,7 @@ $(document).ready(function()
                 <%= schedule.select(:user_id , options_for_select(professor_array),{ include_blank: true})%>
             </p>
             <p>
-                Subject :<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+                Subject :<% subject_array = BranchSemesterSubject.find_all_by_branch_id_and_semester_id("$('span #batch').val();","$('span #semester').val();").map { |b| [b.subject.name, b.subject.id] } %>
                 <%= schedule.select(:subject_id ,options_for_select(subject_array),{ include_blank: true}) %>
             </p>
             <p>

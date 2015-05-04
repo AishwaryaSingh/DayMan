@@ -1,6 +1,6 @@
 class BranchSemester < ActiveRecord::Base
 	
-   has_many :subjects
+   	has_many :subjects
 
 
  	validates :name , presence: true ,

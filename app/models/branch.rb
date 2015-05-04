@@ -2,10 +2,11 @@
    #serialize :branch_id, Array  ## Add this line
    #after_save :update_branch_semester
 
-	has_and_belongs_to_many :semesters # , join_table :branch_semester
+#	has_and_belongs_to_many :semesters # , join_table :branch_semester
 	
-	has_and_belongs_to_many :subjects
-
+#	has_and_belongs_to_many :subjects
+	has_many :subjects, :through => :branch_semester_subject
+	has_many :semesters, :through => :branch_semester_subject
 #   has_many :subjects
 
     has_many :schedules
