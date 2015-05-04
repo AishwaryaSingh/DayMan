@@ -6,9 +6,9 @@
 	
 	has_and_belongs_to_many :subjects
 
-   #has_many :subjects
+#   has_many :subjects
 
-   has_many :schedules
+    has_many :schedules
  	
 
  	validates :name , presence: true ,

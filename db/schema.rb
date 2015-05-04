@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150416085943) do
+ActiveRecord::Schema.define(version: 20150504075043) do
 
   create_table "batches", force: true do |t|
     t.string   "name"
@@ -93,6 +93,11 @@ ActiveRecord::Schema.define(version: 20150416085943) do
     t.datetime "updated_at"
     t.datetime "starttime"
     t.datetime "endtime"
+  end
+
+  create_table "schedules_batches", id: false, force: true do |t|
+    t.integer "schedule_id"
+    t.integer "batch_id"
   end
 
   create_table "semesters", force: true do |t|

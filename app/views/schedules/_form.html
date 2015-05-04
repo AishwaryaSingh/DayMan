@@ -2,8 +2,12 @@
 <head><title>Schedule</title>
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
+<link rel="stylesheet" src="/fullcalendar.css">
+
+<link rel="stylesheet" src="/animate.css">
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <script>
     $(function()
@@ -25,7 +29,7 @@
         objectData = {};
         $.each(arrayData, function(index)
         {
-            var value = arrayData[index];               // Changed from what was done.
+            var value = arrayData[index];
             if (this.value != '')
             {
               value = this.value;
@@ -110,6 +114,7 @@ $(document).ready(function()
             right: 'month,agendaWeek,agendaDay'
         },
 
+        theme: true,
         selectable: true,
         selectOverlap: false,
         slotEventOverlap:false,
@@ -170,6 +175,10 @@ $(document).ready(function()
             console.log($("#dialog").dialog("open"));     
         },
 
+        eventMouseover: function( event, jsEvent, view )
+        {
+        },
+
         select: function(start, end, allDay)
         {
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
@@ -225,38 +234,58 @@ $(document).ready(function()
         });
     };
 
+    //To check atleast one checkbox is selected
+    var checkboxBatch = function()
+    {
+       var atLeastOneIsChecked = $('input:checked').length > 0;
+       if(atLeastOneIsChecked) { return true; }
+       else { alert("Select atleast one checkbox!"); return false; }        
+    };
+
     //On submiting rails form
     $("#schedule_create").click(function(event)
     {    
         event.preventDefault();
         var formObject = $('#new_schedule').serializeObject();
-       // formObject["schedule[batch_ids[]]"] = $("#batch_ids[]").val();
-       // alert($("#batch_ids[]").val());//formObject["schedule[batch_ids[]]"]);
         formObject["schedule[branch_id]"] = $("#branch_id").val();
         formObject["schedule[semester_id]"] = $("#semester_id").val();
         formObject["schedule[batch_id]"] = $("#batch_id").val();
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
 
+        var arr = []; 
+        $.each($("input:checked"), function()
+        {
+          arr.push($(this).val());
+        });
+       
+        console.log(alert(arr));
+
+      
         var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
         
-        $.ajax({
-            url : '/schedules',
-            type: 'POST',
-            data : jsonObject ,
-            dataType: 'json' ,
 
-            success : function(response)
-            {
-                $("#dialog").dialog("close");
-                $('#calendar').fullCalendar('refetchEvents');
-            },    
-            error : function(error)
-            {
-               alert("An error occured! Please try again!");
-            }
-        });
+        var t =checkboxBatch();
+        if (t)
+        {
+            $.ajax({
+                url : '/schedules',
+                type: 'POST',
+                data : jsonObject ,
+                dataType: 'json' ,
+
+                success : function(response)
+                {
+                    $("#dialog").dialog("close");
+                    $('#calendar').fullCalendar('refetchEvents');
+                },    
+                error : function(error)
+                {
+                   alert("An error occured! Please try again!");
+                }
+            });
+        }
     });
 
 
@@ -267,7 +296,6 @@ $(document).ready(function()
         event.preventDefault();
         var formObject = $('#new_schedule').serializeObject();      
         formObject["schedule[batch_ids[]]"] = $("#batch_ids[]").val();
-        alert(formObject["schedule[batch_ids[]]"]);
         formObject["schedule[branch_id]"] = $("#branch_id").val();
         formObject["schedule[semester_id]"] = $("#semester_id").val();
         formObject["schedule[batch_id]"] = $("#batch_id").val();
@@ -340,55 +368,49 @@ $(document).ready(function()
     </div>
 
     <div id="dialog" title="Enter Event Details">
-    
         <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>               
-    
-                <p>
-                    Start Time : <span id="startTime"></span>
-                </p>
+            <p>
+                Start Time : <span id="startTime"></span>
+            </p>
+            <p>
+                End Time : <span id="endTime"></span>
+            </p>
+            <p>
+                Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:user_id , options_for_select(professor_array),{ include_blank: true})%>
+            </p>
+            <p>
+                Subject :<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:subject_id ,options_for_select(subject_array),{ include_blank: true}) %>
+            </p>
+            <p>
+                Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+            </p>
 
-                <p>
-                    End Time : <span id="endTime"></span>
-                </p>
-    
-                <p>
-                    Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
-                    <%= schedule.select(:user_id , options_for_select(professor_array), { include_blank: true})%>
-                </p>
+            <table>
+                <% Batch.all.each do |batch| %>
+                    <tr>
+                        <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
+                        <td><%= batch.name %></td>
+                    </tr>
+                <% end %>
+            </table>
+         
 
-                <p>
-                    Subject :<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
-                    <%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
-                </p>
-
-                <p>
-                    Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
-                    <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
-                </p>
-
-                <table>
-                    <% Batch.all.each do |batch| %>
-                        <tr>
-                            <td><%= check_box_tag 'batch_ids[]', batch.id %></td>
-                            <td><%= batch.name %></td>
-                        </tr>
-                    <% end %>
-                </table>
-
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="col-md-4">
-                            <input type="button" id="schedule_create" value="Create"> 
-                        </div>
-                        <div class="col-md-4">
-                            <input type="button" id="schedule_update" value="Update"> 
-                        </div>
-                        <div class="col-md-4">
-                            <input type="button" id="delete_event" value="Delete">
-                        </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <input type="button" id="schedule_create" value="Create"> 
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" id="schedule_update" value="Update"> 
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" id="delete_event" value="Delete">
                     </div>
                 </div>
-
+            </div>
         <% end %>
     </div>
 </body>

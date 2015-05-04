@@ -14,13 +14,15 @@ class SubjectsController < ApplicationController
 		@subject.branches = Branch.find(params[:branch_ids].nil? && [] || params[:branch_ids] )
 		@subject.semesters = Semester.find(params[:semester_ids].nil? && [] || params[:semester_ids])
 		
-		if @subject.valid?
-		   @subject.save
-		   redirect_to subjects_path
-		else 
-			render 'new'
-		end	
+		branches=params[:branch_ids]
+		semesters=params[:semester_ids]
 
+		puts branches
+		puts semesters
+		if @subject.valid?
+			@subject.save!
+		end
+		redirect_to subjects_path
 	end
 
 	def edit

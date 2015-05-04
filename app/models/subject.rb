@@ -7,6 +7,8 @@ class Subject < ActiveRecord::Base
 	has_and_belongs_to_many :professors
 	belongs_to :branch_semester
 
+#belongs_to :branch
+#belongs_to :semester
 
 	validates :name , uniqueness: true , presence: true
  	validates :branch_ids , presence: true

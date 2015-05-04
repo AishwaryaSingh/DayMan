@@ -151,6 +151,25 @@ $(document).ready(function()
                 </p>
                 <%= schedule.submit %>
 
+
+
+                
+            <table>
+                <% Batch.all.each do |batch| %>
+                    <tr>
+                        <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
+                        <td><%= batch.name %></td>
+                    </tr>
+                <% end %>
+            </table>
+
+
+   <fieldset id="checkArray">
+                <% Batch.all.each do |batch| %>
+                        <%= batch.name %> <input type="checkbox" name="chk[]" /> 
+                <% end %>
+            </fieldset>
+
             <% end %>
     </div>
 

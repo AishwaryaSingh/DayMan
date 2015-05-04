@@ -11,11 +11,13 @@ class Schedule < ActiveRecord::Base
 	
   #  has_many :batches
 
+  #  has_and_belongs_to_many :batches
+
 	  validates :branch_id , presence: true
   	validates :semester_id , presence: true
-    validates :batch_id , presence: true
-    validates :user_id , presence: true
+  	validates :user_id , presence: true
 	  validates :subject_id , presence: true
+ 	  validates :batch_id , presence: true
   	validates :room_id , presence: true
 
 end
