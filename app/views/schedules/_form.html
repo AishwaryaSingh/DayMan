@@ -3,10 +3,6 @@
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
 
-<link rel="stylesheet" src="/fullcalendar.css">
-
-<link rel="stylesheet" src="/animate.css">
-
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <script>
@@ -80,8 +76,9 @@ $(document).ready(function()
                 dataType: 'json',
                 data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
 
-                success : function(schedule)
+                success : function(data)
                 {
+                    schedule = data['schedules'];
                     var events = [];
                     $.each( schedule , function(index, event)
                     {
@@ -182,6 +179,14 @@ $(document).ready(function()
 
         select: function(start, end, allDay)
         {
+         /*   var branch_id = $("#branch_id").val();
+            var semester_id = $("#semester_id").val();
+            $.ajax({
+                url : '/schedules/new',
+                dataType: 'json',
+                data : {'branch_id' : branch_id , 'semester_id' : semester_id }
+            }); 
+*/
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
             $("#schedule_create").show();
@@ -296,36 +301,46 @@ $(document).ready(function()
         var event_id = $("#dialog").data("event-id");
         event.preventDefault();
         var formObject = $('#new_schedule').serializeObject();      
-        formObject["schedule[batch_ids[]]"] = $("#batch_ids[]").val();
         formObject["schedule[branch_id]"] = $("#branch_id").val();
         formObject["schedule[semester_id]"] = $("#semester_id").val();
         formObject["schedule[batch_id]"] = $("#batch_id").val();
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
+
+        var arr = []; 
+        $.each($("input:checked"), function()
+        {
+          arr.push($(this).val());
+        });
+
         var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
 
-        $.ajax({
-           url:"/schedules/"+event_id,
-            type: "PUT",
-            data : jsonObject , 
-            dataType: 'json' ,
-            
-            success : function(response)
-            {
-                $("#dialog").dialog("close");
-                $('#calendar').fullCalendar('refetchEvents');
-            },    
-            error : function(error)
-            {
-               alert("An error occured! Please try again!");
-            }
-        });
+        var t =checkboxBatch();
+        if (t)
+        {
+            $.ajax({
+               url:"/schedules/"+event_id,
+                type: "PUT",
+                data : jsonObject , 
+                dataType: 'json' ,
+                
+                success : function(response)
+                {
+                    $("#dialog").dialog("close");
+                    $('#calendar').fullCalendar('refetchEvents');
+                },    
+                error : function(error)
+                {
+                   alert("An error occured! Please try again!");
+                }
+            });
+        }
     });
 
 
     $("#apply").click(function(event)
-    {    
+    {   
         $("#calendar").fullCalendar('refetchEvents');
     });
 
@@ -335,6 +350,8 @@ $(document).ready(function()
 </head>
 
 <body>
+
+<%= form_for(@schedule, :remote => true, :format => :json , :url => url_for(:controller => 'schedules', :action => 'new') ,  :html => { :method => 'GET' }) do |schedule| %>  
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-4">
@@ -347,27 +364,30 @@ $(document).ready(function()
                 Batch     
             </div>
         </div>
+
         <div class="col-md-12">
             <div class="col-md-4">
                 <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+                <span id="branch"></span>
                 <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
             </div>      
              
             <div class="col-md-4">
                 <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-                <span id="semester"><%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %></span>
+                <span id="semester"></span>
+                <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
             </div>
             <div class="col-md-4">
                 <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                <span id="batch"><%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> </span>
+                <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
             </div>
         </div>
 
         <div class="col-md-3">
-            <input type="button" id="apply" value="Apply">
+            <input type="submit" id="apply" value="Apply">
         </div>
     </div>
-
+<% end %>
     <div id="dialog" title="Enter Event Details">
         <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>               
             <p>
@@ -377,15 +397,20 @@ $(document).ready(function()
                 End Time : <span id="endTime"></span>
             </p>
             <p>
-                Professor : <% professor_array = User.find_all_by_role_id(2).map { |b| [b.name, b.id] } %>
+                Professor : <% professor_array = @professor.map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:user_id , options_for_select(professor_array),{ include_blank: true})%>
             </p>
+
+                    <% @subject.each do |s| %>
+                    <%= s.name %><br />
+                    <% end %>
+
             <p>
-                Subject :<% subject_array = BranchSemesterSubject.find_all_by_branch_id_and_semester_id("$('span #batch').val();","$('span #semester').val();").map { |b| [b.subject.name, b.subject.id] } %>
+                Subject :<%= subject_array = @subject.map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:subject_id ,options_for_select(subject_array),{ include_blank: true}) %>
             </p>
             <p>
-                Room No. :<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+                Room No. :<% room_array = @room.map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
             </p>
 

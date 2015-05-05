@@ -4,7 +4,8 @@ class SchedulesController < ApplicationController
     @schedules = Schedule.find_all_by_batch_id_and_branch_id_and_semester_id( params[:batch_id], params[:branch_id], params[:semester_id])
     respond_to do |format|
       format.html
-      format.json { render json: @schedules }
+       #format.json { render :json => @schedules }
+       format.json { render :json => { :schedules => @schedules } }
     end
   end
 
@@ -17,11 +18,17 @@ class SchedulesController < ApplicationController
   end
 
   def update
-    @schedule = Schedule.find(params[:id])
-    if @schedule.valid?
-      @schedule.update_attributes(schedule_params)
-      @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
-      @schedule.save!
+    arr = params[:batch_ids]
+    puts arr
+    arr.each do |b|
+        
+      @schedule = Schedule.find(params[:id])
+      if @schedule.valid?
+        @schedule.update_attributes(schedule_params)
+        @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+        @schedule.save!
+      end
+
     end
     respond_to do |format|
       format.html
@@ -31,6 +38,24 @@ class SchedulesController < ApplicationController
 
   def new
     @schedule = Schedule.new
+    @professor = User.find_all_by_role_id(2)
+    @room = Room.all
+  
+  #  branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
+
+   # subject_arr = branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }  
+   # subject_arr = [] if subject_arr.nil?
+   # @subject = subject_arr
+    #puts "subject_arr -->"+subject_arr.size().to_s
+
+    @subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id]).collect! { |x| Subject.find(x.subject_id) }  
+
+    puts "======================================"
+    @subject.each do |s|
+      puts "#{s} id #{s.id} name #{s.name}"
+    end
+    puts "======================================"
+
   end
 
   def create
