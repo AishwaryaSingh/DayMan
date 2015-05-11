@@ -400,7 +400,6 @@ $(document).ready(function()
                 Professor : <% professor_array = @professor.map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:user_id , options_for_select(professor_array),{ include_blank: true})%>
             </p>
-
                     <% @subject.each do |s| %>
                     <%= s.name %><br />
                     <% end %>

@@ -1,13 +1,47 @@
  <html>
  <head>
     <title>subject</title>
-  </script>  
+    
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() 
+    {
+      var checkboxBatch = function()
+      {
+     /*   $('input[type="checkbox"]').each(function()
+        {
+          if ($(this).is(":checked"))
+          {
+            var checkedAtLeastOne = true;
+          }
+        });
+      */
+        var atLeastOneBranchIsChecked = $('#branch_ids_ input:checked').length > 0;
+        var atLeastOneSemesterIsChecked = $('#semester_ids_ input:checked').length > 0;
+        if(atLeastOneBranchIsChecked && atLeastOneSemesterIsChecked) { return true; }
+        else
+        {
+          if(!atLeastOneSemesterIsChecked){ alert("Select a Semester!"); return false;} 
+          if(!atLeastOneBranchIsChecked){ alert("Select a Branch!"); return false; }        
+        };
+      };
+      $("#submit").on("click", function(event)
+      {
+$("#form").validate();
+        checkboxBatch();
+        alert("submit");
+      });
+    });
+    </script>  
+
   </head>
 
   <body>
   <div >
 
-  <%= form_for @subject do |subject| %>
+<fieldset>
+  <%= form_for @subject, :html => { :id => 'form' } do |subject| %>
   <b>Name : </b><%= subject.text_field :name %>
  <span style="color:red">
   <% if @subject.errors[:name] %>
@@ -16,14 +50,20 @@
   <% end %>
   </span>
 
-  <b>Branch : ,  @subject.branches.detect{|item| item.id == branch.id} </b>
+  <b>Branch :</b>
   <table>
     <tbody>
     <div class="branch">
       <% Branch.all.each do |branch| %>
        <tr>
        <td>
-         <%= check_box_tag "branch_ids[]", branch.id %> 
+       <% brArr = [] %>
+           <% @bss.each do |branchArray| %>
+                <% if branchArray.branch_id == branch.id %>
+                    <% brArr.push(branch.id) %>
+                <%end%>
+            <%end%>
+         <%= check_box_tag "branch_ids[]" , branch.id , brArr.include?(branch.id) %> 
        </td>
        <td>
          <label><%= branch.name %></label>
@@ -32,23 +72,24 @@
       <% end %>
     </tbody>
   </table>
-  <span style="color:red">
-  <% if @subject.errors[:branch_ids] %>
-    <% a = @subject.errors.full_messages_for(:branch_ids) %>
-    <%= a.join(", ") %>
-  <% end %>
   </span>
   <br />
   <br />
-  </div>
 
-  <b>Semester :, @subject.semesters.detect{|item| item.id == semester.id }</b>
+  </div>
+  <b>Semester :</b>
   <table>
     <tbody>
       <% Semester.all.each do |semester| %>
       <tr>
         <td>
-          <%= check_box_tag "semester_ids[]", semester.id %>
+        <% semArr = [] %>
+           <% @bss.each do |branchArray| %>
+                <% if branchArray.semester_id == semester.id %>
+                    <% semArr.push(semester.id) %>
+                <%end%>
+            <%end%>
+          <%= check_box_tag "semester_ids[]", semester.id, semArr.include?(semester.id) %>
         </td>
         <td> 
           <label><%= semester.name %></label>
@@ -57,18 +98,12 @@
       <% end %>
     </tbody>
   </table>
-  <span style="color:red">
-  <% if @subject.errors[:semester_ids] %>
-    <% a=@subject.errors.full_messages_for(:semester_ids) %>
-    <%= a.join(", ") %>
-  <% end %>
-  </span>
   <br />
   <br />
 
   <%= subject.submit %>
   <% end %>
-
+</fieldset>
   </div>
   </body>
 </html>

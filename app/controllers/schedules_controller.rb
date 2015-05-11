@@ -41,14 +41,14 @@ class SchedulesController < ApplicationController
     @professor = User.find_all_by_role_id(2)
     @room = Room.all
   
-  #  branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
+    @branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
 
    # subject_arr = branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }  
    # subject_arr = [] if subject_arr.nil?
    # @subject = subject_arr
-    #puts "subject_arr -->"+subject_arr.size().to_s
+   # puts "subject_arr -->"+subject_arr.size().to_s
 
-    @subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id]).collect! { |x| Subject.find(x.subject_id) }  
+    @subject = @branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }  
 
     puts "======================================"
     @subject.each do |s|
