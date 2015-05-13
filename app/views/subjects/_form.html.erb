@@ -1,72 +1,63 @@
  <html>
  <head>
     <title>subject</title>
-    
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
-    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-    <script type="text/javascript" charset="utf-8">
+
+    <script>
     $(document).ready(function() 
     {
-      var checkboxBatch = function()
+      $('#submit').click(function()
       {
-     /*   $('input[type="checkbox"]').each(function()
-        {
-          if ($(this).is(":checked"))
-          {
-            var checkedAtLeastOne = true;
-          }
-        });
-      */
-        var atLeastOneBranchIsChecked = $('#branch_ids_ input:checked').length > 0;
-        var atLeastOneSemesterIsChecked = $('#semester_ids_ input:checked').length > 0;
-        if(atLeastOneBranchIsChecked && atLeastOneSemesterIsChecked) { return true; }
-        else
-        {
-          if(!atLeastOneSemesterIsChecked){ alert("Select a Semester!"); return false;} 
-          if(!atLeastOneBranchIsChecked){ alert("Select a Branch!"); return false; }        
-        };
-      };
-      $("#submit").on("click", function(event)
-      {
-$("#form").validate();
-        checkboxBatch();
-        alert("submit");
+        var t = checkboxBatch();
       });
+
+      var checkboxBatch = function()
+      { 
+        alert("In checkbox");
+        
+        var atLeastOneBranchIsChecked = $('#branch_ids_ input:checked').length > 0;
+        if(!atLeastOneBranchIsChecked){ alert("Select a Branch!"); return false; }   
+
+        var atLeastOneSemesterIsChecked = $('#semester_ids_ input:checked').length > 0;
+        if(!atLeastOneSemesterIsChecked){ alert("Select a Semester!"); return false;} 
+      }
+
     });
     </script>  
 
   </head>
 
-  <body>
   <div >
-
-<fieldset>
   <%= form_for @subject, :html => { :id => 'form' } do |subject| %>
-  <b>Name : </b><%= subject.text_field :name %>
- <span style="color:red">
+  <table>
+  <tr><td><b>Name : </b></td><td width="50%"><%= subject.text_field :name %></td>
+  </tr></table>
+  <span style="color:red">
   <% if @subject.errors[:name] %>
     <% a= @subject.errors.full_messages_for(:name) %>
     <%= a.join(", ") %>
   <% end %>
   </span>
 
+  <br />
+  <br />
   <b>Branch :</b>
   <table>
     <tbody>
-    <div class="branch">
       <% Branch.all.each do |branch| %>
        <tr>
        <td>
-       <% brArr = [] %>
-           <% @bss.each do |branchArray| %>
+          <% brArr = [] %>
+          <% if @t == false %>
+          <% @bss.each do |branchArray| %>
                 <% if branchArray.branch_id == branch.id %>
                     <% brArr.push(branch.id) %>
                 <%end%>
-            <%end%>
-         <%= check_box_tag "branch_ids[]" , branch.id , brArr.include?(branch.id) %> 
-       </td>
-       <td>
-         <label><%= branch.name %></label>
+          <%end%>
+          <% end %>
+        <%= check_box_tag "branch_ids[]" , branch.id , brArr.include?(branch.id) %> 
+        </td>
+        <td>
+        <label><%= branch.name %></label>
         </td>
         </tr>
       <% end %>
@@ -75,35 +66,32 @@ $("#form").validate();
   </span>
   <br />
   <br />
-
-  </div>
   <b>Semester :</b>
   <table>
     <tbody>
       <% Semester.all.each do |semester| %>
-      <tr>
+        <tr>
         <td>
-        <% semArr = [] %>
-           <% @bss.each do |branchArray| %>
+          <% semArr = [] %>
+          <% if @t == false %>
+          <% @bss.each do |branchArray| %>
                 <% if branchArray.semester_id == semester.id %>
                     <% semArr.push(semester.id) %>
                 <%end%>
-            <%end%>
+          <%end%>
+          <% end %>
           <%= check_box_tag "semester_ids[]", semester.id, semArr.include?(semester.id) %>
         </td>
         <td> 
-          <label><%= semester.name %></label>
-        </td>
+            <label><%= semester.name %></label>
+      </td>
       </tr>
-      <% end %>
+    <% end %>
     </tbody>
   </table>
   <br />
   <br />
-
-  <%= subject.submit %>
-  <% end %>
-</fieldset>
+  <div align="left"><span id="submit"><%= subject.submit %></span></divleft  <% end %>
   </div>
-  </body>
+
 </html>

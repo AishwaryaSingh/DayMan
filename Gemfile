@@ -16,6 +16,7 @@ end
 
 gem 'jquery-rails'
 
+gem 'client_side_validations'
 
 gem 'actionpack', '~> 4.0.2'
 

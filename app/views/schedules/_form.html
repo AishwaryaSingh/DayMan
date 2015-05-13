@@ -1,0 +1,443 @@
+<html>
+<head><title>Schedule</title>
+
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+
+<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+
+<script>
+    $(function()
+    {
+        $("#dialog").dialog({
+            autoOpen: false,
+            width: 570,
+            modal: true
+        });
+        $( "#menu" ).menu({
+            disabled: true
+        });
+    });
+
+    jQuery.fn.serializeObject = function()
+    {
+        var arrayData, objectData;
+        arrayData = this.serializeArray();
+        objectData = {};
+        $.each(arrayData, function(index)
+        {
+            var value = arrayData[index];
+            if (this.value != '')
+            {
+              value = this.value;
+            } 
+            else 
+            {
+              alert(this.name+" is null! please fill in all details.");
+              throw new Error(this.name+" is null! please fill in all details.");
+            }
+            if (objectData[this.name] != null) 
+            {             
+             if (!objectData[this.name].push) 
+              {
+                objectData[this.name] = [objectData[this.name]];
+              }
+              objectData[this.name].push(value);
+            } 
+            else 
+            {
+              objectData[this.name] = value;
+            }
+        });
+        return objectData;
+    };
+
+</script>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() 
+{
+    // page is now ready, initialize the calendar...
+    var date = new Date();
+    var d = date.getDate();
+    var m = date.getMonth();
+    var y = date.getFullYear();
+    var t = date.getTime();
+
+    // Fullcalendar..
+    $('#calendar').fullCalendar({
+
+        events: function(start, end, timezone, callback)
+        {
+            var batch_id = $("#batch_id").val();
+            var branch_id = $("#branch_id").val();
+            var semester_id = $("#semester_id").val();
+            $.ajax({
+                url : '/schedules',
+                dataType: 'json',
+                data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
+
+                success : function(data)
+                {
+                    schedule = data['schedules'];
+                    var events = [];
+                    $.each( schedule , function(index, event)
+                    {
+                        event = {};  
+                        var d = schedule[index];
+                        event.id = d['id'];
+                        event.title = d['name'];    
+                        event.start = d['starttime']; 
+                        event.end = d['endtime'];
+                        event.allDay = false;       
+                        event.subjectId = d['subject_id'];   
+                        event.roomId = d['room_id'];   
+                        event.userId = d['user_id'];            
+                        events.push(event);
+                    });
+                    callback(events);
+                },
+                error : function(error)
+                {
+                    alert("An error occured while fetching events!!");
+                }
+            }); 
+        },
+
+        //Header initialization
+        header: 
+        {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+
+       // theme: true,
+        selectable: true,
+        selectOverlap: false,
+        slotEventOverlap:false,
+        eventOverlap: false,
+        slotDuration: '00:15:00',                        
+        defaulEventEnd: 60,
+        defaultView: "agendaWeek",
+        selectable: true,
+        selectHelper: true,
+        editable: true,
+        height: 500,
+        timeFormat: "h:mm ",
+        dragOpacity: "0.5",
+        editable: true,
+        durationEditable: true,
+
+        titleFormat: 
+        {
+            month: 'MMMM YYYY',    
+        },
+        columnFormat:
+        {
+            week: 'ddd, DD/MM ',
+            day: 'dddd'
+        },
+
+        dayClick: function(date, allDay, jsEvent, view)
+        {    
+            $('#calendar').fullCalendar('gotoDate', date);
+            $('#calendar').fullCalendar('changeView', 'agendaDay');            
+        },
+
+        eventDrop: function( event, delta, revertFunc, jsEvent, ui, view )
+        {
+            updateEvents(event, revertFunc);
+        },
+
+        eventResize: function( event, delta, revertFunc, jsEvent, ui, view )
+        {
+            updateEvents(event,revertFunc);
+        },
+
+        eventClick: function(event, jsEvent, view)
+        {
+            $("#startTime").text(event.start.format(" HH:mm DD-MM-YYYY"));
+            $("#endTime").text(event.end.format(" HH:mm DD-MM-YYYY"));
+           
+            $("#schedule_create").hide();
+            $("#schedule_update").show();
+            $("#delete_event").show();
+
+            $("#dialog").data("event-id",event.id);
+
+            $("#schedule_subject_id").val(event.subjectId);
+            $("#schedule_room_id").val(event.roomId);
+            $("#schedule_user_id").val(event.userId);
+
+            console.log($("#dialog").dialog("open"));     
+        },
+
+        eventMouseover: function( event, jsEvent, view )
+        {
+            $(event).addClass("animated shake");
+        },
+
+        select: function(start, end, allDay)
+        {
+         /*   var branch_id = $("#branch_id").val();
+            var semester_id = $("#semester_id").val();
+            $.ajax({
+                url : '/schedules/new',
+                dataType: 'json',
+                data : {'branch_id' : branch_id , 'semester_id' : semester_id }
+            }); 
+*/
+            $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
+            $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
+            $("#schedule_create").show();
+            $("#schedule_update").hide();
+            $("#delete_event").hide();
+            $("#dialog").dialog("open");            
+        }
+    });
+    
+    //On Delete
+    $("#delete_event").on("click" , function()
+    {
+        var r = confirm("Are you sure you want to delete?");
+        var event_id = $("#dialog").data("event-id");
+        if (!!r)
+        {
+            $.ajax({
+                url: '/schedules/'+event_id,
+                type: 'DELETE',
+                dataType: "json",
+                data : {id : $("#delete_event").data("event-id")},
+                success : function(response)
+                {
+                    $('#calendar').fullCalendar('removeEvents',response.id);
+                    $('#dialog').dialog("close");
+                },
+                error : function(error)
+                {
+                    alert("Could not Delete. Try again.");
+                }
+            });
+        }
+    });
+
+    //To update the datbase with new values 
+    var  updateEvents = function(event , revertFunc )
+    {    
+        var jobj = JSON.parse(JSON.stringify(event));
+        $.ajax({
+            url:"/schedules/"+event.id,
+            type: "PATCH",
+            data : { "schedule[id]" : event.id, "schedule[name]" : jobj.title, "schedule[starttime]" : jobj.start, "schedule[endtime]" : jobj.end },
+            dataType: "json",
+
+            success : function(schedule) {},
+            error : function(error)
+            {
+                alert("An error occured while updating events! Please try again!");
+                revertFunc();
+            }
+        });
+    };
+
+    //To check atleast one checkbox is selected
+    var checkboxBatch = function()
+    {
+       var atLeastOneIsChecked = $('input:checked').length > 0;
+       if(atLeastOneIsChecked) { return true; }
+       else { alert("Select atleast one checkbox!"); return false; }        
+    };
+
+    //On submiting rails form
+    $("#schedule_create").click(function(event)
+    {    
+        event.preventDefault();
+        var formObject = $('#new_schedule').serializeObject();
+        formObject["schedule[branch_id]"] = $("#branch_id").val();
+        formObject["schedule[semester_id]"] = $("#semester_id").val();
+        formObject["schedule[batch_id]"] = $("#batch_id").val();
+        formObject["schedule[starttime]"] = $("#startTime").text();
+        formObject["schedule[endtime]"] = $("#endTime").text();
+
+        var arr = []; 
+        $.each($("input:checked"), function()
+        {
+          arr.push($(this).val());
+        });
+       
+        console.log(alert(arr));
+
+      
+        var jObject = JSON.stringify(formObject);
+        var jsonObject = JSON.parse(jObject);
+        
+
+        var t =checkboxBatch();
+        if (t)
+        {
+            $.ajax({
+                url : '/schedules',
+                type: 'POST',
+                data : jsonObject ,
+                dataType: 'json' ,
+
+                success : function(response)
+                {
+                    $("#dialog").dialog("close");
+                    $('#calendar').fullCalendar('refetchEvents');
+                },    
+                error : function(error)
+                {
+                   alert("An error occured! Please try again!");
+                }
+            });
+        }
+    });
+
+
+    //On updating rails form
+    $("#schedule_update").click(function(event)
+    {    
+        var event_id = $("#dialog").data("event-id");
+        event.preventDefault();
+        var formObject = $('#new_schedule').serializeObject();      
+        formObject["schedule[branch_id]"] = $("#branch_id").val();
+        formObject["schedule[semester_id]"] = $("#semester_id").val();
+        formObject["schedule[batch_id]"] = $("#batch_id").val();
+        formObject["schedule[starttime]"] = $("#startTime").text();
+        formObject["schedule[endtime]"] = $("#endTime").text();
+
+        var arr = []; 
+        $.each($("input:checked"), function()
+        {
+          arr.push($(this).val());
+        });
+
+        var jObject = JSON.stringify(formObject);
+        var jsonObject = JSON.parse(jObject);
+
+        var t =checkboxBatch();
+        if (t)
+        {
+            $.ajax({
+               url:"/schedules/"+event_id,
+                type: "PUT",
+                data : jsonObject , 
+                dataType: 'json' ,
+                
+                success : function(response)
+                {
+                    $("#dialog").dialog("close");
+                    $('#calendar').fullCalendar('refetchEvents');
+                },    
+                error : function(error)
+                {
+                   alert("An error occured! Please try again!");
+                }
+            });
+        }
+    });
+
+
+    $("#apply").click(function(event)
+    {   
+        $("#calendar").fullCalendar('refetchEvents');
+    });
+
+});
+
+</script>
+</head>
+
+<body>
+
+<%= form_for(@schedule, :remote => true, :format => :json , :url => url_for(:controller => 'schedules', :action => 'new') ,  :html => { :method => 'GET' }) do |schedule| %>  
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-4">
+                Branch    
+            </div>
+            <div class="col-md-4">
+                Semester      
+            </div>
+            <div class="col-md-4">
+                Batch     
+            </div>
+        </div>
+
+        <div class="col-md-12">
+            <div class="col-md-4">
+                <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+                <span id="branch"></span>
+                <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+            </div>      
+             
+            <div class="col-md-4">
+                <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+                <span id="semester"></span>
+                <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+            </div>
+            <div class="col-md-4">
+                <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <input type="submit" id="apply" value="Apply">
+        </div>
+    </div>
+<% end %>
+    <div id="dialog" title="Enter Event Details">
+        <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>               
+            <p>
+                Start Time : <span id="startTime"></span>
+            </p>
+            <p>
+                End Time : <span id="endTime"></span>
+            </p>
+            <p>
+                Professor : <% professor_array = @professor.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:user_id , options_for_select(professor_array),{ include_blank: true})%>
+            </p>
+
+                    <% @subject.each do |s| %>
+                    <%= s.name %><br />
+                    <% end %>
+
+            <p>
+                Subject :<%= subject_array = @subject.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:subject_id ,options_for_select(subject_array),{ include_blank: true}) %>
+            </p>
+            <p>
+                Room No. :<% room_array = @room.map { |b| [b.name, b.id] } %>
+                <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+            </p>
+
+            <table>
+                <% Batch.all.each do |batch| %>
+                    <tr>
+                        <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
+                        <td><%= batch.name %></td>
+                    </tr>
+                <% end %>
+            </table>
+         
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="col-md-4">
+                        <input type="button" id="schedule_create" value="Create"> 
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" id="schedule_update" value="Update"> 
+                    </div>
+                    <div class="col-md-4">
+                        <input type="button" id="delete_event" value="Delete">
+                    </div>
+                </div>
+            </div>
+        <% end %>
+    </div>
+</body>
+</html>

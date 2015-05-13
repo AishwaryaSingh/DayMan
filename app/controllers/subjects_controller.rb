@@ -7,34 +7,43 @@ class SubjectsController < ApplicationController
 
 	def new
 		@subject = Subject.new
-		@bss = BranchSemesterSubject.find_all_by_subject_id(params[:id])
+		#@bss = BranchSemesterSubject.find_all_by_subject_id(params[:id])
+		@t = true # @bss.empty?
+		#puts @t
 	end
 
 	def create
-		#@subject.branches = Branch.find(params[:branch_ids].nil? && [] || params[:branch_ids] )
-		#@subject.semesters = Semester.find(params[:semester_ids].nil? && [] || params[:semester_ids])
-		
 		@subject = Subject.new(subject_params)
+		@bss=BranchSemesterSubject.new
 		branches=params[:branch_ids]
 		semesters=params[:semester_ids]
-		if @subject.valid?
-			@subject.save!
-			branches.each do |b|
-				semesters.each do |s|
-				@bss=BranchSemesterSubject.new
-					@bss.branch_id = b
-					@bss.semester_id = s
-					@bss.subject_id = @subject.id
-					@bss.save!
+		if !params[:branch_ids] || !params[:semester_ids]
+			render 'new'
+			flash[:error] = "Incomplete Information!!"
+		else
+			if @subject.valid?
+				@subject.save!
+				branches.each do |b|
+					semesters.each do |s|
+					@bss=BranchSemesterSubject.new
+						@bss.branch_id = b
+						@bss.semester_id = s
+						@bss.subject_id = @subject.id
+						@bss.save!
+					end
 				end
+				redirect_to subjects_path
+			else
+				render 'new'
+				flash[:error] = "Incomplete Information!!"
 			end
 		end
-		redirect_to subjects_path
 	end
 
 	def edit
 		@subject = Subject.find(params[:id])
 		@bss = BranchSemesterSubject.find_all_by_subject_id(params[:id])
+		@t = false
 	end
 
 	def update
