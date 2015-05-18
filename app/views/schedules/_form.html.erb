@@ -1,7 +1,12 @@
 <html>
 <head><title>Schedule</title>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+
+
+<link rel="stylesheet" href="animate.css" />
+
+<link rel="stylesheet" href="fullcalendar.css" />
 
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
@@ -28,24 +33,30 @@
             var value = arrayData[index];
             if (this.value != '')
             {
+   //     alert("1st if true");
               value = this.value;
+    //          alert(value);
             } 
             else 
             {
-              alert(this.name+" is null! please fill in all details.");
+  //            alert(this.name+" is null! please fill in all details.");
               throw new Error(this.name+" is null! please fill in all details.");
             }
             if (objectData[this.name] != null) 
-            {             
+            {           
+  //      alert("2nd if true");  
              if (!objectData[this.name].push) 
               {
+  //      alert("3rd if true");
                 objectData[this.name] = [objectData[this.name]];
               }
               objectData[this.name].push(value);
             } 
             else 
             {
+ //       alert("else last");
               objectData[this.name] = value;
+     //         alert(objectData[this.name]);
             }
         });
         return objectData;
@@ -85,13 +96,16 @@ $(document).ready(function()
                         event = {};  
                         var d = schedule[index];
                         event.id = d['id'];
-                        event.title = d['name'];    
+                        event.title = "Lecture"
+                        event.description = d['name'];    
                         event.start = d['starttime']; 
                         event.end = d['endtime'];
                         event.allDay = false;       
                         event.subjectId = d['subject_id'];   
                         event.roomId = d['room_id'];   
-                        event.userId = d['user_id'];            
+                        event.userId = d['user_id'];  
+                        event.subjectId = d['batch_ids[]'];    
+                        event.imageURL = "/images/close1.png "       
                         events.push(event);
                     });
                     callback(events);
@@ -102,7 +116,23 @@ $(document).ready(function()
                 }
             }); 
         },
-
+/*        [
+            {
+                title: 'All Day Event',
+                start:  '07:00 19-05-2015',
+                end: '08:00 19-05-2015',
+                description: 'long description',
+                id: 1
+            },
+            {
+                title: 'Long Event',
+                start: '08:00 19-05-2015',
+                end: '09:00 19-05-2015',
+                description: 'long description3',
+                id: 2
+            }
+        ],
+*/
         //Header initialization
         header: 
         {
@@ -172,21 +202,19 @@ $(document).ready(function()
             console.log($("#dialog").dialog("open"));     
         },
 
-        eventMouseover: function( event, jsEvent, view )
+        eventRender: function(event, element)
+        {    
+            element.find('.fc-time').append("<span id='close'><img src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' /></span>");
+            element.find('.fc-title').append("<br/>" + event.description);
+        },
+
+        eventMouseover: function( event, jsEvent, view)
         {
-            $(event).addClass("animated shake");
+            event.addClass("animated shake");
         },
 
         select: function(start, end, allDay)
         {
-         /*   var branch_id = $("#branch_id").val();
-            var semester_id = $("#semester_id").val();
-            $.ajax({
-                url : '/schedules/new',
-                dataType: 'json',
-                data : {'branch_id' : branch_id , 'semester_id' : semester_id }
-            }); 
-*/
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
             $("#schedule_create").show();
@@ -197,7 +225,7 @@ $(document).ready(function()
     });
     
     //On Delete
-    $("#delete_event").on("click" , function()
+    $("#close").on("click" , function()
     {
         var r = confirm("Are you sure you want to delete?");
         var event_id = $("#dialog").data("event-id");
@@ -265,10 +293,13 @@ $(document).ready(function()
           arr.push($(this).val());
         });
        
-        console.log(alert(arr));
-
-      
+       
+        formObject["schedule[batch_id]"] = arr;
+        
         var jObject = JSON.stringify(formObject);
+
+        console.log(alert(jObject));
+
         var jsonObject = JSON.parse(jObject);
         
 
@@ -278,7 +309,7 @@ $(document).ready(function()
             $.ajax({
                 url : '/schedules',
                 type: 'POST',
-                data : jsonObject ,
+                data : jsonObject,//, arr },
                 dataType: 'json' ,
 
                 success : function(response)
@@ -288,7 +319,7 @@ $(document).ready(function()
                 },    
                 error : function(error)
                 {
-                   alert("An error occured! Please try again!");
+                   alert("An error occured while creating! Please try again!");
                 }
             });
         }
@@ -351,7 +382,7 @@ $(document).ready(function()
 
 <body>
 
-<%= form_for(@schedule, :remote => true, :format => :json , :url => url_for(:controller => 'schedules', :action => 'new'), :html => { :method => 'GET' }) do |schedule| %>  
+<%= form_for(@schedule, :remote => true, :format => :json , :url => url_for(:controller => 'schedules', :action => 'new'), :html => { :method => 'GET' , :id => 'first_form'}) do |schedule| %>  
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-4">
@@ -400,12 +431,8 @@ $(document).ready(function()
                 Professor : <% professor_array = @professor.map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:user_id , options_for_select(professor_array),{ include_blank: true})%>
             </p>
-                    <% @subject.each do |s| %>
-                    <%= s.name %><br />
-                    <% end %>
-
             <p>
-                Subject :<%= subject_array = @subject.map { |b| [b.name, b.id] } %>
+                Subject :<% subject_array = @subject.map { |b| [b.name, b.id] } %>
                 <%= schedule.select(:subject_id ,options_for_select(subject_array),{ include_blank: true}) %>
             </p>
             <p>

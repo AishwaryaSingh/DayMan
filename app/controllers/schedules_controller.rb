@@ -18,17 +18,24 @@ class SchedulesController < ApplicationController
   end
 
   def update
-    arr = params[:batch_ids]
-    puts arr
-    arr.each do |b|
-        
-      @schedule = Schedule.find(params[:id])
-      if @schedule.valid?
-        @schedule.update_attributes(schedule_params)
-        @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
-        @schedule.save!
+    if params[:batch_ids]
+      arr = params[:batch_ids]
+      puts arr
+      arr.each do |b|
+        @schedule = Schedule.find(params[:id])
+        if @schedule.valid?
+          @schedule.update_attributes(schedule_params)
+          @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+          @schedule.save!
+        end
       end
-
+    else
+      @schedule = Schedule.find(params[:id])
+        if @schedule.valid?
+          @schedule.update_attributes(schedule_params)
+          @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+          @schedule.save!
+        end
     end
     respond_to do |format|
       format.html
@@ -40,21 +47,19 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.new
     @professor = User.find_all_by_role_id(2)
     @room = Room.all
-  
+    @subject = Subject.all
     @branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
-    @subject = @branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }  
+  #  @subject = @branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }  
     
     puts "======================================"
     @subject.each do |s|
       puts "#{s} id #{s.id} name #{s.name}"
     end
     puts "======================================"
-  end
+ end
 
   def create
-    puts "here"
     arr = params[:batch_ids]
-    puts arr
     arr.each do |b|
       @schedule = Schedule.new(schedule_params)
       @schedule.batch_id = b
