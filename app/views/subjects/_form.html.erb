@@ -7,13 +7,11 @@
     {
       $('#submit').click(function()
       {
-        var t = checkboxBatch();
+        //var t = checkboxBatch();
       });
 
       var checkboxBatch = function()
       { 
-        alert("In checkbox");
-        
         var atLeastOneBranchIsChecked = $('#branch_ids_ input:checked').length > 0;
         if(!atLeastOneBranchIsChecked){ alert("Select a Branch!"); return false; }   
 

@@ -351,7 +351,7 @@ $(document).ready(function()
 
 <body>
 
-<%= form_for(@schedule, :remote => true, :format => :json , :url => url_for(:controller => 'schedules', :action => 'new') ,  :html => { :method => 'GET' }) do |schedule| %>  
+<%= form_for(@schedule, :remote => true, :format => :json , :url => url_for(:controller => 'schedules', :action => 'new'), :html => { :method => 'GET' }) do |schedule| %>  
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-4">
