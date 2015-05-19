@@ -47,15 +47,16 @@ class SchedulesController < ApplicationController
     @schedule = Schedule.new
     @professor = User.find_all_by_role_id(2)
     @room = Room.all
-    @subject = Subject.all
-    @branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
-  #  @subject = @branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }  
+    #@subject = Subject.all
+   
+    #@branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
+    @subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id]).collect! { |x| Subject.find(x.subject_id) }  
     
-    puts "======================================"
+    puts "============================================================================"
     @subject.each do |s|
       puts "#{s} id #{s.id} name #{s.name}"
     end
-    puts "======================================"
+    puts "============================================================================"
  end
 
   def create
@@ -98,6 +99,7 @@ class SchedulesController < ApplicationController
   
 
   def destroy
+    puts "=========================================================================================="
     @schedule = Schedule.find(params[:id])
     @schedule.destroy   
     respond_to do |format|

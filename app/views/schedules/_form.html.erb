@@ -3,11 +3,6 @@
 
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 
-
-<link rel="stylesheet" href="animate.css" />
-
-<link rel="stylesheet" href="fullcalendar.css" />
-
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <script>
@@ -204,13 +199,24 @@ $(document).ready(function()
 
         eventRender: function(event, element)
         {    
-            element.find('.fc-time').append("<span id='close'><img src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' /></span>");
+            element.find('.fc-time', this ).append("<span id='close'><img src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' id='close'/></span>");
+            hideIcon(event,element);
             element.find('.fc-title').append("<br/>" + event.description);
         },
 
         eventMouseover: function( event, jsEvent, view)
         {
-            event.addClass("animated shake");
+            $('#close', this).show();
+       //     event.addClass("animated shake");
+            var event_id = event.id;
+            $("span#close", this).on("click" , function()
+                {
+                    delete_event(event);
+                });
+        },
+        eventMouseout: function( event, jsEvent, view )
+        {
+            $('#close', this).hide();
         },
 
         select: function(start, end, allDay)
@@ -223,9 +229,35 @@ $(document).ready(function()
             $("#dialog").dialog("open");            
         }
     });
-    
+
+    //Delete
+    var  delete_event = function(event)
+    {
+        alert(event.id);
+        var r = confirm("Are you sure you want to delete?");
+        var event_id = event.id;
+        if (!!r)
+        {
+            $.ajax({
+                url: '/schedules/'+event_id,
+                type: 'DELETE',
+                dataType: "json",
+                data : { id : $("span#close").data("event-id") },
+                success : function(response)
+                {
+                    $('#calendar').fullCalendar('removeEvents',response.id);
+                    $('#dialog').dialog("close");
+                },
+                error : function(error)
+                {
+                    alert("Could not Delete. Try again.");
+                }
+            });
+        }
+    };
+
     //On Delete
-    $("#close").on("click" , function()
+    $("#delete_event").on("click" , function()
     {
         var r = confirm("Are you sure you want to delete?");
         var event_id = $("#dialog").data("event-id");
@@ -249,7 +281,12 @@ $(document).ready(function()
         }
     });
 
-    //To update the datbase with new values 
+    var hideIcon = function(event,element)
+    {
+        $('#close', this).hide();
+    };
+
+    //To update the datbase with new values on Resize or DragDrop
     var  updateEvents = function(event , revertFunc )
     {    
         var jobj = JSON.parse(JSON.stringify(event));
@@ -292,14 +329,9 @@ $(document).ready(function()
         {
           arr.push($(this).val());
         });
-       
-       
+
         formObject["schedule[batch_id]"] = arr;
-        
         var jObject = JSON.stringify(formObject);
-
-        console.log(alert(jObject));
-
         var jsonObject = JSON.parse(jObject);
         
 
@@ -309,7 +341,7 @@ $(document).ready(function()
             $.ajax({
                 url : '/schedules',
                 type: 'POST',
-                data : jsonObject,//, arr },
+                data : jsonObject,
                 dataType: 'json' ,
 
                 success : function(response)
@@ -343,7 +375,8 @@ $(document).ready(function()
         {
           arr.push($(this).val());
         });
-
+        
+        formObject["schedule[batch_id]"] = arr;
         var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
 
@@ -427,28 +460,44 @@ $(document).ready(function()
             <p>
                 End Time : <span id="endTime"></span>
             </p>
+           <table width="70%">
+           <tr>
+                <td><p>Professor : </p><% professor_array = @professor.map { |b| [b.name, b.id] } %></td>
+                <td width="60%"><%= schedule.select(:user_id , options_for_select(professor_array),{include_blank: true})%></td>
+            </tr>
+            <tr>
+                <td><p>Subject : </p><% subject_array = @subject.map { |b| [b.name, b.id] } %></td>
+                <td width="60%"><%= schedule.select(:subject_id ,options_for_select(subject_array),{ include_blank: true}) %>
+      </td>      </p>
+            </tr>
+            <tr>
             <p>
-                Professor : <% professor_array = @professor.map { |b| [b.name, b.id] } %>
-                <%= schedule.select(:user_id , options_for_select(professor_array),{ include_blank: true})%>
-            </p>
-            <p>
-                Subject :<% subject_array = @subject.map { |b| [b.name, b.id] } %>
-                <%= schedule.select(:subject_id ,options_for_select(subject_array),{ include_blank: true}) %>
-            </p>
-            <p>
-                Room No. :<% room_array = @room.map { |b| [b.name, b.id] } %>
-                <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
-            </p>
+                <td><p>Room No. : </p><% room_array = @room.map { |b| [b.name, b.id] } %></td>
+                <td width="60%"><%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %></td>
+            </tr>
+            </table>
 
             <table>
+            <tr>
+            <td width="40%"><p>Repeat for Batches: </p></td>
                 <% Batch.all.each do |batch| %>
-                    <tr>
-                        <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
-                        <td><%= batch.name %></td>
-                    </tr>
-                <% end %>
+                    <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
+                    <td><%= batch.name %></td>
+                    <td width="5%"></td>
+                <% end %>   
+            </tr>
             </table>
-         
+
+            <form action="GET">
+                <table>
+                    <tr>
+                        <td width="40%"><p>Repeat for Range:</p></td>
+                        <td ><input type="checkbox" name="date" value="1"></td><td>1 Week</td><td width="5%"></td>
+                        <td><input type="checkbox" name="date" value="2"></td><td>6 Months</td><td width="5%"></td>
+                        <td id="add_date"><input type="checkbox" name="date" value="3"></td><td>Other..</td>
+                    </tr>
+                </table>
+            </form>
 
             <div class="row">
                 <div class="col-md-12">
