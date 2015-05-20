@@ -34,6 +34,12 @@ Semester.create!(:name => "VI")
 Semester.create!(:name => "VII")
 Semester.create!(:name => "VIII")
 
+
+Subject.create!(:name => "Engineering Mathematics I")
+Subject.create!(:name => "Engineering Mathematics II")
+Subject.create!(:name => "Theory of Computation")
+Subject.create!(:name => "Operatingh Systems")
+
 Batch.create!(:name => "A1")
 Batch.create!(:name => "A2")
 Batch.create!(:name => "A3")

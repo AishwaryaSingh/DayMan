@@ -23,6 +23,13 @@ gem 'actionpack', '~> 4.0.2'
 #authorization / roles ?
 gem 'cancancan', '~> 1.9'
 
+# Authentication
+gem 'devise'
+
+#not using with devise
+gem 'omniauth'
+gem 'omniauth-digitalocean'
+
 # To upload excel/CSV sheets
 gem 'roo'
 gem 'iconv'
@@ -36,13 +43,6 @@ gem 'paperclip', '~> 4.1'
 
 #emails checking
 gem 'letter_opener', :group => :development
-
-# Authentication
-gem 'devise'
-
-#not using with devise
-gem 'omniauth'
-gem 'omniauth-digitalocean'
 
 #to send mails
 gem 'mailcatcher'

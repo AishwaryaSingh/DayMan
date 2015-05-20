@@ -14,6 +14,12 @@ class UserMailer < ApplicationMailer
     mail(to: user.email, subject: 'Welcome to Day Manager!')
   end
   
+  def update_email(user)
+    @user = user
+    @url  = 'http://http://localhost:3000/users'
+    mail(to: user.email, subject: 'DayMan : There has been a change in your Schedule!')
+  end
+
   private
 	
 end

@@ -69,6 +69,8 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
+    $('#date_range').hide();
+
     // Fullcalendar..
     $('#calendar').fullCalendar({
 
@@ -111,23 +113,7 @@ $(document).ready(function()
                 }
             }); 
         },
-/*        [
-            {
-                title: 'All Day Event',
-                start:  '07:00 19-05-2015',
-                end: '08:00 19-05-2015',
-                description: 'long description',
-                id: 1
-            },
-            {
-                title: 'Long Event',
-                start: '08:00 19-05-2015',
-                end: '09:00 19-05-2015',
-                description: 'long description3',
-                id: 2
-            }
-        ],
-*/
+
         //Header initialization
         header: 
         {
@@ -256,31 +242,6 @@ $(document).ready(function()
         }
     };
 
-    //On Delete
-    $("#delete_event").on("click" , function()
-    {
-        var r = confirm("Are you sure you want to delete?");
-        var event_id = $("#dialog").data("event-id");
-        if (!!r)
-        {
-            $.ajax({
-                url: '/schedules/'+event_id,
-                type: 'DELETE',
-                dataType: "json",
-                data : {id : $("#delete_event").data("event-id")},
-                success : function(response)
-                {
-                    $('#calendar').fullCalendar('removeEvents',response.id);
-                    $('#dialog').dialog("close");
-                },
-                error : function(error)
-                {
-                    alert("Could not Delete. Try again.");
-                }
-            });
-        }
-    });
-
     var hideIcon = function(event,element)
     {
         $('#close', this).hide();
@@ -357,6 +318,11 @@ $(document).ready(function()
         }
     });
 
+    $("#date_range_check").click(function(event)
+    {
+        alert("In date_range_check");
+        $("date_range").show();
+    });
 
     //On updating rails form
     $("#schedule_update").click(function(event)
@@ -466,7 +432,19 @@ $(document).ready(function()
                 <td width="60%"><%= schedule.select(:user_id , options_for_select(professor_array),{include_blank: true})%></td>
             </tr>
             <tr>
-                <td><p>Subject : </p><% subject_array = @subject.map { |b| [b.name, b.id] } %></td>
+                <td><p>Subjects</p></td>
+                <td>
+                semester_id: <%= @semester_id.inspect %><br />
+                branch_id: <%= @branch_id.inspect %> <br />
+                <%#= @subjects.inspect %>
+                <%#= @subject.inspect %>
+                    <%# @subject.each  do |j| %>
+                        <%#= j.name %>
+                    <%# end %>
+                </td>
+            </tr>
+            <tr>
+                <td><p>Subject : </p><% subject_array = @subjects.map{ |b| [b.name, b.id] } %></td>   
                 <td width="60%"><%= schedule.select(:subject_id ,options_for_select(subject_array),{ include_blank: true}) %>
       </td>      </p>
             </tr>
@@ -491,10 +469,20 @@ $(document).ready(function()
             <form action="GET">
                 <table>
                     <tr>
-                        <td width="40%"><p>Repeat for Range:</p></td>
-                        <td ><input type="checkbox" name="date" value="1"></td><td>1 Week</td><td width="5%"></td>
-                        <td><input type="checkbox" name="date" value="2"></td><td>6 Months</td><td width="5%"></td>
-                        <td id="add_date"><input type="checkbox" name="date" value="3"></td><td>Other..</td>
+                        <td width="40%"><p>Repeat : </p></td>
+                        <td ><input type="checkbox" name="repeat" value="1"></td><td>Weekly</td><td width="5%"></td>
+                        <td><input type="checkbox" name="repeat" value="2"></td><td>Monthly</td><td width="5%"></td>
+                    </tr>
+                </table>
+            </form>
+
+             <form action="GET">
+                <table>
+                    <tr>
+                        <td width="20%"><p>Repeat for : </p></td>
+                        <td><input type="checkbox" name="date" value="1"></td><td width="15%" style="text-align:left">1 Week</td>
+                        <td><input type="checkbox" name="date" value="2"></td><td width="15%" style="text-align:left">1 Month</td>
+                        <td><input id="date_range_check" type="checkbox" name="date" value="3"></td><td style="text-align:left">Other:<input id="date_range" type="text" name="date"></td>
                     </tr>
                 </table>
             </form>

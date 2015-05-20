@@ -5,3 +5,13 @@ blue bin with arrow : http://angusco.github.io/OJohn/texture/deleteNews.png
 red cross: http://desxcloud.com/daniel/img/delete-icon.gif
 
 red bin : http://ubkvconnect.org/images/delete.png
+
+<script src="jquery-1.6.2.min.js"></script>
+<script src="jquery-ui-1.8.15.custom.min.js"></script>
+<link rel="stylesheet" href="jquery/jqueryCalendar.css">
+
+<script>
+                jQuery(function() {
+                                jQuery( "#add_date" ).datepicker();
+                });
+                </script>
