@@ -17,11 +17,14 @@ DayMan::Application.routes.draw do
  resources :users
  resources :students
  resources :professors
- resources :schedules
+ resources :schedules 
  resources :units
  resources :subjects
  resources :branches
  resources :semesters
+
+
+ #get '/schedules/new', to: 'schedules#prior_new'
 
  get '/admin', to: 'admin#index'
 
