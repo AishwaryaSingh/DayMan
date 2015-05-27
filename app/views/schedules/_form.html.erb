@@ -9,43 +9,44 @@
 
 <body>
 
-<%= form_tag do %>  
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-4">
-                Branch    
+    <%= form_tag do %>  
+        <div class="row">
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    Branch    
+                </div>
+                <div class="col-md-4">
+                    Semester      
+                </div>
+                <div class="col-md-4">
+                    Batch     
+                </div>
             </div>
-            <div class="col-md-4">
-                Semester      
-            </div>
-            <div class="col-md-4">
-                Batch     
-            </div>
-        </div>
 
-        <div class="col-md-12">
-            <div class="col-md-4">
-                <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
-                <span id="branch"></span>
-                <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
-            </div>      
-             
-            <div class="col-md-4">
-                <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-                <span id="semester"></span>
-                <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+            <div class="col-md-12">
+                <div class="col-md-4">
+                    <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+                    <span id="branch"></span>
+                    <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+                </div>      
+                 
+                <div class="col-md-4">
+                    <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+                    <span id="semester"></span>
+                    <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+                </div>
+                <div class="col-md-4">
+                    <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+                    <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
+                </div>
             </div>
-            <div class="col-md-4">
-                <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
-            </div>
-        </div>
 
-        <div class="col-md-3">
-            <input type="button" id="apply" value="Apply">
+            <div class="col-md-3">
+                <input type="button" id="apply" value="Apply">
+            </div>
         </div>
-    </div>
-<% end %>
+    <% end %>
+    
     <div id="dialog" title="Enter Event Details">
         <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>
             <p>
@@ -71,8 +72,8 @@
                     <% subject_array = @subjects.map{ |b| [b.name.to_s, b.id.to_i] } %>
                 </td>
                 <td width="60%">
-                    <% #schedule.select(:subject_id, options_for_select(subject_array.inspect)) %>
-                    <%= @subjects.inspect %>
+                    <%#schedule.select(:subject_id, options_for_select(subject_array.inspect)) %>
+                    <%#= @subjects.inspect %>
                     <%= schedule.select(:subject_id, options_for_select(subject_array),{ include_blank: true}) %>
                 </td>
             </tr>
@@ -119,12 +120,7 @@
                 <div class="col-md-12">
                     <div class="col-md-4">
                         <input type="button" id="schedule_create" value="Create"> 
-                    </div>
-                    <div class="col-md-4">
                         <input type="button" id="schedule_update" value="Update"> 
-                    </div>
-                    <div class="col-md-4">
-                        <input type="button" id="delete_event" value="Delete">
                     </div>
                 </div>
             </div>

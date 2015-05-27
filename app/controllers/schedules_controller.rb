@@ -1,14 +1,12 @@
 class SchedulesController < ApplicationController
 	
   def index
+
     @semester_id=params[:semester_id]
     @branch_id=params[:branch_id]
     @schedules = Schedule.find_all_by_batch_id_and_branch_id_and_semester_id( params[:batch_id], params[:branch_id], params[:semester_id])
-    respond_to do |format|
-      format.html
-       #format.json { render :json => @schedules }
-       format.json { render :json => { :schedules => @schedules } }
-    end
+   
+    redirect_to new_schedule_path
   end
 
   def edit
@@ -51,10 +49,10 @@ class SchedulesController < ApplicationController
     @room = Room.all
 
     @branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
-    @subjects = @branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }
+    @subject = @branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }
 
-  #  @subject.map{|i| i.id}
-  #  @subjects = Subject.where(:id => @subject)
+    @subject.map{|i| i.id}
+    @subjects = Subject.where(:id => @subject)
   #  @subjects = Subject.all   
 
     # puts "====================================================================="
