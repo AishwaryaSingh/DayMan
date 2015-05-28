@@ -7,11 +7,17 @@
 			 		<td><%= link_to 'Users', admin_users_path , method: :get , id: "admin_a" %><br></td>
 			 	</tr>
 			 	<tr>
-			 		<td><%= link_to 'Schedules', schedules_path , method: :get , id: "admin_a" %><br></td>
+			 		<td>
+			 			<%= link_to 'Schedules', new_schedule_path , method: :get , id: "admin_a" %><br>
+			 		</td>
+			 		<td>
+			 			<%= link_to 'Schedules to index', schedules_path , method: :get , id: "admin_a" %><br>
+			 		</td>
 			 	</tr>
 			 	<tr>
 			 		<td><%= link_to 'Branches', admin_branches_path , method: :get , id: "admin_a" %><br></td>
-					<td><%= link_to 'Semesters', admin_semesters_path , method: :get , id: "admin_a"%><br></td>
+					<td><%= link_to 'Semesters', admin_semesters_path , method: :get , id: "admin_a"%><br>
+					</td>
 				</tr>
 			</table>
 	 	</div>

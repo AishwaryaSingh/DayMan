@@ -15,5 +15,4 @@
 //= require jquery.js
 //= require moment
 //= require fullcalendar
-//= require new_form.js
 //= require bootstrap

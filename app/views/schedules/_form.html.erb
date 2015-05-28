@@ -1,51 +1,9 @@
 <html>
-<head><title>Schedule</title>
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
+<head>
+    <title>Schedule</title>
 </head>
 
 <body>
-
-    <%= form_tag do %>  
-        <div class="row">
-            <div class="col-md-12">
-                <div class="col-md-4">
-                    Branch    
-                </div>
-                <div class="col-md-4">
-                    Semester      
-                </div>
-                <div class="col-md-4">
-                    Batch     
-                </div>
-            </div>
-
-            <div class="col-md-12">
-                <div class="col-md-4">
-                    <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
-                    <span id="branch"></span>
-                    <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
-                </div>      
-                 
-                <div class="col-md-4">
-                    <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
-                    <span id="semester"></span>
-                    <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
-                </div>
-                <div class="col-md-4">
-                    <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
-                    <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
-                </div>
-            </div>
-
-            <div class="col-md-3">
-                <input type="button" id="apply" value="Apply">
-            </div>
-        </div>
-    <% end %>
     
     <div id="dialog" title="Enter Event Details">
         <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>
@@ -69,11 +27,10 @@
             <tr>
                 <td>
                     <p>Subject : </p>
+                    <%= @subjects.inspect %>
                     <% subject_array = @subjects.map{ |b| [b.name.to_s, b.id.to_i] } %>
                 </td>
                 <td width="60%">
-                    <%#schedule.select(:subject_id, options_for_select(subject_array.inspect)) %>
-                    <%#= @subjects.inspect %>
                     <%= schedule.select(:subject_id, options_for_select(subject_array),{ include_blank: true}) %>
                 </td>
             </tr>
@@ -87,7 +44,7 @@
             <table>
             <tr>
             <td width="40%"><p>Repeat for Batches: </p></td>
-                <% Batch.all.each do |batch| %>
+                <% @batch.each do |batch| %>
                     <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
                     <td><%= batch.name %></td>
                     <td width="5%"></td>

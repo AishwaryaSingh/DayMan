@@ -1,12 +1,11 @@
 class SchedulesController < ApplicationController
 	
   def index
-
-    @semester_id=params[:semester_id]
-    @branch_id=params[:branch_id]
     @schedules = Schedule.find_all_by_batch_id_and_branch_id_and_semester_id( params[:batch_id], params[:branch_id], params[:semester_id])
-   
-    redirect_to new_schedule_path
+    respond_to do |format|
+      format.html
+      format.json  { render :json => { :schedules => @schedules } }
+    end
   end
 
   def edit
@@ -43,40 +42,26 @@ class SchedulesController < ApplicationController
     end
   end
 
-  def new
+  def new    
     @schedule = Schedule.new
     @professor = User.find_all_by_role_id(2)
+    @branch =Branch.all
+    @semester = Semester.all
+    @batch = Batch.all
     @room = Room.all
-
-    @branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
-    @subject = @branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }
-
-    @subject.map{|i| i.id}
-    @subjects = Subject.where(:id => @subject)
-  #  @subjects = Subject.all   
-
-    # puts "====================================================================="
-    # puts "semester_id: #{params[:semester_id]} branch_id: #{params[:branch_id]}"
-    # puts "====================================================================="
-    # puts "branch_semester_subject: #{@branch_semester_subject.inspect}"  
-    # puts "====================================================================="
-    # puts "subjects: #{@subjects.inspect}"
-    # puts "====================================================================="
+    @subjects = Subject.all
   end
 
   def initialize_subjects
     branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
-    subjects = branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }
-    puts "====================================================================="
-    puts "semester_id: #{params[:semester_id]} branch_id: #{params[:branch_id]}"
-    puts "====================================================================="
-    puts "branch_semester_subject: #{branch_semester_subject.inspect}"  
-    puts "====================================================================="
-    puts "subjects: #{subjects.inspect}"
-    puts "====================================================================="
-    respond_to do |format|
-      format.json {render :json => subjects }
-    end
+    @subjects = branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }
+    @schedule = Schedule.new
+    @professor = User.find_all_by_role_id(2)
+    @branch =Branch.all
+    @semester = Semester.all
+    @batch = Batch.all
+    @room = Room.all
+    render :new
   end
 
   def create

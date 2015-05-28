@@ -8,13 +8,19 @@ DayMan::Application.routes.draw do
     collection { post :import }
   end
 
- #match "signin" => "admin/signin"
+  post 'schedules/initialize_subjects', :to => 'schedules#initialize_subjects'
 
 #  resources :dashboard do
 #    get :get_events, on: :collection
 #  end
  
- resources :users
+ resources :users do
+    member do
+      get 'schedule'
+      post 'professor_create'
+    end
+  end
+
  resources :students
  resources :professors
  resources :schedules 
@@ -23,6 +29,9 @@ DayMan::Application.routes.draw do
  resources :branches
  resources :semesters
 
+
+
+ get '/users/professor_show', to: 'users#professor_show'
 
  #get '/schedules/new', to: 'schedules#prior_new'
 

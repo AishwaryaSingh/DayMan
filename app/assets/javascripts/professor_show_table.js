@@ -55,47 +55,41 @@ $(document).ready(function()
 
     $('#date_range').hide();
 
-    // Fullcalendar..
     $('#calendar').fullCalendar({
 
-        events: function(start, end, timezone, callback)
+ 		events: function(start, end, timezone, callback)
         {
-            var batch_id = $("#batch_id").val();
-            var branch_id = $("#branch_id").val();
-            var semester_id = $("#semester_id").val();
             $.ajax({
-                url : '/schedules',
-                dataType: 'json',
-                data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
-
-                success : function(data)
+                url: '/users/', //'/users/:id',
+                dataType : 'json',
+                success: function(data)
                 {
-                    schedule = data['schedules'];
-                    var events = [];
-                    $.each( schedule , function(index, event)
+                	var events = [];
+                    $.each( data , function(index, event)
                     {
-                        event = {};  
-                        var d = schedule[index];
+   	                	event = {};  
+   	                	var d = data[index];
                         event.id = d['id'];
-                        event.title = "Lecture"
-                        event.description = d['name'];    
+                        event.title = d['name'];    
                         event.start = d['starttime']; 
                         event.end = d['endtime'];
-                        event.allDay = false;       
+                        event.allDay = false;
                         event.subjectId = d['subject_id'];   
                         event.roomId = d['room_id'];   
                         event.userId = d['user_id'];  
                         event.subjectId = d['batch_ids[]'];    
-                        event.imageURL = "/images/close1.png "       
-                        events.push(event);
+                        event.imageURL = "/images/close1.png "                   
+	                    events.push(event);
                     });
+
                     callback(events);
                 },
-                error : function(error)
+                error: function(xhr, status, error)
                 {
-                    alert("An error occured while fetching events!!");
-                }
-            }); 
+                    var err = eval("(" + xhr.responseText + ")");
+                    alert(err.Message);
+                }      
+            });
         },
 
         //Header initialization
@@ -106,14 +100,8 @@ $(document).ready(function()
             right: 'month,agendaWeek,agendaDay'
         },
 
-       // theme: true,
-        eventLimit: true,
-        selectable: true,
-        selectOverlap: false,
-        slotEventOverlap:false,
-        eventOverlap: false,
-        slotDuration: '00:15:00',                        
         defaulEventEnd: 60,
+        eventLimit: true,
         defaultView: "agendaWeek",
         selectable: true,
         selectHelper: true,
@@ -121,19 +109,18 @@ $(document).ready(function()
         height: 650,
         timeFormat: "h:mm ",
         dragOpacity: "0.5",
-        editable: true,
-        durationEditable: true,
-        
+                
         views: {
             eventLimit: 1
         },
 
+        slotDuration: '00:15:00',
         titleFormat: 
         {
             month: 'MMMM YYYY',    
         },
-        columnFormat:
-        {
+        
+        columnFormat: {
             week: 'ddd, DD/MM ',
             day: 'dddd'
         },
@@ -166,7 +153,7 @@ $(document).ready(function()
         eventRender: function(event, element)
         {    
             element.find('.fc-time', this ).append("<img src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' id='close'/>");
-            element.find('.fc-title').append("<br/>" + event.description);
+            //element.find('.fc-title').append("<br/>" + event.description);
             element.find('#close', this).hide();
         },
 
@@ -212,14 +199,10 @@ $(document).ready(function()
 
         select: function(start, end, allDay)
         {
-            var batch_id = $("#batch_id").val();
-            var branch_id = $("#branch_id").val();
-            var semester_id = $("#semester_id").val();
             var example = $("#startTime").val();
             $.ajax({
                 url:"/schedules/new",
                 type: "GET",
-                data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
                 dataType: 'json'
             });
 
@@ -235,6 +218,7 @@ $(document).ready(function()
     var  delete_event = function(event)
     {
         var r = confirm("Are you sure you want to delete?");
+        alert(event);
         var event_id = event;
         if (r)
         {
@@ -288,9 +272,6 @@ $(document).ready(function()
     {    
         event.preventDefault();
         var formObject = $('#new_schedule').serializeObject();
-        formObject["schedule[branch_id]"] = $("#branch_id").val();
-        formObject["schedule[semester_id]"] = $("#semester_id").val();
-        formObject["schedule[batch_id]"] = $("#batch_id").val();
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
 
@@ -327,21 +308,12 @@ $(document).ready(function()
         }
     });
 
-    $("#date_range_check").click(function(event)
-    {
-        alert("In date_range_check");
-        $("date_range").show();
-    });
-
     //On updating rails form
     $("#schedule_update").click(function(event)
     {    
         var event_id = $("#dialog").data("event-id");
         event.preventDefault();
-        var formObject = $('#new_schedule').serializeObject();      
-        formObject["schedule[branch_id]"] = $("#branch_id").val();
-        formObject["schedule[semester_id]"] = $("#semester_id").val();
-        formObject["schedule[batch_id]"] = $("#batch_id").val();
+        var formObject = $('#new_schedule').serializeObject();  
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
 
@@ -375,24 +347,5 @@ $(document).ready(function()
                 }
             });
         }
-    });
-
-
-    $("#apply").click(function(event)
-    {    
-        var batch_id = $("#batch_id").val();
-        var branch_id = $("#branch_id").val();
-        var semester_id = $("#semester_id").val();
-        $.ajax({
-            url:"/schedules/new",
-            type: "GET",
-            data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
-            dataType: 'json',
-            success: function(data){
-                console.log("text");
-                console.log(data);
-            }
-        });
-        $("#calendar").fullCalendar('refetchEvents');
     });
 });
