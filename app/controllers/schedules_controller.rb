@@ -1,13 +1,5 @@
 class SchedulesController < ApplicationController
 	
-  def index
-    @schedules = Schedule.find_all_by_batch_id_and_branch_id_and_semester_id( params[:batch_id], params[:branch_id], params[:semester_id])
-    respond_to do |format|
-      format.html
-      format.json  { render :json => { :schedules => @schedules } }
-    end
-  end
-
   def edit
     @schedule = Schedule.find(params[:id])
     respond_to do |format|
@@ -50,6 +42,11 @@ class SchedulesController < ApplicationController
     @batch = Batch.all
     @room = Room.all
     @subjects = Subject.all
+    @schedules = Schedule.find_all_by_batch_id_and_branch_id_and_semester_id( params[:batch_id], params[:branch_id], params[:semester_id])
+    respond_to do |format|
+      format.html
+      format.json  { render :json => { :schedules => @schedules } }
+    end
   end
 
   def initialize_subjects
@@ -61,6 +58,7 @@ class SchedulesController < ApplicationController
     @semester = Semester.all
     @batch = Batch.all
     @room = Room.all
+    @schedules = Schedule.find_all_by_batch_id_and_branch_id_and_semester_id( params[:batch_id], params[:branch_id], params[:semester_id])
     render :new
   end
 
@@ -69,9 +67,11 @@ class SchedulesController < ApplicationController
     arr.each do |b|
       @schedule = Schedule.new(schedule_params)
       @schedule.batch_id = b
-      if @schedule.valid?
-        @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
-        @schedule.save!
+      if validate_schedule(@schedule)
+        if @schedule.valid?
+          @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+          @schedule.save!
+        end
       end
     end
     respond_to do |format|
@@ -80,13 +80,21 @@ class SchedulesController < ApplicationController
     end
   end
 
+  def validate_schedule(schedule)
+    if validate_professor_availability(schedule) && validate_room_availability(schedule)
+       return true
+    else
+      return false
+    end
+  end
+
   def validate_professor_availability(schedule)
     schedule_all = Schedule.find_all_by_user_id(schedule.user_id)
     schedule_all.each do |s|
-      if s.starttime == schedule.starttime && s.endtime == schedule.endtime
-        return true
-      else
+      if s.starttime.to_s == schedule.starttime.to_s && s.endtime.to_s == schedule.endtime.to_s && s.room_id.to_s != schedule.room_id.to_s
         return false
+      else
+        return true
       end
     end
   end
@@ -94,17 +102,15 @@ class SchedulesController < ApplicationController
   def validate_room_availability(schedule)
     schedule_all = Schedule.find_all_by_room_id(schedule.room_id)
     schedule_all.each do |s|
-      if s.starttime == schedule.starttime && s.endtime == schedule.endtime
-        return true
+      if s.starttime.to_s == schedule.starttime.to_s && s.endtime.to_s == schedule.endtime.to_s && s.user_id.to_s != schedule.user_id.to_s
+        return false
       else
         return false
       end
     end
   end
-  
 
   def destroy
-    puts "=========================================================================================="
     @schedule = Schedule.find(params[:id])
     @schedule.destroy   
     respond_to do |format|

@@ -1,22 +1,15 @@
 <html>
-<head>
-	<title>Schedule</title>
-
-	<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-
-	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-	<%= javascript_include_tag "new_form.js" %>
-</head>
-
-<body>
-
- <div align="center">
- 	<%= render partial: 'form_mini' %>
-	<%= render partial: 'form' %>
-	<div id="calendar">	
+  <head>
+    <title>Schedule</title>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <%= javascript_include_tag "new_form.js" %>
+  </head>
+  <body>
+    <div align="center">
+      <%= render partial: 'initialize_subjects_form' %>
+      <%= render partial: 'form' %>
+      <div id="calendar"></div>
     </div>
-
-</div>
-</body>
+  </body>
 </html>

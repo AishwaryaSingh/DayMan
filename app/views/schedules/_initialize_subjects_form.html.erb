@@ -1,0 +1,37 @@
+<%= form_tag schedules_initialize_subjects_path, method: 'post' do %>  
+  <div class="row">
+    <div class="col-md-12">
+      <div class="col-md-4">
+        Branch    
+      </div>
+      <div class="col-md-4">
+        Semester      
+      </div>
+      <div class="col-md-4">
+        Batch     
+      </div>
+    </div>
+
+    <div class="col-md-12">
+      <div class="col-md-4">
+        <% branch_array = @branch.map { |b| [b.name, b.id] } %>
+        <span id="branch"></span>
+        <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+      </div>      
+                 
+      <div class="col-md-4">
+        <% semester_array = @semester.map { |b| [b.name, b.id] } %>
+        <span id="semester"></span>
+        <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+      </div>
+      <div class="col-md-4">
+        <% batch_array = @batch.map { |b| [b.name, b.id] } %>
+        <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <span id="apply"><%= submit_tag "Apply" , :id => 'apply' %></span>
+    </div>
+  </div>
+<% end %>

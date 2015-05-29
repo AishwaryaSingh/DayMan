@@ -46,6 +46,10 @@
 
 $(document).ready(function() 
 {
+    var batch_id = $("#batch_id").val();
+    var branch_id = $("#branch_id").val();
+    var semester_id = $("#semester_id").val();
+
     // page is now ready, initialize the calendar...
     var date = new Date();
     var d = date.getDate();
@@ -60,11 +64,8 @@ $(document).ready(function()
 
         events: function(start, end, timezone, callback)
         {
-            var batch_id = $("#batch_id").val();
-            var branch_id = $("#branch_id").val();
-            var semester_id = $("#semester_id").val();
             $.ajax({
-                url : '/schedules',
+                url : '/schedules/new',
                 dataType: 'json',
                 data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
 
@@ -212,9 +213,6 @@ $(document).ready(function()
 
         select: function(start, end, allDay)
         {
-            var batch_id = $("#batch_id").val();
-            var branch_id = $("#branch_id").val();
-            var semester_id = $("#semester_id").val();
             var example = $("#startTime").val();
             $.ajax({
                 url:"/schedules/new",
@@ -377,21 +375,17 @@ $(document).ready(function()
         }
     });
 
-
-    $("#apply").click(function(event)
+    $("span#apply").on("click",function(event)
     {    
+        alert("apllied!");
         var batch_id = $("#batch_id").val();
         var branch_id = $("#branch_id").val();
         var semester_id = $("#semester_id").val();
         $.ajax({
-            url:"/schedules/new",
-            type: "GET",
+            url:"/schedules/initialize_subjects",
+            type: "POST",
             data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
-            dataType: 'json',
-            success: function(data){
-                console.log("text");
-                console.log(data);
-            }
+            dataType: 'json'
         });
         $("#calendar").fullCalendar('refetchEvents');
     });
