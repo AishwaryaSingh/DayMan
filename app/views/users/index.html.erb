@@ -1,9 +1,42 @@
-<div><h1>Hello <%= @user.name %>!!</h1></div>
-<div>
-	<ul>
-		<li><%= button_to 'User Show!', user_path(@user) , method: :get %></li>
+<html>
 
-		<li><%= button_to 'Schedule get_schedule!',  users_schedules_path , method: :get %></li>
-	</ul>
-</div>
-</div>
+<head>
+	<script type="text/javascript">
+	
+	$(document).ready(function() 
+	{
+		$("#id").hide();
+		$("#student").hide();
+		$("#professor").hide();
+		var id =$('#id').text();
+		
+		$(function()
+	    {
+			if( id == "3")
+			{
+				$("#student").show();
+			}
+			if( id == "2")
+			{
+				$("#professor").show();
+			}
+	    });
+	});
+  
+	</script>
+</head>
+
+
+<body>
+	<div><h1>Hello <%= @user.name %>!!</h1></div>
+	<div>
+	<span id="id"><%= @user.role_id %></span>
+		<ul>
+			<li id="professor"><%= button_to 'Show table', schedule_user_path(@user) , method: :get %></li>
+		
+			<li id="student"><%= button_to 'Show table', user_path(@user) , method: :get %></li>
+		</ul>
+	</div>
+	</div>
+</body>
+</html>

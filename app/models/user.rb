@@ -12,21 +12,18 @@ class User < ActiveRecord::Base
   belongs_to :batch
   has_many :schedules
 
-# has_many :professors
-#	has_many :students
-
-#To Upload a Profile Avatar
-has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
+  #To Upload a Profile Avatar
+  has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-#Send Email after upload by admin only  (NOT USED YET)
+  #Send Email after upload by admin only  (NOT USED YET)
   def email_to_user
     UserMailer.welcome_email(self).deliver
   end
 
-#To check role
+  #To check role
   def has_role?(role_sym)
-#   roles.any? { |r| r.name.underscore.to_sym == role_sym }
+  #roles.any? { |r| r.name.underscore.to_sym == role_sym }
     if r = Role.find_by_id(self.role_id)
       return r.name
     else

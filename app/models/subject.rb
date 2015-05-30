@@ -8,7 +8,7 @@ class Subject < ActiveRecord::Base
 	#has_and_belongs_to_many :branches
 	#has_and_belongs_to_many :semesters
 	has_many :branch_semester_subjects
-	has_many :subjects, :through => :branch_semester_subject
+	has_many :branches, :through => :branch_semester_subject
 	has_many :semesters, :through => :branch_semester_subject
 #   belongs_to :branch
 #   belongs_to :semester

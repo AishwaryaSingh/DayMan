@@ -5,7 +5,7 @@ class CreateSubjects < ActiveRecord::Migration
 
       t.string :name
       t.timestamps null: false
-      t.references :branch_semester_subjects
+    #  t.references :branch_semester_subjects
       
     end
   end

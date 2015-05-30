@@ -1,13 +1,4 @@
-<html>
-<<<<<<< HEAD
-<head><title>Schedule</title>
 
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-
-
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-<script>
     $(function()
     {
         $("#dialog").dialog({
@@ -30,40 +21,35 @@
             var value = arrayData[index];
             if (this.value != '')
             {
-   //     alert("1st if true");
               value = this.value;
-    //          alert(value);
             } 
             else 
             {
-  //            alert(this.name+" is null! please fill in all details.");
               throw new Error(this.name+" is null! please fill in all details.");
             }
             if (objectData[this.name] != null) 
-            {           
-  //      alert("2nd if true");  
+            {            
              if (!objectData[this.name].push) 
               {
-  //      alert("3rd if true");
                 objectData[this.name] = [objectData[this.name]];
               }
               objectData[this.name].push(value);
             } 
             else 
             {
- //       alert("else last");
               objectData[this.name] = value;
-     //         alert(objectData[this.name]);
             }
         });
         return objectData;
     };
 
-</script>
 
-<script type="text/javascript" charset="utf-8">
 $(document).ready(function() 
 {
+    var batch_id = $("#batch_id").val();
+    var branch_id = $("#branch_id").val();
+    var semester_id = $("#semester_id").val();
+
     // page is now ready, initialize the calendar...
     var date = new Date();
     var d = date.getDate();
@@ -71,16 +57,15 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
+    $('#date_range').hide();
+
     // Fullcalendar..
     $('#calendar').fullCalendar({
 
         events: function(start, end, timezone, callback)
         {
-            var batch_id = $("#batch_id").val();
-            var branch_id = $("#branch_id").val();
-            var semester_id = $("#semester_id").val();
             $.ajax({
-                url : '/schedules',
+                url : '/schedules/new',
                 dataType: 'json',
                 data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
 
@@ -113,23 +98,7 @@ $(document).ready(function()
                 }
             }); 
         },
-/*        [
-            {
-                title: 'All Day Event',
-                start:  '07:00 19-05-2015',
-                end: '08:00 19-05-2015',
-                description: 'long description',
-                id: 1
-            },
-            {
-                title: 'Long Event',
-                start: '08:00 19-05-2015',
-                end: '09:00 19-05-2015',
-                description: 'long description3',
-                id: 2
-            }
-        ],
-*/
+
         //Header initialization
         header: 
         {
@@ -139,6 +108,7 @@ $(document).ready(function()
         },
 
        // theme: true,
+        eventLimit: true,
         selectable: true,
         selectOverlap: false,
         slotEventOverlap:false,
@@ -149,11 +119,15 @@ $(document).ready(function()
         selectable: true,
         selectHelper: true,
         editable: true,
-        height: 500,
+        height: 650,
         timeFormat: "h:mm ",
         dragOpacity: "0.5",
         editable: true,
         durationEditable: true,
+        
+        views: {
+            eventLimit: 1
+        },
 
         titleFormat: 
         {
@@ -166,9 +140,18 @@ $(document).ready(function()
         },
 
         dayClick: function(date, allDay, jsEvent, view)
-        {    
-            $('#calendar').fullCalendar('gotoDate', date);
-            $('#calendar').fullCalendar('changeView', 'agendaDay');            
+        {   
+            var view_now = $('#calendar').fullCalendar('getView');
+            if(view_now.name == "month")
+            {
+                $('#calendar').fullCalendar('gotoDate', date);
+                $('#calendar').fullCalendar('changeView', 'agendaWeek');
+            }
+            if(view_now.name == "agendaWeek")
+            {
+                $('#calendar').fullCalendar('gotoDate', date);
+                $('#calendar').fullCalendar('changeView', 'agendaDay');
+            }
         },
 
         eventDrop: function( event, delta, revertFunc, jsEvent, ui, view )
@@ -181,58 +164,83 @@ $(document).ready(function()
             updateEvents(event,revertFunc);
         },
 
+        eventRender: function(event, element)
+        {    
+            element.find('.fc-time', this ).append("<img src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' id='close'/>");
+            element.find('.fc-title').append("<br/>" + event.description);
+            element.find('#close', this).hide();
+        },
+
         eventClick: function(event, jsEvent, view)
         {
             $("#startTime").text(event.start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(event.end.format(" HH:mm DD-MM-YYYY"));
-           
+               
             $("#schedule_create").hide();
             $("#schedule_update").show();
-            $("#delete_event").show();
 
             $("#dialog").data("event-id",event.id);
 
             $("#schedule_subject_id").val(event.subjectId);
             $("#schedule_room_id").val(event.roomId);
             $("#schedule_user_id").val(event.userId);
-
-            console.log($("#dialog").dialog("open"));     
-        },
-
-        eventRender: function(event, element)
-        {    
-            element.find('.fc-time').append("<span id='close'><img id='close' src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' /></span>");
-            element.find('.fc-title').append("<br/>" + event.description);
+            console.log($("#dialog").dialog("open"));
         },
 
         eventMouseover: function( event, jsEvent, view)
         {
-            event.addClass("animated shake");
+            
+            $('#close', this).show();
+       //   event.addClass("animated shake");
+            i = 0;
+            $("#close", this).on("click" , function()
+            {
+                if(i == 0)
+                {
+                    delete_event(event.id);
+                    i = 1;
+                }
+                else
+                {
+                    i = 33333333333;
+                }
+            });
+        },
+        eventMouseout: function( event, jsEvent, view )
+        {
+            $('#close', this).hide();
         },
 
         select: function(start, end, allDay)
         {
+            var example = $("#startTime").val();
+            $.ajax({
+                url:"/schedules/new",
+                type: "GET",
+                data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
+                dataType: 'json'
+            });
+
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
             $("#schedule_create").show();
             $("#schedule_update").hide();
-            $("#delete_event").hide();
             $("#dialog").dialog("open");            
         }
     });
-    
-    //On Delete
-    $("#close").on("click" , function()
+
+    //Delete
+    var  delete_event = function(event)
     {
         var r = confirm("Are you sure you want to delete?");
-        var event_id = $("#dialog").data("event-id");
-        if (!!r)
+        var event_id = event;
+        if (r)
         {
             $.ajax({
                 url: '/schedules/'+event_id,
                 type: 'DELETE',
                 dataType: "json",
-                data : {id : $("#delete_event").data("event-id")},
+                data : { id : $("span#close").data("event_id") },
                 success : function(response)
                 {
                     $('#calendar').fullCalendar('removeEvents',response.id);
@@ -244,9 +252,9 @@ $(document).ready(function()
                 }
             });
         }
-    });
+    };
 
-    //To update the datbase with new values 
+    //To update the datbase with new values on Resize or DragDrop
     var  updateEvents = function(event , revertFunc )
     {    
         var jobj = JSON.parse(JSON.stringify(event));
@@ -289,14 +297,9 @@ $(document).ready(function()
         {
           arr.push($(this).val());
         });
-       
-       
+
         formObject["schedule[batch_id]"] = arr;
-        
         var jObject = JSON.stringify(formObject);
-
-        console.log(alert(jObject));
-
         var jsonObject = JSON.parse(jObject);
         
 
@@ -306,7 +309,7 @@ $(document).ready(function()
             $.ajax({
                 url : '/schedules',
                 type: 'POST',
-                data : jsonObject,//, arr },
+                data : jsonObject,
                 dataType: 'json' ,
 
                 success : function(response)
@@ -322,6 +325,11 @@ $(document).ready(function()
         }
     });
 
+    $("#date_range_check").click(function(event)
+    {
+        alert("In date_range_check");
+        $("date_range").show();
+    });
 
     //On updating rails form
     $("#schedule_update").click(function(event)
@@ -340,7 +348,8 @@ $(document).ready(function()
         {
           arr.push($(this).val());
         });
-
+        
+        formObject["schedule[batch_id]"] = arr;
         var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
 
@@ -366,126 +375,18 @@ $(document).ready(function()
         }
     });
 
-
-    $("#apply").click(function(event)
-    {   
+    $("span#apply").on("click",function(event)
+    {    
+        alert("apllied!");
+        var batch_id = $("#batch_id").val();
+        var branch_id = $("#branch_id").val();
+        var semester_id = $("#semester_id").val();
+        $.ajax({
+            url:"/schedules/initialize_subjects",
+            type: "POST",
+            data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
+            dataType: 'json'
+        });
         $("#calendar").fullCalendar('refetchEvents');
     });
-
 });
-
-</script>
-</head>
-
-<body>
-
-<%= form_for(@schedule, :remote => true, :format => :json , :url => url_for(:controller => 'schedules', :action => 'new'), :html => { :method => 'GET' , :id => 'first_form'}) do |schedule| %>  
-    <div class="row">
-        <div class="col-md-12">
-            <div class="col-md-4">
-                Branch    
-            </div>
-            <div class="col-md-4">
-                Semester      
-            </div>
-            <div class="col-md-4">
-                Batch     
-            </div>
-        </div>
-
-        <div class="col-md-12">
-            <div class="col-md-4">
-                <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
-                <span id="branch"></span>
-                <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
-            </div>      
-=======
-  <head>
-      <title>Schedule</title>
-  </head>
-  <body>
-    <div id="dialog" title="Enter Event Details">
-      <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>
-        <p>
-          Start Time : <span id="startTime"></span>
-        </p>
-        <p>
-          End Time : <span id="endTime"></span>
-        </p>
-        <table width="70%">
-          <tr>
-            <td>
-              <p>Professor : </p>
-              <% professor_array = @professor.map { |b| [b.name, b.id] } %>
-            </td>
-            <td width="60%">
-              <%= schedule.select(:user_id , options_for_select(professor_array),{include_blank: true})%>
-            </td>
-          </tr>
->>>>>>> bb092671f7b8576ff3919ede53eb73542596709c
-             
-          <tr>
-            <td>
-              <p>Subject : </p>
-              <% subject_array = @subjects.map{ |b| [b.name.to_s, b.id.to_i] } %>
-            </td>
-            <td width="60%">
-              <%= schedule.select(:subject_id, options_for_select(subject_array),{ include_blank: true}) %>
-            </td>
-          </tr>
-
-          <tr>
-            <td>
-              <p>Room No. : </p>
-              <% room_array = @room.map { |b| [b.name, b.id] } %>
-            </td>
-            <td width="60%">
-              <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
-            </td>
-          </tr>
-        </table>
-
-        <table>
-          <tr>
-            <td width="40%"><p>Repeat for Batches: </p></td>
-            <% @batch.each do |batch| %>
-              <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
-              <td><%= batch.name %></td>
-              <td width="5%"></td>
-            <% end %>   
-          </tr>
-        </table>
-
-        <form action="GET">
-          <table>
-            <tr>
-              <td width="40%"><p>Repeat : </p></td>
-              <td ><input type="checkbox" name="repeat" value="1"></td><td>Weekly</td><td width="5%"></td>
-              <td><input type="checkbox" name="repeat" value="2"></td><td>Monthly</td><td width="5%"></td>
-            </tr>
-          </table>
-        </form>
-
-        <form action="GET">
-          <table>
-            <tr>
-              <td width="20%"><p>Repeat for : </p></td>
-              <td><input type="checkbox" name="date" value="1"></td><td width="15%" style="text-align:left">1 Week</td>
-              <td><input type="checkbox" name="date" value="2"></td><td width="15%" style="text-align:left">1 Month</td>
-              <td><input id="date_range_check" type="checkbox" name="date" value="3"></td><td style="text-align:left">Other:<input id="date_range" type="text" name="date"></td>
-            </tr>
-          </table>
-        </form>
-
-        <div class="row">
-          <div class="col-md-12">
-            <div class="col-md-4">
-              <input type="button" id="schedule_create" value="Create"> 
-              <input type="button" id="schedule_update" value="Update"> 
-            </div>
-          </div>
-        </div>
-      <% end %>
-    </div>
-  </body>
-</html>

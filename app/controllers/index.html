@@ -1,0 +1,68 @@
+<html>
+<head>
+	<script>
+	    $("#apply").click(function(event)
+	    {    
+	        var batch_id = $("#batch_id").val();
+	        var branch_id = $("#branch_id").val();
+	        var semester_id = $("#semester_id").val();
+	        $.ajax({
+	            url:"/schedules/new",
+	            type: "GET",
+	            data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
+	            dataType: 'json',
+	            success: function(data)
+	            {
+	                console.log("text");
+	                console.log(data);
+	            }
+	        });
+	        $("#calendar").fullCalendar('refetchEvents');
+	    });
+    </script>
+</head>
+<body>
+	 <div align="center">
+
+	<%#= render partial: 'form' %>
+	    <%= form_tag do %>  
+	        <div class="row">
+	            <div class="col-md-12">
+	                <div class="col-md-4">
+	                    Branch    
+	                </div>
+	                <div class="col-md-4">
+	                    Semester      
+	                </div>
+	                <div class="col-md-4">
+	                    Batch     
+	                </div>
+	            </div>
+
+	            <div class="col-md-12">
+	                <div class="col-md-4">
+	                    <% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+	                    <span id="branch"></span>
+	                    <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+	                </div>      
+	                 
+	                <div class="col-md-4">
+	                    <% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+	                    <span id="semester"></span>
+	                    <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+	                </div>
+	                <div class="col-md-4">
+	                    <% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+	                    <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
+	                </div>
+	            </div>
+
+	            <div class="col-md-3">
+	                <input type="button" id="apply" value="Apply">
+	            </div>
+	        </div>
+	    <% end %>
+	    <div id="calendar" > </div>
+	</div>
+</body>
+</html>

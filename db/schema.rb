@@ -130,9 +130,8 @@ ActiveRecord::Schema.define(version: 20150504151205) do
 
   create_table "subjects", force: true do |t|
     t.string   "name"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
-    t.integer  "branch_semester_subjects_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "units", force: true do |t|
