@@ -4,10 +4,6 @@
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 
 
-<link rel="stylesheet" href="animate.css" />
-
-<link rel="stylesheet" href="fullcalendar.css" />
-
 <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 
 <script>
@@ -204,7 +200,7 @@ $(document).ready(function()
 
         eventRender: function(event, element)
         {    
-            element.find('.fc-time').append("<span id='close'><img src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' /></span>");
+            element.find('.fc-time').append("<span id='close'><img id='close' src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' /></span>");
             element.find('.fc-title').append("<br/>" + event.description);
         },
 
