@@ -377,16 +377,8 @@ $(document).ready(function()
 
     $("span#apply").on("click",function(event)
     {    
-        alert("apllied!");
         var batch_id = $("#batch_id").val();
         var branch_id = $("#branch_id").val();
         var semester_id = $("#semester_id").val();
-        $.ajax({
-            url:"/schedules/initialize_subjects",
-            type: "POST",
-            data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
-            dataType: 'json'
-        });
-        $("#calendar").fullCalendar('refetchEvents');
     });
 });

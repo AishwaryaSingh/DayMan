@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <h1>Hello <%= @user.name %>! There is change in your schedule.</h1>
+    <p><b>"<%= @schedule.name %>"</b> by <b>"<%= @schedule.user.name %>"</b> will be held at <b>"<%= @schedule.starttime %>" to "<%= @schedule.endtime %>"</b> in class <b>"<%= @schedule.room.name %>"</b> for batch <b>"<%= @schedule.batch.name %>"</b>.<br>
+    </p>
+
+    <p>Have a great day with DayMan!</p>
+  </body>
+</html>
+

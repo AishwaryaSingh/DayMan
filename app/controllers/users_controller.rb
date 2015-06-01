@@ -12,7 +12,7 @@ class UsersController < ApplicationController
           d.save!
         end
       else
-        @data=Schedule.find_all_by_batch_id(current_user.batch_id)
+        @data=Schedule.find_all_by_batch_id_and_semester_id_and_branch_id(current_user.batch_id,current_user.semester_id,current_user.branch_id)
         @data.each do |d|
           d.name= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
           d.save!
@@ -26,6 +26,7 @@ class UsersController < ApplicationController
   end
 
   def schedule
+    @user = current_user
     #++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         @schedule = Schedule.new
         @professor = User.find_all_by_role_id(2)
@@ -53,36 +54,6 @@ class UsersController < ApplicationController
    end 
   end
 
-  def professor_create
-  end
-
-  def create
-    puts "===================================================================================================================="
-    puts "in users#create"
-    puts "===================================================================================================================="
-    
-  end
-
-  def show
-    if current_user.role.name == "professor"
-      @data=Schedule.find_all_by_user_id(current_user.id)
-      @data.each do |d|
-        d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
-        d.save!
-      end
-    else
-      @data=Schedule.find_all_by_batch_id(current_user.batch_id)
-      @data.each do |d|
-        d.name= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
-        d.save!
-      end
-    end
-    respond_to do |format|  
-      format.html # index.html.erb  
-      format.json { render :json => @data }  
-   end 
-  end
-
   def import
     if User.import(params[:file])
       flash[:success] = "Uploaded"
@@ -91,9 +62,4 @@ class UsersController < ApplicationController
       flash[:error] = "Some error occured! Please try again!"
     end
   end
-
-  def import_users
-  end
-  
 end
-

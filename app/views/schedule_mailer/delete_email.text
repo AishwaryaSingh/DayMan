@@ -1,0 +1,3 @@
+Hello <%= @user.name %>! There is change in your schedule.
+
+ "<%= @schedule.name %>" by "<%= @schedule.user.name %>" will be held at "<%= @schedule.starttime %>" to "<%= @schedule.endtime %>" in class "<%= @schedule.room.name %>" for batch "<%= @schedule.batch.name %>" has been CANCELLED.

@@ -164,6 +164,8 @@ ActiveRecord::Schema.define(version: 20150504151205) do
     t.integer  "role_id"
     t.integer  "sign_up_count"
     t.integer  "batch_id"
+    t.integer  "semester_id"
+    t.integer  "branch_id"
     t.string   "avatar_file_name"
     t.string   "avatar_content_type"
     t.integer  "avatar_file_size"

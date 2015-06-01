@@ -36,7 +36,6 @@ DayMan::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
 
   #Letter_opener
@@ -44,19 +43,16 @@ DayMan::Application.configure do
 
   #SMTP Server Settings :
   # For Gmail:
-#  config.action_mailer.delivery_method = :smtp
+  # config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
-  port:                 25,
+  port:                  25,
   domain:               'http://localhost:3000/users',
-
   user_name:            'ab.de.mn.ij.no@gmail.com',
-  
   password:             'as1df2m!3io4nm5',
   authentication:       'plain',
   enable_starttls_auto: true  }
 
   #PaperClip
   Paperclip.options[:command_path] = "/usr/local/bin/"
-
 end
