@@ -94,7 +94,7 @@ class SchedulesController < ApplicationController
       format.json {render :json => @schedule }
     end
   end
-
+  
   def update
     if params[:batch_ids]
       arr = params[:batch_ids]
@@ -115,14 +115,12 @@ class SchedulesController < ApplicationController
       end
     end
     Rails.logger.info "current_user is #{current_user.inspect}==============="
-    if current_user.role_id == "2"
-      Schedule.update_email(@schedule)
-      respond_to do |format|
-        format.html
-        format.json {render :json => @schedule }
-      end
+    Schedule.update_email(@schedule)
+    respond_to do |format|
+      format.html
+      format.json {render :json => @schedule }
     end
-    # redirect_to "users/#{current_user.id}/schedule"
+    # redirect_to "/users/#{current_user.id}/schedule"
   end
 
   def destroy

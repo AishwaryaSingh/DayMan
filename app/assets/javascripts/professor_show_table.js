@@ -248,7 +248,9 @@ $(document).ready(function()
             data : { "schedule[id]" : event.id, "schedule[name]" : jobj.title, "schedule[starttime]" : jobj.start, "schedule[endtime]" : jobj.end },
             dataType: "json",
 
-            success : function(schedule) {},
+            success : function(schedule) {
+                
+            },
             error : function(error)
             {
                 alert("An error occured while updating events! Please try again!");

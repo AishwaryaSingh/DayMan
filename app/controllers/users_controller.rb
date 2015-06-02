@@ -62,9 +62,15 @@ class UsersController < ApplicationController
 
   def create
     @user=User.new(user_params)
-    @user.save!
-    flash[:success] = "Created a New User"
-    redirect_to admin_users_path
+    @user.password = "12345678"
+    if @user.save!
+      Rails.logger.info "User #{@user.inspect} created =========================="
+      flash[:success] = "Created a New User"
+    else
+      Rails.logger.info "User #{@user.inspect} NOT created =========================="
+      flash[:success] = "User not created"
+    end
+    # redirect_to admin_users_path
   end
 
   def destroy
