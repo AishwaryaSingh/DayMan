@@ -53,14 +53,14 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
-    $('#date_range').hide();
+    $('#user_id').hide();
 
     $('#calendar').fullCalendar({
 
  		events: function(start, end, timezone, callback)
         {
             $.ajax({
-                url: '/users/', //'/users/:id',
+                url: '/users/', 
                 dataType : 'json',
                 success: function(data)
                 {
@@ -101,6 +101,7 @@ $(document).ready(function()
         },
 
         defaulEventEnd: 60,
+        eventOverlap: true,
         eventLimit: true,
         defaultView: "agendaWeek",
         selectable: true,
@@ -177,7 +178,6 @@ $(document).ready(function()
         {
             
             $('#close', this).show();
-       //   event.addClass("animated shake");
             i = 0;
             $("#close", this).on("click" , function()
             {
@@ -205,7 +205,6 @@ $(document).ready(function()
                 type: "GET",
                 dataType: 'json'
             });
-
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
             $("#schedule_create").show();
@@ -218,7 +217,6 @@ $(document).ready(function()
     var  delete_event = function(event)
     {
         var r = confirm("Are you sure you want to delete?");
-        alert(event);
         var event_id = event;
         if (r)
         {
@@ -274,6 +272,7 @@ $(document).ready(function()
         var formObject = $('#new_schedule').serializeObject();
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
+        formObject["schedule[user_id"] = $("#user_id").text();
 
         var arr = []; 
         $.each($("input:checked"), function()

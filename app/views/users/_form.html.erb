@@ -4,66 +4,70 @@
 </head>
 
 <body>
-    <div id="dialog" title="Enter Event Details">
-        <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>
-            <p>
-                Start Time : <span id="startTime"></span>
-            </p>
-            <p>
-                End Time : <span id="endTime"></span>
-            </p>
-
-            <table width="70%">
-                <tr>
-                    <td>
-                        <p>Branch : </p>
-                         <% branch_array = @branch.map { |b| [b.name, b.id] } %>
-                    </td>
-                    <td width="60%">
-                        <%= schedule.select(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
-                    </td>
-                </tr>
+  <div id="dialog" title="Enter Event Details">
+    <%= form_for(@schedule, :remote => true, :format => :json) do |schedule| %>
+      <p>
+        Start Time : <span id="startTime"></span>
+      </p>
+      <p>
+        End Time : <span id="endTime"></span>
+      </p>
+      <p>
+        Professor : <%= @user.name %> <span id="user_id"><%= @user.id %></span>
+      </p>
+      <table width="70%">
+        <tr>
+          <td>
+            <p>Branch : </p>
+            <% branch_array = @branch.map { |b| [b.name, b.id] } %>
+          </td>
+          <td width="60%">
+            <%= schedule.select(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+          </td>
+        </tr>
                
-               <tr>
-                    <td>
-                        <p>Semester : </p>
-                        <% semester_array = @semester.map { |b| [b.name, b.id] } %>
-                    </td>
-                    <td width="60%">
-                        <%= schedule.select(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
-                    </td>
-                </tr>
+        <tr>
+          <td>
+            <p>Semester : </p>
+            <% semester_array = @semester.map { |b| [b.name, b.id] } %>
+          </td>
+          <td width="60%">
+            <%= schedule.select(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+          </td>
+        </tr>
                
-                <tr>
-                    <td>
-                        <p>Subject : </p>
-                        <% subject_array = @subjects.map{ |b| [b.name.to_s, b.id.to_i] } %>
-                    </td>
-                    <td width="60%">
-                        <%#schedule.select(:subject_id, options_for_select(subject_array.inspect)) %>
-                        <%#= @subjects.inspect %>
-                        <%= schedule.select(:subject_id, options_for_select(subject_array),{ include_blank: true}) %>
-                    </td>
-                </tr>
-                <tr>
-                <p>
-                    <td><p>Room No. : </p><% room_array = @room.map { |b| [b.name, b.id] } %></td>
-                    <td width="60%"><%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %></td>
-                </tr>
-            </table>
+        <tr>
+          <td>
+            <p>Subject : </p>
+            <% subject_array = @subjects.map{ |b| [b.name.to_s, b.id.to_i] } %>
+          </td>
+          <td width="60%">
+            <%= schedule.select(:subject_id, options_for_select(subject_array),{ include_blank: true}) %>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>Room No. : </p>
+            <% room_array = @room.map { |b| [b.name, b.id] } %>
+          </td>
+          <td width="60%">
+            <%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+          </td>
+        </tr>
+      </table>
 
-            <table>
-                <tr>
-                    <td width="40%"><p>Repeat for Batches: </p></td>
-                    <% @batch.each do |batch| %>
-                        <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
-                        <td><%= batch.name %></td>
-                        <td width="5%"></td>
-                    <% end %>   
-                </tr>
-            </table>
+      <table>
+        <tr>
+          <td width="40%"><p>Repeat for Batches: </p></td>
+          <% @batch.each do |batch| %>
+            <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
+            <td><%= batch.name %></td>
+            <td width="5%"></td>
+          <% end %>   
+        </tr>
+      </table>
 
-            <form action="GET">
+       <form action="GET">
                 <table>
                     <tr>
                         <td width="40%"><p>Repeat : </p></td>
@@ -84,15 +88,15 @@
                 </table>
             </form>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="col-md-4">
-                        <input type="button" id="schedule_create" value="Create"> 
-                        <input type="button" id="schedule_update" value="Update"> 
-                    </div>
-                </div>
-            </div>
-        <% end %>
-    </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="col-md-4">
+            <input type="button" id="schedule_create" value="Create"> 
+            <input type="button" id="schedule_update" value="Update"> 
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
 </body>
 </html>

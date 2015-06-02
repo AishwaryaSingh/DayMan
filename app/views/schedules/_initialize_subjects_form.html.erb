@@ -2,31 +2,42 @@
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-4">
-        Branch    
+        Branch    : <%=  @branch_id_frmc %>
       </div>
       <div class="col-md-4">
-        Semester      
+        Semester  : <%=  @semester_id_frmc %>
       </div>
       <div class="col-md-4">
-        Batch     
+        Batch  :  <%=  @batch_id_frmc %>
       </div>
     </div>
+
 
     <div class="col-md-12">
       <div class="col-md-4">
         <% branch_array = @branch.map { |b| [b.name, b.id] } %>
-        <span id="branch"></span>
-        <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+        <% if @branch_id_frmc.nil? %>
+          <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %>
+        <% else %>
+          <%= select_tag(:branch_id, options_for_select(branch_array, selected: @branch_id_frmc)) %>
+        <% end %>
       </div>      
                  
       <div class="col-md-4">
         <% semester_array = @semester.map { |b| [b.name, b.id] } %>
-        <span id="semester"></span>
-        <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+        <% if @semester_id_frmc.nil? %>
+          <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }) %>
+        <% else %>
+          <%= select_tag(:semester_id, options_for_select(semester_array, selected: @semester_id_frmc) ) %>
+        <% end %>
       </div>
       <div class="col-md-4">
         <% batch_array = @batch.map { |b| [b.name, b.id] } %>
-        <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
+        <% if @batch_id_frmc.nil? %>
+          <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
+        <% else %>
+          <%= select_tag(:batch_id, options_for_select(batch_array, selected: @batch_id_frmc)) %> 
+        <% end %>
       </div>
     </div>
 
