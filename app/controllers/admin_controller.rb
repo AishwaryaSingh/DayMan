@@ -2,7 +2,7 @@ class AdminController < ApplicationController
 	
 	def index
 	end
-
+	
 	def subjects
 		@subjects = Subject.all
 	end

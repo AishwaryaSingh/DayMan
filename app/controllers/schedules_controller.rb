@@ -39,7 +39,7 @@ class SchedulesController < ApplicationController
     arr.each do |b|
       @schedule = Schedule.new(schedule_params)
       @schedule.batch_id = b
-      if validate_professor_availability(@schedule) && validate_room_availability(@schedule) && !same_schedule(@schedule)
+      if validate_professor_availability(@schedule) && validate_room_availability(@schedule) # && !same_schedule(@schedule)
         if @schedule.valid?
           @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
           @schedule.save!
@@ -115,24 +115,32 @@ class SchedulesController < ApplicationController
         @schedule.save!
       end
     end
-    Schedule.update_email(@schedule)
-    respond_to do |format|
-      format.html
-      format.json {render :json => @schedule }
+    if current_user.role_id == "2"
+      Schedule.update_email(@schedule)
+      respond_to do |format|
+        format.html
+        format.json {render :json => @schedule }
+      end
     end
   end
 
   def destroy
     @schedule = Schedule.find(params[:id])
-
     @student_array = User.find_all_by_batch_id_and_branch_id_and_semester_id(@schedule.batch_id,@schedule.branch_id,@schedule.semester_id)
-    ScheduleMailer.delete_email(@student_array,@schedule)
-
-    @schedule.destroy   
-    respond_to do |format|
-      format.html
-      format.json {render :json => @schedule }
-    end
+      ScheduleMailer.delete_email(@student_array,@schedule)
+    @schedule.destroy
+    # if current_user.role_id.to_s == "2"
+    #  puts "In here=================="
+      #render :template => 'users/schedule'
+    #  redirect_to 'users/'
+    # redirect_to schedule_user_path(current_user.id)
+    # else
+    #   puts "Not there=================="
+      respond_to do |format|
+        format.html
+        format.json {render :json => @schedule }
+      end
+    # end
   end
 
   private
