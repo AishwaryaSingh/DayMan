@@ -1,4 +1,5 @@
 class UserMailer < ApplicationMailer
+
 #	before_filter :set_url
 #	default from: ""
 	
