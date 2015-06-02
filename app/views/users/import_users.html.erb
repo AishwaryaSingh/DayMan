@@ -1,7 +1,34 @@
-<div align="bottom">
-Choose a file to import users.. :
-<%= form_tag import_users_path, multipart: true do %> 
-	<%= file_field_tag :file %>
-  	<%= submit_tag "Import!" %>
-<% end %>
-</div>
+<html>
+	<head>
+		<script type="text/javascript">
+			$(document).ready(function() 
+			{
+				$("#add_id").hide();
+				$("button#edit").on("click",function(event)
+    		{
+    			$("#add_id").show();
+    		});
+    		$("button#go").on("click",function(event)
+    		{
+    			var id = $("#add_id").text();
+    		});
+			});
+		</script>
+	</head>
+	<body>
+		<div align="left">
+			<%= button_to 'Add a New User', new_user_path, method: :get %>
+		</div>
+		<div>
+			<input type="button" id="edit" value="Edit">:<span id="add_id"><input type="text"><input type="button" id="go" value="Go!"></span>
+			<%#= button_to 'Edit user', new_user_path, method: :get %>
+		</div>
+		<div align="bottom">
+		Choose a file to import users.. :
+		<%= form_tag import_users_path, multipart: true do %> 
+			<%= file_field_tag :file %>
+		  	<%= submit_tag "Import!" %>
+		<% end %>
+		</div>
+	</body>
+</html>

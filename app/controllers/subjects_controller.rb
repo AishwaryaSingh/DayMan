@@ -7,9 +7,7 @@ class SubjectsController < ApplicationController
 
 	def new
 		@subject = Subject.new
-		#@bss = BranchSemesterSubject.find_all_by_subject_id(params[:id])
-		@t = true # @bss.empty?
-		#puts @t
+		@t = true
 	end
 
 	def create
@@ -68,7 +66,6 @@ class SubjectsController < ApplicationController
 					@bss.save!
 				end
 			end
-
 			redirect_to subjects_path
 		else
 			render 'edit'
