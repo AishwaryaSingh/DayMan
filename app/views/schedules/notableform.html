@@ -1,0 +1,140 @@
+<html>
+<head><title>Schedule</title>
+
+<script type="text/javascript" charset="utf-8">
+$(document).ready(function() 
+{
+    // page is now ready, initialize the calendar...
+
+    $(".data").hide();
+
+
+    $('#calendar').fullCalendar({
+
+    	events: [],
+
+    	header: 
+    	{
+            left: 'prev,next today',
+            center: 'title',
+            right: 'month,agendaWeek,agendaDay'
+        },
+
+	    editable: true,
+		defaultView: "basicWeek",
+		height: 500,
+		slotMinutes: 15,
+		events: "/dashboard/get_events",
+		timeFormat: "h:mm t{ - h:mm t} ",
+		dragOpacity: "0.5",
+
+        dayClick: function(date, allDay, jsEvent, view)
+        {
+            $('#calendar').fullCalendar('gotoDate', date);
+            $('#calendar').fullCalendar('changeView', 'agendaDay');
+        }
+    });
+
+    $('#calendar').dblclick(function(subject_name)
+    {               
+    	$("#calendar").hide();
+        $(".data").show();
+        $("button").on("click",function()
+	    {
+	    	$(".data").hide();
+	    	$("#calendar").show();
+        })
+    });
+});
+
+</script>
+
+</head>
+
+<body>
+	<div id="calendar" style="width:60% ; height: 60%; z-index:0" align="center"></div>
+</body>
+
+<div class="data" style="z-index:2000000000" align="center">
+
+<%= form_for @schedule do |schedule| %>
+<span style="font-size:25px ; color:powderblue ;">Enter Event Details</span>
+<br />
+<br/ >
+
+Branch : 
+<% branch_array = Branch.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:branch_id , options_for_select(branch_array), { include_blank: true }) %>
+<span style="color:red">
+  <% if @schedule.errors[:branch_id] %>
+    <% a = @schedule.errors.full_messages_for(:branch_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span>
+<br />
+<br />
+
+Semester : 
+<% semester_array = Semester.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:semester_id , options_for_select(semester_array), { include_blank: true}) %>
+<span style="color:red">
+  <% if @schedule.errors[:semester_id] %>
+    <% a = @schedule.errors.full_messages_for(:semester_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span>
+<br />
+<br />
+
+Professor : 
+<% professor_array = Professor.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:professor_id , options_for_select(professor_array), { include_blank: true})%>
+<span style="color:red">
+  <% if @schedule.errors[:professor_id] %>
+    <% a = @schedule.errors.full_messages_for(:professor_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span>
+<br />
+<br />
+
+Subject : 
+<% subject_array = Subject.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:subject_id , options_for_select(subject_array), { include_blank: true}) %>
+<span style="color:red">
+  <% if @schedule.errors[:subject_id] %>
+    <% a = @schedule.errors.full_messages_for(:subject_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span>
+<br />
+<br />
+
+Batch : 
+<% batch_array = Batch.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:batch_id , options_for_select(batch_array), { include_blank: true}) %>
+<span style="color:red">
+  <% if @schedule.errors[:batch_id] %>
+    <% a = @schedule.errors.full_messages_for(:batch_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+</span>
+<br />
+<br />
+
+Room No. : 
+<% room_array = Room.all.map { |b| [b.name, b.id] } %>
+<%= schedule.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+<span style="color:red">
+  <% if @schedule.errors[:room_id] %>
+    <% a = @schedule.errors.full_messages_for(:room_id) %>
+    <%= a.join(", ") %>
+  <% end %>
+ </span>
+<br />
+<br />
+
+<%= schedule.submit %>
+<% end %>
+</div>
+</html>

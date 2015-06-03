@@ -5,7 +5,7 @@ class BranchesController < ApplicationController
   end
 
   def show
-    @branches = Branch.all  #find(params[:id])
+    @branches = Branch.all
   end
 
   def new

@@ -16,5 +16,4 @@ class ScheduleMailer < ApplicationMailer
 	    mail(to: user.email, subject: 'DayMan : There has been a change in your Schedule!')
 	  end
   end
-
 end

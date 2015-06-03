@@ -29,8 +29,6 @@ DayMan::Application.routes.draw do
  resources :branches
  resources :semesters
 
-
-
  get '/users/professor_show', to: 'users#professor_show'
 
  #get '/schedules/new', to: 'schedules#prior_new'
