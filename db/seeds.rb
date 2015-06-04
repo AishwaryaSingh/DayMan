@@ -12,16 +12,14 @@ Role.create!(:name => "student")
 Role.create!(:name => "user")
 
 User.create!(name: "Admin Test", email: "admin@test.com", password: "aaaaaaaa", role_id: "1")
-User.create!(name: "Professor 1 Test", email: "professor1@test.com", password: "aaaaaaaa", role_id: "2")
-User.create!(name: "Professor 2 Test", email: "professor2@test.com", password: "aaaaaaaa", role_id: "2")
-User.create!(name: "Professor 3 Test", email: "professor3@test.com", password: "aaaaaaaa", role_id: "2")
-User.create!(name: "Student CS1 Test", email: "student_cs1@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "1", semester_id: "5", branch_id: "1")
-User.create!(name: "Student CS2 Test", email: "student_cs2@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "2", semester_id: "5", branch_id: "1")
-User.create!(name: "Student CS3 Test", email: "student_cs3@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "3", semester_id: "5", branch_id: "1")
-User.create!(name: "Student CS4 Test", email: "student_cs4@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "3", semester_id: "5", branch_id: "1")
-User.create!(name: "Student Mech1 Test", email: "student_mech1@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "1", semester_id: "1", branch_id: "3")
-User.create!(name: "Student Mech2 Test", email: "student_mech2@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "2", semester_id: "1", branch_id: "3")
-User.create!(name: "Student Mech3 Test", email: "student_mech3@test.com", password: "aaaaaaaa", role_id: "3", batch_id: "3", semester_id: "1", branch_id: "3")
+User.create!(name: "Shruti Patil", email: "shruti.patil@sitpune.edu.in", password: "aaaaaaaa", role_id: "2")
+User.create!(name: "Kalyani Kadam", email: "kalyanik@sitpune.edu.in", password: "aaaaaaaa", role_id: "2")
+User.create!(name: "Praveen Gubbala", email: "praveeng@sitpune.edu.in", password: "aaaaaaaa", role_id: "2")
+User.create!(name: "Raj Kalpesh Shah", email: "raj.shah@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "1", semester_id: "1", branch_id: "3")
+User.create!(name: "Manish Sharma", email: "manish.sharma@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "3", semester_id: "1", branch_id: "3")
+User.create!(name: "Aishwarya Singh", email: "aishwarya.singh@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "1", semester_id: "5", branch_id: "1")
+User.create!(name: "Aman Bhatia", email: "aman.bhatia@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "2", semester_id: "5", branch_id: "1")
+User.create!(name: "Akshita Pradhan", email: "akshita.pradhan@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "3", semester_id: "5", branch_id: "1")
 
 Branch.create!(:name => "CS")
 Branch.create!(:name => "IT")
@@ -45,8 +43,3 @@ Batch.create!(:name => "A3")
 Room.create!(:name => "F1")
 Room.create!(:name => "F2")
 Room.create!(:name => "F3")
-
-# habtm by vishal
-#Branch.all.each do |a|
-#	Semester.all.each { |b| branch.semesters << b }
-#end

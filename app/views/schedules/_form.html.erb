@@ -58,19 +58,9 @@
           <table>
             <tr>
               <td width="40%"><p>Repeat : </p></td>
-              <td ><input type="checkbox" name="repeat" value="1"></td><td>Weekly</td><td width="5%"></td>
+              <td><input type="checkbox" name="repeat" value="1"></td><td>Daily</td><td width="5%"></td>
+              <td><input type="checkbox" name="repeat" value="1"></td><td>Weekly</td><td width="5%"></td>
               <td><input type="checkbox" name="repeat" value="2"></td><td>Monthly</td><td width="5%"></td>
-            </tr>
-          </table>
-        </form>
-
-        <form action="GET">
-          <table>
-            <tr>
-              <td width="20%"><p>Repeat for : </p></td>
-              <td><input type="checkbox" name="date" value="1"></td><td width="15%" style="text-align:left">1 Week</td>
-              <td><input type="checkbox" name="date" value="2"></td><td width="15%" style="text-align:left">1 Month</td>
-              <td><input id="date_range_check" type="checkbox" name="date" value="3"></td><td style="text-align:left">Other:<input id="date_range" type="text" name="date"></td>
             </tr>
           </table>
         </form>
@@ -84,6 +74,9 @@
           </div>
         </div>
       <% end %>
+    </div>
+    <div align="right">
+      <%= button_to 'Notify Users',   update_schedule_schedule_path(1) , method: :get , :id => 'schedule_change' %>
     </div>
   </body>
 </html>

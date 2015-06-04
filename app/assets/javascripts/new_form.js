@@ -57,7 +57,7 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
-    $('#date_range').hide();
+    $('#schedule_change').hide();
 
     // Fullcalendar..
     $('#calendar').fullCalendar({
@@ -252,6 +252,7 @@ $(document).ready(function()
                 }
             });
         }
+        $('#schedule_change').show();
     };
 
     //To update the datbase with new values on Resize or DragDrop
@@ -271,6 +272,7 @@ $(document).ready(function()
                 revertFunc();
             }
         });
+        $('#schedule_change').show();
     };
 
     //To check atleast one checkbox is selected
@@ -302,7 +304,6 @@ $(document).ready(function()
         var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
         
-
         var t =checkboxBatch();
         if (t)
         {
@@ -323,12 +324,7 @@ $(document).ready(function()
                 }
             });
         }
-    });
-
-    $("#date_range_check").click(function(event)
-    {
-        alert("In date_range_check");
-        $("date_range").show();
+        $('#schedule_change').show();
     });
 
     //On updating rails form
@@ -373,6 +369,7 @@ $(document).ready(function()
                 }
             });
         }
+        $('#schedule_change').show();
     });
 
     $("span#apply").on("click",function(event)

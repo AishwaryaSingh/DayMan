@@ -1,41 +1,26 @@
 <html>
   <head>
     <title>User</title>
-    <script type="text/javascript">
-    $(document).ready(function() 
-    {
-    /*  $("#student").hide();
-      $("#role").on("click",function(event)
-      {
-        var role = $("#role").val();
-        alert(role);
-        if(role.to_s == "student")
-        {
-          $("#student").show();
-        }
-      }); 
-    */});
-  </script>
   </head>
-
   <body>
-    <%= form_for(@user) do |user| %>
-      Name: <%= user.text_field :name %>
-      Email: <%= user.email_field :email, autofocus: true %>
-      ID: <%= user.text_field :id %>
+    <%= form_for @user, url: update_user_users_path(@user), method: :post do |u| %>
+      Name: <%= u.text_field :name %>
+      Email: <%= u.email_field :email %>
+      ID: <%= u.text_field :id %>
+
       Role: <% role = @roles.map{ |b| [b.name.to_s, b.id.to_i] } %>
-            <span id="role">
-              <%= user.select(:role_id, options_for_select(role),{ include_blank: true}) %>
-            </span>
-      <div id="student" >
+            <%= u.select(:role_id, options_for_select(role, selected: @user.role_id ),{ include_blank: true}) %>
+
       Batch: <% batch = @batch.map{ |b| [b.name.to_s, b.id.to_i] } %>
-            <%= user.select(:batch_id, options_for_select(batch),{ include_blank: true}) %>
+            <%= u.select(:batch_id, options_for_select(batch, selected: @user.batch_id),{ include_blank: true}) %>
+
       Semester: <% semester = @semester.map{ |b| [b.name.to_s, b.id.to_i] } %>
-            <%= user.select(:semester_id, options_for_select(semester),{ include_blank: true}) %>
+            <%= u.select(:semester_id, options_for_select(semester, selected: @user.semester_id),{ include_blank: true}) %>
+
       Branch: <% branch = @branch.map{ |b| [b.name.to_s, b.id.to_i] } %>
-            <%= user.select(:branch_id, options_for_select(branch),{ include_blank: true}) %>
-    </div>
-    <%= user.submit %>
+            <%= u.select(:branch_id, options_for_select(branch, selected: @user.branch_id),{ include_blank: true}) %>
+
+    <%= u.submit %>
     <% end %>
   </body>
 </html>

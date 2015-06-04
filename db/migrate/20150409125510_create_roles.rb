@@ -1,5 +1,3 @@
-
-
 class CreateRoles < ActiveRecord::Migration
     
     def self.up

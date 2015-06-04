@@ -5,69 +5,65 @@ DayMan::Application.routes.draw do
   devise_for :users, :controllers => { :registrations => "users/registrations" }
 
   resources :users do
-    collection { post :import }
-  end
-
-  post 'schedules/initialize_subjects', :to => 'schedules#initialize_subjects'
-
-#  resources :dashboard do
-#    get :get_events, on: :collection
-#  end
- 
- resources :users do
+    collection do
+      post :import
+      post :create_user
+      post :update_user
+      post :id_for_edit
+      get :list_of_users
+    end
     member do
       get 'schedule'
-      post 'professor_create'
     end
   end
 
- resources :students
- resources :professors
- resources :schedules 
- resources :units
- resources :subjects
- resources :branches
- resources :semesters
+  resources :schedules do
+    member do
+      get 'update_schedule'
+    end
+  end
 
- get '/users/professor_show', to: 'users#professor_show'
+  resources :subjects
+  resources :branches
+  resources :semesters
 
- #get '/schedules/new', to: 'schedules#prior_new'
+  post 'schedules/initialize_subjects', :to => 'schedules#initialize_subjects'
+  
+  post 'users/', :to => 'users#create_user'
 
- get '/admin', to: 'admin#index'
-
- get '/admin/subjects', to: 'subjects#index'
-
- #get '/admin/professors', to: 'professors#index'
-
- get '/admin/schedules' , to: 'schedules#index'
-
- #get '/admin/units' , to: 'units#index'
-
- get '/admin/branches', to: 'branches#index'
-
- get '/admin/semesters', to: 'semesters#index'
-
-# get '/admin/students', to: 'students#index'
-
- get '/admin/users', to: 'users#import_users'
-
- get '/home', to: 'home#index'
-
-
- #get '/users/get_schedules', to: 'schedules#get_schedules'  #NOT WORKING!!!
-
- get '/studenthome', to: 'home#studenthome'
-
- get '/professorhome', to: 'home#professorhome'
-
- get '/users/schedules', to: 'schedules#get_schedules'  #NOT WORKING!!!
-
-
- #get '/users', to: 'users#index'
+  post 'users/', :to => 'users#list_of_users'
  
- #mount FullcalendarEngine::Engine => "/fullcalendar_engine"
+  get '/home', to: 'home#index'
 
- #get '/', to: 'index'
+  get '/admin', to: 'admin#index'
+
+  get '/admin/subjects', to: 'subjects#index'
+
+  get '/admin/schedules' , to: 'schedules#index'
+
+  get '/admin/branches', to: 'branches#index'
+
+  get '/admin/semesters', to: 'semesters#index'
+
+  get '/admin/users', to: 'users#import_users'
+
+  #mount FullcalendarEngine::Engine => "/fullcalendar_engine"
+
+  #get '/users/professor_show', to: 'users#professor_show'
+
+  #get '/schedules/new', to: 'schedules#prior_new'
+
+  #get '/users/get_schedules', to: 'schedules#get_schedules'  #NOT WORKING!!!
+
+  #get '/studenthome', to: 'home#studenthome'
+
+  #get '/professorhome', to: 'home#professorhome'
+
+  #get '/users/schedules', to: 'schedules#get_schedules'  #NOT WORKING!!!
+
+  #get '/users', to: 'users#index'
+
+  #get '/', to: 'index'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

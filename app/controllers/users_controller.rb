@@ -60,23 +60,22 @@ class UsersController < ApplicationController
     @branch = Branch.all
   end
 
-  def create
-    @user=User.new(user_params)
-    @user.password = "12345678"
-    if @user.save!
-      Rails.logger.info "User #{@user.inspect} created =========================="
-      flash[:success] = "Created a New User"
-    else
-      Rails.logger.info "User #{@user.inspect} NOT created =========================="
-      flash[:success] = "User not created"
-    end
-    # redirect_to admin_users_path
+  def id_for_edit
+    user_id=params[:user_id]
+    @user=User.find_by_id(user_id)
+    redirect_to edit_user_path(@user)
   end
 
-  def destroy
-    @user = User.find(params[:id])
-    flash[:success] = "Deleted User "+@user.name
-    @user.destroy
+  def create_user
+    @user=User.new(user_params)
+    @user.password = "12345678"
+    @user.sign_up_count = "1"
+    if @user.save!
+      UserMailer.welcome_email(@user).deliver
+      flash[:success] = "Created a New User!"
+    else
+      flash[:error] = "User not created."
+    end
     redirect_to admin_users_path
   end
 
@@ -88,11 +87,25 @@ class UsersController < ApplicationController
     @branch = Branch.all
   end
 
-  def update
-    @user = User.find(params[:id])
-    @user.update_attributes!(user_params)
-    flash[:success] = "Updated User "+@user.name
+  def update_user
+    @user = User.find(params[:user][:id])
+    if @user.update_attributes!(user_params)
+      flash[:success] = "Updated User "+@user.name
+    else
+      flash[:error] = "User not updated."
+    end
     redirect_to admin_users_path
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    flash[:success] = "Deleted User "+@user.name
+    @user.destroy
+    redirect_to admin_users_path
+  end
+
+  def list_of_users
+    @users = User.all
   end
 
   private

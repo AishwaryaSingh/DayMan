@@ -1,27 +1,13 @@
 <html>
-	<head>
-		<script type="text/javascript">
-			$(document).ready(function() 
-			{
-				$("#add_id").hide();
-				$("button#edit").on("click",function(event)
-    		{
-    			$("#add_id").show();
-    		});
-    		$("button#go").on("click",function(event)
-    		{
-    			var id = $("#add_id").text();
-    		});
-			});
-		</script>
-	</head>
 	<body>
 		<div align="left">
 			<%= button_to 'Add a New User', new_user_path, method: :get %>
 		</div>
-		<div>
-			<input type="button" id="edit" value="Edit">:<span id="add_id"><input type="text"><input type="button" id="go" value="Go!"></span>
-			<%#= button_to 'Edit user', new_user_path, method: :get %>
+		<div align="left">
+			<%= form_tag id_for_edit_users_path, method: :post do %>
+				Enter User ID : <%= text_field_tag 'user_id' %>
+				<%= submit_tag 'Edit User' %>
+			<% end %>
 		</div>
 		<div align="bottom">
 		Choose a file to import users.. :
