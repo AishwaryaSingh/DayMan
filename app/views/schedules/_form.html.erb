@@ -45,7 +45,7 @@
 
         <table>
           <tr>
-            <td width="40%"><p>Repeat for Batches: </p></td>
+            <td width="40%"><p>For Batches: </p></td>
             <% @batch.each do |batch| %>
               <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
               <td><%= batch.name %></td>
@@ -54,16 +54,23 @@
           </tr>
         </table>
 
-        <form action="GET">
-          <table>
-            <tr>
-              <td width="40%"><p>Repeat : </p></td>
-              <td><input type="checkbox" name="repeat" value="1"></td><td>Daily</td><td width="5%"></td>
-              <td><input type="checkbox" name="repeat" value="1"></td><td>Weekly</td><td width="5%"></td>
-              <td><input type="checkbox" name="repeat" value="2"></td><td>Monthly</td><td width="5%"></td>
-            </tr>
-          </table>
-        </form>
+        <table>
+          <tr>
+            <td width="40%"><p>Repeat : </p></td>
+            <td><%= check_box_tag 'period', 1 %></td><td>Daily</td><td width="5%"></td>
+            <td><%= check_box_tag 'period', 2 %></td><td>Weekly</td><td width="5%"></td>
+            <td><%= check_box_tag 'period', 3 %></td><td>Monthly</td><td width="5%"></td>
+          </tr>
+        </table>
+
+        <div class="row">
+            <div class="col-md-4">
+              <p>Start Date : </p><%= schedule.date_select(:start_date) %>
+            </div>
+            <div class="col-md-4">
+              <p>End Date : </p><%= schedule.date_select(:end_date) %>
+            </div>
+        </div>
 
         <div class="row">
           <div class="col-md-12">
@@ -76,7 +83,7 @@
       <% end %>
     </div>
     <div align="right">
-      <%= button_to 'Notify Users',   update_schedule_schedule_path(1) , method: :get , :id => 'schedule_change' %>
+      <%= button_to 'Notify Users', update_schedule_schedule_path(1), method: :get , :id => 'schedule_change' %>
     </div>
   </body>
 </html>

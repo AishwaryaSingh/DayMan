@@ -39,12 +39,40 @@ class SchedulesController < ApplicationController
     arr.each do |b|
       @schedule = Schedule.new(schedule_params)
       @schedule.batch_id = b
+      @schedule.period = params[:period]
       if validate_professor_availability(@schedule) && validate_room_availability(@schedule)
         if @schedule.valid?
           @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
-         # if !same_schedule(@schedule)
-            @schedule.save!
-          #end
+          @schedule.save!
+          if params[:period] 
+            loop do
+              @schedule = Schedule.new(schedule_params)
+              if params[:period] == "1"
+                @schedule.start_date =  @schedule.start_date + 1.days
+                @schedule.starttime =  @schedule.starttime + 1.days
+                @schedule.endtime =  @schedule.endtime + 1.days    
+              elsif params[:period] == "2"
+                @schedule.start_date =  @schedule.start_date + 7.days
+                @schedule.starttime =  @schedule.starttime + 7.days
+                @schedule.endtime =  @schedule.endtime + 7.days
+              else
+                @schedule.start_date =  @schedule.start_date + 1.months
+                @schedule.starttime =  @schedule.starttime + 1.months
+                @schedule.endtime =  @schedule.endtime + 1.months    
+              end    
+              @schedule.batch_id = b
+              @schedule.period = params[:period]
+              if validate_professor_availability(@schedule) && validate_room_availability(@schedule)
+                if @schedule.valid?
+                  @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+                  @schedule.save! 
+                end
+              end
+              if @schedule.start_date > @schedule.end_date
+              break
+              end 
+            end 
+          end
         end
       else
         if !validate_professor_availability(@schedule)
@@ -161,7 +189,7 @@ class SchedulesController < ApplicationController
   private
 
   def schedule_params
-    params.require(:schedule).permit(:name, :branch_id, :semester_id, :user_id, :subject_id, :batch_id, :room_id, :starttime , :endtime, :batch_ids=>[])
+    params.require(:schedule).permit(:name, :branch_id, :semester_id, :user_id, :subject_id, :batch_id, :room_id, :starttime, :endtime, :start_date,  :end_date, :period, :batch_ids=>[])
   end
 
   $schedule_array = Array.new()
