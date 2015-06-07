@@ -27,47 +27,10 @@ ActiveRecord::Schema.define(version: 20150504151205) do
     t.datetime "updated_at"
   end
 
-  create_table "branch_semesters", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "branches", force: true do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "branches_semesters", force: true do |t|
-    t.integer "branch_id"
-    t.integer "semester_id"
-  end
-
-  create_table "branches_subjects", force: true do |t|
-    t.integer "subject_id"
-    t.integer "branch_id"
-  end
-
-  create_table "days", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "professors", force: true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.integer  "age"
-    t.string   "gender"
-    t.integer  "role_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "professors_subjects", force: true do |t|
-    t.integer "professor_id"
-    t.integer "subject_id"
   end
 
   create_table "roles", force: true do |t|
@@ -114,11 +77,6 @@ ActiveRecord::Schema.define(version: 20150504151205) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "semesters_subjects", force: true do |t|
-    t.integer "subject_id"
-    t.integer "semester_id"
-  end
-
   create_table "students", force: true do |t|
     t.string   "name"
     t.string   "email"
@@ -132,16 +90,6 @@ ActiveRecord::Schema.define(version: 20150504151205) do
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "units", force: true do |t|
-    t.string   "name"
-    t.integer  "subject_id"
-    t.integer  "integer_id"
-    t.integer  "batch_id"
-    t.integer  "professor_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
   end
 
   create_table "users", force: true do |t|
@@ -174,13 +122,5 @@ ActiveRecord::Schema.define(version: 20150504151205) do
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
-
-  create_table "years", force: true do |t|
-    t.string   "year"
-    t.datetime "SemStartDate"
-    t.datetime "SemEndDate"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
 end
