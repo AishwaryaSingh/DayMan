@@ -26,6 +26,11 @@ class User < ActiveRecord::Base
     end
   end
 
+  #To create a user
+  def self.create(user)
+    user.save!
+  end
+
   #To import a file :-
   def self.import(file)
     spreadsheet = open_spreadsheet(file)
@@ -35,13 +40,14 @@ class User < ActiveRecord::Base
       row = Hash[[header, spreadsheet.row(i)].transpose]
       user = find_by_id(row["id"]) || new
       #user.attributes = row.to_hash.slice(*accessible_attributes)
+      user.id = row['id']
       user.name = row['name']
       user.email = row['email']
       user.password = "12345678"
       user.role_id = row['role_id']
-      user.role_id = row['batch_id']
-      user.role_id = row['semester_id']
-      user.role_id = row['branch_id']
+      user.batch_id = row['batch_id']
+      user.semester_id = row['semester_id']
+      user.branch_id = row['branch_id']
       user.sign_up_count = "1"
       user.save!
       UserMailer.welcome_email(user).deliver

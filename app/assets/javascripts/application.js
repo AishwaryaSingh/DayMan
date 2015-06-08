@@ -16,3 +16,15 @@
 //= require moment
 //= require fullcalendar
 //= require bootstrap
+
+
+$(document).ready(function() 
+{
+    $(function()
+    {
+  		setTimeout(function()
+  		{
+    		$('.alert').slideUp(500);
+  		}, 1000);
+	});
+});

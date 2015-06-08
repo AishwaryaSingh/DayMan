@@ -1,48 +1,46 @@
-
-    $(function()
-    {
-        $("#dialog").dialog({
-            autoOpen: false,
-            width: 570,
-            modal: true
-        });
-        $( "#menu" ).menu({
-            disabled: true
-        });
+$(function()
+{
+    $("#dialog").dialog({
+        autoOpen: false,
+        width: 570,
+        modal: true
     });
+    $( "#menu" ).menu({
+        disabled: true
+    });
+});
 
-    jQuery.fn.serializeObject = function()
+jQuery.fn.serializeObject = function()
+{
+    var arrayData, objectData;
+    arrayData = this.serializeArray();
+    objectData = {};
+    $.each(arrayData, function(index)
     {
-        var arrayData, objectData;
-        arrayData = this.serializeArray();
-        objectData = {};
-        $.each(arrayData, function(index)
+        var value = arrayData[index];
+        if (this.value != '')
         {
-            var value = arrayData[index];
-            if (this.value != '')
+            value = this.value;
+        } 
+        else 
+        {
+            throw new Error(this.name+" is null! please fill in all details.");
+        }
+        if (objectData[this.name] != null) 
+        {            
+            if (!objectData[this.name].push) 
             {
-              value = this.value;
-            } 
-            else 
-            {
-              throw new Error(this.name+" is null! please fill in all details.");
-            }
-            if (objectData[this.name] != null) 
-            {            
-             if (!objectData[this.name].push) 
-              {
                 objectData[this.name] = [objectData[this.name]];
-              }
-              objectData[this.name].push(value);
-            } 
-            else 
-            {
-              objectData[this.name] = value;
             }
-        });
-        return objectData;
-    };
-
+            objectData[this.name].push(value);
+        } 
+        else 
+        {
+            objectData[this.name] = value;
+        }
+    });
+    return objectData;
+};
 
 $(document).ready(function() 
 {
@@ -57,7 +55,7 @@ $(document).ready(function()
     var y = date.getFullYear();
     var t = date.getTime();
 
-    $('#date_range').hide();
+    $('#schedule_change').hide();
 
     // Fullcalendar..
     $('#calendar').fullCalendar({
@@ -82,7 +80,10 @@ $(document).ready(function()
                         event.description = d['name'];    
                         event.start = d['starttime']; 
                         event.end = d['endtime'];
-                        event.allDay = false;       
+                        event.allDay = false;
+                        event.start_date = d['start_date']; 
+                        event.end_date = d['end_date'];
+                        event.period = d['period']; 
                         event.subjectId = d['subject_id'];   
                         event.roomId = d['room_id'];   
                         event.userId = d['user_id'];  
@@ -188,10 +189,8 @@ $(document).ready(function()
         },
 
         eventMouseover: function( event, jsEvent, view)
-        {
-            
+        { 
             $('#close', this).show();
-       //   event.addClass("animated shake");
             i = 0;
             $("#close", this).on("click" , function()
             {
@@ -206,6 +205,7 @@ $(document).ready(function()
                 }
             });
         },
+
         eventMouseout: function( event, jsEvent, view )
         {
             $('#close', this).hide();
@@ -220,9 +220,11 @@ $(document).ready(function()
                 data : {'batch_id' : batch_id , 'branch_id' : branch_id , 'semester_id' : semester_id },
                 dataType: 'json'
             });
-
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
+            $("#start_date_1i").val(start);
+            $("#start_date_2i").val(start.format("MM"));
+            $("#start_date_3i").val(start);
             $("#schedule_create").show();
             $("#schedule_update").hide();
             $("#dialog").dialog("open");            
@@ -252,6 +254,7 @@ $(document).ready(function()
                 }
             });
         }
+        $('#schedule_change').show();
     };
 
     //To update the datbase with new values on Resize or DragDrop
@@ -263,7 +266,6 @@ $(document).ready(function()
             type: "PATCH",
             data : { "schedule[id]" : event.id, "schedule[name]" : jobj.title, "schedule[starttime]" : jobj.start, "schedule[endtime]" : jobj.end },
             dataType: "json",
-
             success : function(schedule) {},
             error : function(error)
             {
@@ -271,6 +273,7 @@ $(document).ready(function()
                 revertFunc();
             }
         });
+        $('#schedule_change').show();
     };
 
     //To check atleast one checkbox is selected
@@ -291,18 +294,15 @@ $(document).ready(function()
         formObject["schedule[batch_id]"] = $("#batch_id").val();
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
-
         var arr = []; 
-        $.each($("input:checked"), function()
+    /*    $.each($("#batch_checkbox input:checked"), function()
         {
           arr.push($(this).val());
         });
-
         formObject["schedule[batch_id]"] = arr;
-        var jObject = JSON.stringify(formObject);
+      */  var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
         
-
         var t =checkboxBatch();
         if (t)
         {
@@ -311,7 +311,6 @@ $(document).ready(function()
                 type: 'POST',
                 data : jsonObject,
                 dataType: 'json' ,
-
                 success : function(response)
                 {
                     $("#dialog").dialog("close");
@@ -323,12 +322,7 @@ $(document).ready(function()
                 }
             });
         }
-    });
-
-    $("#date_range_check").click(function(event)
-    {
-        alert("In date_range_check");
-        $("date_range").show();
+        $('#schedule_change').show();
     });
 
     //On updating rails form
@@ -342,15 +336,13 @@ $(document).ready(function()
         formObject["schedule[batch_id]"] = $("#batch_id").val();
         formObject["schedule[starttime]"] = $("#startTime").text();
         formObject["schedule[endtime]"] = $("#endTime").text();
-
         var arr = []; 
-        $.each($("input:checked"), function()
+ /*       $.each($("#batch_checkbox input:checked"), function()
         {
           arr.push($(this).val());
         });
-        
         formObject["schedule[batch_id]"] = arr;
-        var jObject = JSON.stringify(formObject);
+   */     var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
 
         var t =checkboxBatch();
@@ -361,7 +353,6 @@ $(document).ready(function()
                 type: "PUT",
                 data : jsonObject , 
                 dataType: 'json' ,
-                
                 success : function(response)
                 {
                     $("#dialog").dialog("close");
@@ -373,6 +364,7 @@ $(document).ready(function()
                 }
             });
         }
+        $('#schedule_change').show();
     });
 
     $("span#apply").on("click",function(event)
@@ -381,4 +373,6 @@ $(document).ready(function()
         var branch_id = $("#branch_id").val();
         var semester_id = $("#semester_id").val();
     });
+
+
 });

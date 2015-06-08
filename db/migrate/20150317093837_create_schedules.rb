@@ -7,13 +7,13 @@ class CreateSchedules < ActiveRecord::Migration
         t.references :subject
         t.references :batch
         t.references :user
-#    	t.references :day
-        t.references :room   
-#       t.references :unit
-        t.timestamps
+        t.references :room
+        t.string :period
+        t.datetime :start_date
+        t.datetime :end_date 
         t.datetime :starttime
         t.datetime :endtime
-
+        t.timestamps
     end
   end
 end

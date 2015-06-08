@@ -60,10 +60,13 @@ ActiveRecord::Schema.define(version: 20150504151205) do
     t.integer  "batch_id"
     t.integer  "user_id"
     t.integer  "room_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string   "period"
+    t.datetime "start_date"
+    t.datetime "end_date"
     t.datetime "starttime"
     t.datetime "endtime"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "schedules_batches", id: false, force: true do |t|

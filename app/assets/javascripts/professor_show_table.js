@@ -54,6 +54,7 @@ $(document).ready(function()
     var t = date.getTime();
 
     $('#user_id').hide();
+    $('#schedule_change').hide();
 
     $('#calendar').fullCalendar({
 
@@ -236,6 +237,7 @@ $(document).ready(function()
                 }
             });
         }
+        $('#schedule_change').show();
     };
 
     //To update the datbase with new values on Resize or DragDrop
@@ -249,7 +251,7 @@ $(document).ready(function()
             dataType: "json",
 
             success : function(schedule) {
-                
+
             },
             error : function(error)
             {
@@ -257,6 +259,7 @@ $(document).ready(function()
                 revertFunc();
             }
         });
+        $('#schedule_change').show();
     };
 
     //To check atleast one checkbox is selected
@@ -284,8 +287,7 @@ $(document).ready(function()
 
         formObject["schedule[batch_id]"] = arr;
         var jObject = JSON.stringify(formObject);
-        var jsonObject = JSON.parse(jObject);
-        
+        var jsonObject = JSON.parse(jObject);   
 
         var t =checkboxBatch();
         if (t)
@@ -307,6 +309,7 @@ $(document).ready(function()
                 }
             });
         }
+        $('#schedule_change').show();
     });
 
     //On updating rails form
@@ -348,5 +351,11 @@ $(document).ready(function()
                 }
             });
         }
+        $('#schedule_change').show();
+    });
+
+    $("#schedule_change").click(function(event)
+    { 
+        
     });
 });
