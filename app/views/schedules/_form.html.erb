@@ -47,7 +47,7 @@
 
         <table>
           <tr>
-            <td width="40%"><p>For sBatches: </p></td>
+            <td width="40%"><p>For Batches: </p></td>
             <% @batch.each do |batch| %>
               <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
               <td><%= batch.name %></td>
@@ -59,9 +59,10 @@
         <table>
           <tr>
             <td width="40%"><p>Repeat : </p></td>
-            <td><%= check_box_tag 'period', 1 %></td><td>Daily</td><td width="5%"></td>
-            <td><%= check_box_tag 'period', 2 %></td><td>Weekly</td><td width="5%"></td>
-            <td><%= check_box_tag 'period', 3 %></td><td>Monthly</td><td width="5%"></td>
+            <td><%= radio_button_tag 'period', 0 %></td><td>Today</td><td width="5%"></td>
+            <td><%= radio_button_tag 'period', 1 %></td><td>Daily</td><td width="5%"></td>
+            <td><%= radio_button_tag 'period', 2 %></td><td>Weekly</td><td width="5%"></td>
+            <td><%= radio_button_tag 'period', 3 %></td><td>Monthly</td><td width="5%"></td>
           </tr>
         </table>
 

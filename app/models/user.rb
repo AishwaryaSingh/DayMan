@@ -6,7 +6,7 @@ class User < ActiveRecord::Base
   before_create :set_default_role
 
   devise :database_authenticatable, :registerable,
-         :recoverable,:validatable, :rememberable, :trackable
+         :recoverable,:validatable, :rememberable, :trackable ,:timeoutable 
 	
   belongs_to :role
   belongs_to :batch

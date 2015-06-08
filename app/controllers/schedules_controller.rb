@@ -45,11 +45,11 @@ class SchedulesController < ApplicationController
       $end = @schedule.end_date
       $start_time = @schedule.starttime
       $end_time = @schedule.endtime
-      if validate_professor_availability(@schedule) && validate_room_availability(@schedule) && !same_schedule(@schedule)
+      if validate_professor_availability(@schedule) && validate_room_availability(@schedule) #&& !same_schedule(@schedule)
         if @schedule.valid?
           @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
           @schedule.save!
-          if params[:period] 
+          if params[:period] != "0"
             while  $start<$end do
               @schedule = Schedule.new(schedule_params)
               if $period == "1"
@@ -80,7 +80,7 @@ class SchedulesController < ApplicationController
               if $start<=$end
                 @schedule.batch_id = b
                 @schedule.period = params[:period]
-                if validate_professor_availability(@schedule) && validate_room_availability(@schedule) && !same_schedule(@schedule)
+                if validate_professor_availability(@schedule) && validate_room_availability(@schedule) #&& !same_schedule(@schedule)
                   if @schedule.valid?
                     @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
                     @schedule.save!

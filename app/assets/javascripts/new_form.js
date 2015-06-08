@@ -176,7 +176,7 @@ $(document).ready(function()
         {
             $("#startTime").text(event.start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(event.end.format(" HH:mm DD-MM-YYYY"));
-               
+
             $("#schedule_create").hide();
             $("#schedule_update").show();
 
@@ -222,7 +222,7 @@ $(document).ready(function()
             });
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
-            
+
             $("#schedule_start_date_1i").val(start.format("YYYY"));
             $("#schedule_start_date_2i").val(parseInt(start.format("MM")));
             $("#schedule_start_date_3i").val(parseInt(start.format("DD")));
