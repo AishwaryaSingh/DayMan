@@ -43,7 +43,9 @@ class SchedulesController < ApplicationController
       $period = params[:period]
       $start = @schedule.start_date
       $end = @schedule.end_date
-      if validate_professor_availability(@schedule) && validate_room_availability(@schedule)
+      $start_time = @schedule.starttime
+      $end_time = @schedule.endtime
+      if validate_professor_availability(@schedule) && validate_room_availability(@schedule) && !same_schedule(@schedule)
         if @schedule.valid?
           @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
           @schedule.save!
@@ -52,33 +54,39 @@ class SchedulesController < ApplicationController
               @schedule = Schedule.new(schedule_params)
               if $period == "1"
                 @schedule.start_date = @schedule.start_date + 1.days
-                @schedule.starttime = @schedule.starttime + 1.days
-                @schedule.endtime = @schedule.endtime + 1.days    
+                @schedule.starttime = $start_time + 1.days
+                @schedule.endtime = $end_time  + 1.days 
+
+                $start_time = $start_time + 1.days
+                $end_time = $end_time + 1.days
                 $start = $start + 1.days
-                @schedule.period = "1"
-                $period = "1"
               elsif $period == "2"
-                @schedule.start_date = @schedule.start_date + 7.days
-                @schedule.starttime = @schedule.starttime + 7.days
-                @schedule.endtime = @schedule.endtime + 7.days
+                @schedule.start_date = $start + 7.days
+                @schedule.starttime = $start_time + 7.days
+                @schedule.endtime = $end_time + 7.days
+                
+                $start_time = $start_time + 7.days
+                $end_time = $end_time + 7.days
                 $start = $start + 7.days
-                $period = "2"
-                @schedule.period = "2"  
-              @schedule.batch_id = b
-              if validate_professor_availability(@schedule) && validate_room_availability(@schedule)
-                if @schedule.valid?
-                  @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
-                  @schedule.save! 
+              else
+                @schedule.start_date = @schedule.start_date + 28.days
+                @schedule.starttime = $start_time + 28.days
+                @schedule.endtime = $end_time + 28.days  
+                
+                $start_time = $start_time + 28.days
+                $end_time = $end_time + 28.days
+                $start = $start + 28.days
+              end
+              if $start<=$end
+                @schedule.batch_id = b
+                @schedule.period = params[:period]
+                if validate_professor_availability(@schedule) && validate_room_availability(@schedule) && !same_schedule(@schedule)
+                  if @schedule.valid?
+                    @schedule.name = @schedule.subject.name+" by "+@schedule.user.name+" in "+@schedule.room.name+" for "+@schedule.batch.name+"("+@schedule.branch.name+")"
+                    @schedule.save!
+                  end
                 end
               end
-              else
-                @schedule.start_date = @schedule.start_date + 1.months
-                @schedule.starttime = @schedule.starttime + 1.months
-                @schedule.endtime = @schedule.endtime + 1.months    
-                $start = $start + 1.months
-                $period = "3"
-                @schedule.period = "3"
-              end  
             end 
           end
         end
