@@ -100,6 +100,9 @@ class SchedulesController < ApplicationController
         end            
       end
     end
+    if current_user.role_id == "1"
+      $schedule_array.append(@schedule)
+    end
     respond_to do |format|
       format.html
       format.json {render :json => @schedule, :status => :created, :location => @schedule }
@@ -169,7 +172,18 @@ class SchedulesController < ApplicationController
         @schedule.save!
       end
     end
-    $schedule_array.append(@schedule)
+    t = false
+    $schedule_array.each do |s|
+      if s.id == @schedule.id
+        $schedule_array.delete(s)
+        $schedule_array.append(@schedule)
+        t = true
+        break
+      end
+    end
+    if t == false
+      $schedule_array.append(@schedule)
+    end
     respond_to do |format|
       format.html
       format.json {render :json => @schedule }

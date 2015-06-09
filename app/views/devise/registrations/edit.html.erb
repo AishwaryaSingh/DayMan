@@ -20,6 +20,21 @@
     <%= f.text_field :user_name, autofocus: true %>
   </div>
 
+<% if current_user.role_id == 3 %>
+  <div class="field">
+    Batch:
+    <% batch = Batch.all.map { |b| [b.name.to_s, b.id.to_i] } %>
+    <%= f.select(:batch_id, options_for_select(batch, selected: resource.batch_id)) %>
+   
+    Semester:
+    <% semester = Semester.all.map { |b| [b.name.to_s, b.id.to_i] } %>
+    <%= f.select(:semester_id, options_for_select(semester, selected: resource.semester_id)) %>
+   
+    Branch:
+    <% branch = Branch.all.map { |b| [b.name.to_s, b.id.to_i] } %>
+    <%= f.select(:branch_id, options_for_select(branch, selected: resource.branch_id)) %>
+  </div>
+<% end %>
   <div class="field">
     <%= f.label :email %><br />
     <%= f.email_field :email, autofocus: true, :disabled => true %>
