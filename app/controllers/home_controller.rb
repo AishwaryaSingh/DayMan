@@ -14,7 +14,7 @@ class HomeController < ApplicationController
   end
 
   def check_sign_up_count
-    if current_user.password == "12345678"
+    if current_user.password == "12345678"  #Default password on excel uplaod
       return false
     else
       current_user.sign_up_count ="0"
