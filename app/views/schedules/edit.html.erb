@@ -1,5 +1,5 @@
 <div class="tabs" align="right"><%= button_to 'Back', schedules_path , method: :get %></div>
 <div align="center">
-<%= render 'form' %>
+<%= render 'form', :professor => @professor, :branch => @branch ,:semester => @semester, :room => @room, :batch => @batch, :subjects => @subjects, :schedule => @schedule %>
 </div>
 <div class="footer"></div>

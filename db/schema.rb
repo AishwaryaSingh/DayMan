@@ -27,6 +27,10 @@ ActiveRecord::Schema.define(version: 20150504151205) do
     t.datetime "updated_at"
   end
 
+  add_index "branch_semester_subjects", ["branch_id"], name: "index_branch_semester_subjects_on_branch_id", using: :btree
+  add_index "branch_semester_subjects", ["semester_id"], name: "index_branch_semester_subjects_on_semester_id", using: :btree
+  add_index "branch_semester_subjects", ["subject_id"], name: "index_branch_semester_subjects_on_subject_id", using: :btree
+
   create_table "branches", force: true do |t|
     t.string   "name"
     t.datetime "created_at", null: false
@@ -69,24 +73,17 @@ ActiveRecord::Schema.define(version: 20150504151205) do
     t.datetime "updated_at"
   end
 
-  create_table "schedules_batches", id: false, force: true do |t|
-    t.integer "schedule_id"
-    t.integer "batch_id"
-  end
+  add_index "schedules", ["batch_id"], name: "index_schedules_on_batch_id", using: :btree
+  add_index "schedules", ["branch_id"], name: "index_schedules_on_branch_id", using: :btree
+  add_index "schedules", ["room_id"], name: "index_schedules_on_room_id", using: :btree
+  add_index "schedules", ["semester_id"], name: "index_schedules_on_semester_id", using: :btree
+  add_index "schedules", ["subject_id"], name: "index_schedules_on_subject_id", using: :btree
+  add_index "schedules", ["user_id"], name: "index_schedules_on_user_id", using: :btree
 
   create_table "semesters", force: true do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "students", force: true do |t|
-    t.string   "name"
-    t.string   "email"
-    t.integer  "role_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer  "batch_id"
   end
 
   create_table "subjects", force: true do |t|
@@ -123,7 +120,11 @@ ActiveRecord::Schema.define(version: 20150504151205) do
     t.datetime "avatar_updated_at"
   end
 
+  add_index "users", ["batch_id"], name: "index_users_on_batch_id", using: :btree
+  add_index "users", ["branch_id"], name: "index_users_on_branch_id", using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+  add_index "users", ["role_id"], name: "index_users_on_role_id", using: :btree
+  add_index "users", ["semester_id"], name: "index_users_on_semester_id", using: :btree
 
 end

@@ -20,8 +20,8 @@
   <% c = 0 %>
   <% @bss.each do |branch| %>
       <% if branch.subject_id == subject.id %>
-          <% if !branchArray.include?(Branch.find(branch.branch_id).name) %>
-              <%branchArray.push(Branch.find(branch.branch_id).name) %>
+          <% if !branchArray.include?(@branch.find(branch.branch_id).name) %>
+              <%branchArray.push(@branch.find(branch.branch_id).name) %>
           <%end%>
       <% end %>
   <% end %>
@@ -39,8 +39,8 @@
   <% c = 0 %>
   <% @bss.each do |semester| %>
       <% if semester.subject_id == subject.id %>
-          <% if !semesterArray.include?(Semester.find(semester.semester_id).name) %>
-              <%semesterArray.push(Semester.find(semester.semester_id).name) %>
+          <% if !semesterArray.include?(@semester.find(semester.semester_id).name) %>
+              <%semesterArray.push(@semester.find(semester.semester_id).name) %>
           <%end%>
       <% end %>
   <% end %>

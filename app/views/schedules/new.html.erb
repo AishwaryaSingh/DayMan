@@ -7,8 +7,8 @@
   </head>
   <body>
     <div align="center">
-      <%= render partial: 'initialize_subjects_form' %>
-      <%= render partial: 'form' %>
+      <%= render 'initialize_subjects_form', :branch => @branch ,:semester => @semester, :batch => @batch,:branch_id_frmc => @branch_id_frmc ,:semester_id_frmc => @semester_id_frmc, :batch_id_frmc => @batch_id_frmc %>
+      <%= render 'form', :professor => @professor, :branch => @branch ,:semester => @semester, :room => @room, :batch => @batch, :subjects => @subjects, :schedule => @schedule %>
       <div id="calendar"></div>
     </div>
   </body>

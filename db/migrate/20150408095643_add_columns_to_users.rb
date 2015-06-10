@@ -9,5 +9,10 @@ class AddColumnsToUsers < ActiveRecord::Migration
     add_column :users, :batch_id, :integer
     add_column :users, :semester_id, :integer
     add_column :users, :branch_id, :integer
+
+    add_index :users, :role_id
+    add_index :users, :batch_id
+    add_index :users, :semester_id
+    add_index :users, :branch_id
   end
 end

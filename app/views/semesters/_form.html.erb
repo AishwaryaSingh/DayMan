@@ -1,11 +1,11 @@
-<%= form_for(@semester) do |f| %>
+<%= form_for(semester) do |f| %>
 <div align="center">
 <table>
  <tr><td> Name   : </td><td><%= f.text_field :name %></td>
   <td>
   <span style="color:red">
-  <% if @semester.errors[:name] %>
-    <% a= @semester.errors.full_messages_for(:name) %>
+  <% if semester.errors[:name] %>
+    <% a= semester.errors.full_messages_for(:name) %>
     <%= a.join(", ") %>
   <% end %>
   </span></td>

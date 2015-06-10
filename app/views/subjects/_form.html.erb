@@ -1,40 +1,31 @@
  <html>
  <head>
-    <title>subject</title>
-
+    <title>s</title>
     <script>
-    $(document).ready(function() 
+    $(document).ready(function()
     {
-      $('#submit').click(function()
-      {
-        //var t = checkboxBatch();
-      });
-
       var checkboxBatch = function()
-      { 
+      {
         var atLeastOneBranchIsChecked = $('#branch_ids_ input:checked').length > 0;
-        if(!atLeastOneBranchIsChecked){ alert("Select a Branch!"); return false; }   
-
+        if(!atLeastOneBranchIsChecked){ alert("Select a Branch!"); return false; }
         var atLeastOneSemesterIsChecked = $('#semester_ids_ input:checked').length > 0;
-        if(!atLeastOneSemesterIsChecked){ alert("Select a Semester!"); return false;} 
+        if(!atLeastOneSemesterIsChecked){ alert("Select a Semester!"); return false;}
       }
-
     });
-    </script>  
-
+    </script>
   </head>
 
-  <div >
-  <%= form_for @subject, :html => { :id => 'form' } do |subject| %>
-  <table>
-  <tr><td><b>Name : </b></td><td width="50%"><%= subject.text_field :name %></td>
-  </tr></table>
-  <span style="color:red">
-  <% if @subject.errors[:name] %>
-    <% a= @subject.errors.full_messages_for(:name) %>
-    <%= a.join(", ") %>
-  <% end %>
-  </span>
+  <div>
+    <%= form_for subject, :html => { :id => 'form' } do |s| %>
+    <table>
+    <tr><td><b>Name : </b></td><td width="50%"><%= s.text_field :name %></td>
+    </tr></table>
+    <span style="color:red">
+    <% if subject.errors[:name] %>
+      <% a= subject.errors.full_messages_for(:name) %>
+      <%= a.join(", ") %>
+    <% end %>
+    </span>
 
   <br />
   <br />
@@ -45,8 +36,8 @@
        <tr>
        <td>
           <% brArr = [] %>
-          <% if @t == false %>
-          <% @bss.each do |branchArray| %>
+          <% if count == false %>
+          <% bss.each do |branchArray| %>
                 <% if branchArray.branch_id == branch.id %>
                     <% brArr.push(branch.id) %>
                 <%end%>
@@ -71,8 +62,8 @@
         <tr>
         <td>
           <% semArr = [] %>
-          <% if @t == false %>
-          <% @bss.each do |branchArray| %>
+          <% if count == false %>
+          <% bss.each do |branchArray| %>
                 <% if branchArray.semester_id == semester.id %>
                     <% semArr.push(semester.id) %>
                 <%end%>
@@ -89,7 +80,7 @@
   </table>
   <br />
   <br />
-  <div align="left"><span id="submit"><%= subject.submit %></span></divleft  <% end %>
+  <div align="left"><span id="submit"><%= s.submit %></span></divleft  <% end %>
   </div>
 
 </html>

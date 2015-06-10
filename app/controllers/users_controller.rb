@@ -1,26 +1,14 @@
 class UsersController < ApplicationController
-  
+
   def index
     @schedule = Schedule.new
     id=current_user.id
     @user=User.find(id)
-    if current_user.role.name == "professor"
-      @data=Schedule.find_all_by_user_id(current_user.id)
-      @data.each do |d|
-        d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
-        d.save!
-      end
-    else
-      @data=Schedule.find_all_by_batch_id_and_semester_id_and_branch_id(current_user.batch_id,current_user.semester_id,current_user.branch_id)
-      @data.each do |d|
-        d.name= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
-        d.save!
-      end
-    end
-    respond_to do |format|  
+    @data = User.save_event_to_display(current_user)
+    respond_to do |format|
       format.html
-      format.json { render :json => @data }  
-   end   
+      format.json { render :json => @data }
+    end
   end
 
   def schedule
@@ -31,12 +19,8 @@ class UsersController < ApplicationController
     @semester = Semester.all
     @batch = Batch.all
     @room = Room.all
-    @subjects = Subject.all   
-    @data=Schedule.find_all_by_user_id(current_user.id)
-    @data.each do |d|
-      d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
-      d.save!
-    end
+    @subjects = Subject.all
+    @data = User.save_event_to_display(current_user)  
     respond_to do |format|  
       format.html
       format.json { render :json => @data }  
@@ -60,12 +44,6 @@ class UsersController < ApplicationController
     @branch = Branch.all
   end
 
-  def id_for_edit
-    user_id=params[:user_id]
-    @user=User.find_by_id(user_id)
-    redirect_to edit_user_path(@user)
-  end
-
   def create_user
     @user=User.new(user_params)
     @user.password = "12345678"
@@ -77,6 +55,12 @@ class UsersController < ApplicationController
       flash[:error] = "User not created."
     end
     redirect_to admin_users_path
+  end
+
+  def id_for_edit
+    user_id=params[:user_id]
+    @user=User.find_by_id(user_id)
+    redirect_to edit_user_path(@user)
   end
 
   def edit
@@ -102,10 +86,6 @@ class UsersController < ApplicationController
     flash[:success] = "Deleted User "+@user.name
     @user.destroy
     redirect_to admin_users_path
-  end
-
-  def list_of_users
-    @users = User.all
   end
 
   private

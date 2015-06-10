@@ -1,5 +1,5 @@
 class BranchesController < ApplicationController
-	
+
   def index
     @branches = Branch.all
   end
@@ -18,24 +18,22 @@ class BranchesController < ApplicationController
 
   def create
     @branch = Branch.new(unit_params)
-   
-   if @branch.valid?
+    if @branch.valid?
        @branch.save
        redirect_to branches_path
-    else 
+    else
       render 'new'
-    end 
+    end
   end
 
   def update
     @branch = Branch.find(params[:id])
-        
     if @branch.valid?
       @branch.update_attributes!(unit_params)
-      redirect_to branches_path 
+      redirect_to branches_path
     else
       render 'edit'
-    end 
+    end
   end
 
   def destroy
@@ -44,9 +42,7 @@ class BranchesController < ApplicationController
     redirect_to branches_path
   end
 
-
   def unit_params
     params.require(:branch).permit(:name, :id)
   end
-
 end

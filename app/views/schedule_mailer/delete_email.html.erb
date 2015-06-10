@@ -5,7 +5,7 @@
   </head>
   <body>
     <h1>Hello <%= @user.name %>! There is change in your schedule.</h1>
-    <p><b>"<%= @schedule.name %>"</b> by <b>"<%= @schedule.user.name %>"</b> from <b>"<%= @schedule.starttime %>" to "<%= @schedule.endtime %>"</b> in class <b>"<%= @schedule.room.name %>"</b> for batch <b>"<%= @schedule.batch.name %>" has been CANCELLED</b>.<br>
+    <p><b>"<%= @schedule.name %>"</b> by <b>"<%= @schedule.user_name %>"</b> from <b>"<%= @schedule.starttime %>" to "<%= @schedule.endtime %>"</b> in class <b>"<%= @schedule.room_name %>"</b> for batch <b>"<%= @schedule.batch_name %>" has been CANCELLED</b>.<br>
     </p>
 
     <p>Have a great day with DayMan!</p>

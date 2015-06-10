@@ -3,11 +3,13 @@ class SubjectsController < ApplicationController
 	def index
 		@subjects = Subject.all
 		@bss = BranchSemesterSubject.all
+		@branch = Branch.all
+		@semester = Semester.all
 	end
 
 	def new
 		@subject = Subject.new
-		@t = true
+		@count = true
 	end
 
 	def create
@@ -21,15 +23,7 @@ class SubjectsController < ApplicationController
 		else
 			if @subject.valid?
 				@subject.save!
-				branches.each do |b|
-					semesters.each do |s|
-					@bss=BranchSemesterSubject.new
-						@bss.branch_id = b
-						@bss.semester_id = s
-						@bss.subject_id = @subject.id
-						@bss.save!
-					end
-				end
+				Subject.create_BSS(@bss,branches,semesters,@subject.id)
 				redirect_to subjects_path
 			else
 				render 'new'
@@ -41,31 +35,17 @@ class SubjectsController < ApplicationController
 	def edit
 		@subject = Subject.find(params[:id])
 		@bss = BranchSemesterSubject.find_all_by_subject_id(params[:id])
-		@t = false
+		@count = false
 	end
 
 	def update
 		@subject = Subject.find(params[:id])
-
 		@bss = BranchSemesterSubject.find_all_by_subject_id(params[:id])
 		branches=params[:branch_ids]
 		semesters=params[:semester_ids]		
-
 		if @subject.valid?
 			@subject.update_attributes!(subject_params)
-
-			@bss.each do |b|
-				b.destroy
-			end
-			branches.each do |b|
-				semesters.each do |s|
-				@bss=BranchSemesterSubject.new
-					@bss.branch_id = b
-					@bss.semester_id = s
-					@bss.subject_id = @subject.id
-					@bss.save!
-				end
-			end
+			Subject.destroy_and_create_BSS(@bss,branches,semesters,@subject.id)
 			redirect_to subjects_path
 		else
 			render 'edit'

@@ -1,6 +1,26 @@
-<div align="center">
-	<div class="name">
-		<h1>Editing  <span style="color:lightblue"><%= @user.name %>'s</span>  Details</h1>
-	</div>
-	<%= render 'form_for_update_user' %>
-</div>
+<html>
+  <head>
+    <title>User</title>
+  </head>
+  <body>
+		<div align="center" style="width:500px; height:200px" class="user_form">
+			<div class="name">
+				<h1>Editing  <span style="color:lightblue"><%= @user.name %>'s</span>  Details</h1>
+			</div>
+			<%= form_for @user , url: update_user_users_path(@user), method: :post do |u| %>
+		    Name: <%= u.text_field :name %>
+		    Email: <%= u.email_field :email %>
+		    ID: <%= u.text_field :id %>
+		    Role: <% role = @roles.map{ |b| [b.name.to_s, b.id.to_i] } %>
+		        <%= u.select(:role_id, options_for_select(role, selected: @user.role_id ),{ include_blank: true}) %>
+		    Batch: <% batch = @batch.map{ |b| [b.name.to_s, b.id.to_i] } %>
+		        <%= u.select(:batch_id, options_for_select(batch, selected: @user.batch_id),{ include_blank: true}) %>
+		    Semester: <% semester = @semester.map{ |b| [b.name.to_s, b.id.to_i] } %>
+		        <%= u.select(:semester_id, options_for_select(semester, selected: @user.semester_id),{ include_blank: true}) %>
+		    Branch: <% branch = @branch.map{ |b| [b.name.to_s, b.id.to_i] } %>
+		          <%= u.select(:branch_id, options_for_select(branch, selected: @user.branch_id),{ include_blank: true}) %>
+		    <%= u.submit %>
+		  <% end %>
+		</div>
+  </body>
+</html>

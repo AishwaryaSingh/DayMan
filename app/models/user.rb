@@ -5,9 +5,8 @@ class User < ActiveRecord::Base
  # after_create :email_to_user
   before_create :set_default_role
 
-  devise :database_authenticatable, :registerable,
-         :recoverable,:validatable, :rememberable, :trackable ,:timeoutable 
-	
+  devise :database_authenticatable, :registerable,:recoverable,:validatable, :rememberable, :trackable ,:timeoutable
+
   belongs_to :role
   belongs_to :batch
   has_many :schedules
@@ -16,14 +15,21 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
 
-  #To check role
-  def has_role?(role_sym)
-  #roles.any? { |r| r.name.underscore.to_sym == role_sym }
-    if r = Role.find_by_id(self.role_id)
-      return r.name
+  def self.save_event_to_display(current_user)
+    if current_user.role.name == "professor"
+      data=Schedule.find_all_by_user_id(current_user.id)
+      data.each do |d|
+        d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
+        d.save!
+      end
     else
-      false
+      data=Schedule.find_all_by_batch_id_and_semester_id_and_branch_id(current_user.batch_id,current_user.semester_id,current_user.branch_id)
+      data.each do |d|
+        d.name= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
+        d.save!
+      end
     end
+    return data
   end
 
   #To create a user
@@ -59,7 +65,7 @@ class User < ActiveRecord::Base
     when ".csv" then Roo::Csv.new(file.path, packed: nil, file_warning: :ignore)
     when ".xls" then Roo::Excel.new(file.path, packed: nil, file_warning: :ignore)
     when ".xlsx" then Roo::Excelx.new(file.path, packed: nil, file_warning: :ignore)
-    else 
+    else
       raise "Unknown file type: #{file.original_filename}"
     end
   end
@@ -69,7 +75,6 @@ class User < ActiveRecord::Base
   end
 
   private
- 
  #Set Default Role as "user"
   def set_default_role
     self.role ||= Role.find_by_name('user')

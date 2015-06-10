@@ -1,4 +1,4 @@
 <div class="tabs" align="right"><%= button_to 'Back', branches_path , method: :get %></div>
 <div class="name"><h1>Editing Professor <span style="color:lightblue"><%= @branch.name %></span>'s Details</h1></div>
-<%= render 'form' %>
+<%= render 'form',:locals => { :branch => @branch } %>
 </div>

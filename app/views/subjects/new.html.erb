@@ -1,10 +1,5 @@
-
 <div class="tabs" align="right"><%= button_to 'Back', subjects_path , method: :get %></div>
-<br />
 <div align="center">
-
 <h1>Enter subject Details :</h1>
-
-<%= render 'form' %>
-
+<%= render 'form', :subject => @subject, :bss => @bss, :count => @count %>
 </div>

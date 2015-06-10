@@ -1,4 +1,4 @@
-<%= form_tag schedules_initialize_subjects_path, method: 'post' do %>  
+<%= form_tag schedules_initialize_subjects_path, method: 'post' do %>
   <div class="row">
     <div class="col-md-12">
       <div class="col-md-4">
@@ -12,31 +12,30 @@
       </div>
     </div>
 
-
     <div class="col-md-12">
       <div class="col-md-4">
-        <% branch_array = @branch.map { |b| [b.name, b.id] } %>
-        <% if @branch_id_frmc.nil? %>
+        <% branch_array = branch.map { |b| [b.name, b.id] } %>
+        <% if branch_id_frmc.nil? %>
           <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %>
         <% else %>
-          <%= select_tag(:branch_id, options_for_select(branch_array, selected: @branch_id_frmc)) %>
+          <%= select_tag(:branch_id, options_for_select(branch_array, selected: branch_id_frmc)) %>
         <% end %>
       </div>      
                  
       <div class="col-md-4">
-        <% semester_array = @semester.map { |b| [b.name, b.id] } %>
-        <% if @semester_id_frmc.nil? %>
+        <% semester_array = semester.map { |b| [b.name, b.id] } %>
+        <% if semester_id_frmc.nil? %>
           <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }) %>
         <% else %>
-          <%= select_tag(:semester_id, options_for_select(semester_array, selected: @semester_id_frmc) ) %>
+          <%= select_tag(:semester_id, options_for_select(semester_array, selected: semester_id_frmc) ) %>
         <% end %>
       </div>
       <div class="col-md-4">
-        <% batch_array = @batch.map { |b| [b.name, b.id] } %>
-        <% if @batch_id_frmc.nil? %>
+        <% batch_array = batch.map { |b| [b.name, b.id] } %>
+        <% if batch_id_frmc.nil? %>
           <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
         <% else %>
-          <%= select_tag(:batch_id, options_for_select(batch_array, selected: @batch_id_frmc)) %> 
+          <%= select_tag(:batch_id, options_for_select(batch_array, selected: batch_id_frmc)) %> 
         <% end %>
       </div>
     </div>

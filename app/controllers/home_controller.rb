@@ -1,14 +1,14 @@
 class HomeController < ApplicationController
- 
+
   def homepage
     if user_signed_in?
-      if current_user.sign_up_count == 1 
+      if current_user.sign_up_count == 1
         redirect_to edit_user_registration_path
         check_sign_up_count
       else
         roles_homepage
       end
-    else 
+    else
       redirect_to new_user_session_path
     end
   end

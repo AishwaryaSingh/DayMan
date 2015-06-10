@@ -3,10 +3,6 @@ class ApplicationController < ActionController::Base
     before_filter :authenticate_user!
     before_filter :configure_permitted_parameters, if: :devise_controller?
 
-    def has_role?(role_sym)
-   		roles.any? { |r| r.name.underscore.to_sym == role_sym }
-    end
-
 	rescue_from CanCan::AccessDenied do |exception|
     	redirect_to root_url, :alert => exception.message
   	end

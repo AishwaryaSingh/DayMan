@@ -1,12 +1,12 @@
-<%= form_for(@branch) do |f| %>
+<%= form_for(branch) do |f| %>
 <div align="center">
 <table>
  <tr><td> Name   : </td><td><%= f.text_field :name %>
   </td>
   <td>
   <span style="color:red">
-  <% if @branch.errors[:name] %>
-    <% a= @branch.errors.full_messages_for(:name) %>
+  <% if branch.errors[:name] %>
+    <% a= branch.errors.full_messages_for(:name) %>
     <%= a.join(", ") %>
   <% end %>
   </span>

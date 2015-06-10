@@ -1,31 +1,31 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>DayManager</title>
-  <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
-  <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
-  <%= csrf_meta_tags %>
-  <%= yield :head %>
-  <%= render 'layouts/shim' %> 
-</head>
-<body>
-<p class="navbar-text pull-right">
-      <% if user_signed_in? %>
-        <%= render 'layouts/header' %>
-      <% end %>
+  <head>
+    <title>DayManager</title>
+    <%= stylesheet_link_tag "application", media: "all", "data-turbolinks-track" => true %>
+    <%= javascript_include_tag "application", "data-turbolinks-track" => true %>
+    <%= csrf_meta_tags %>
+    <%= yield :head %>
+    <%= render 'layouts/shim' %>
+  </head>
+  <body>
+    <% if user_signed_in? %>
+      <%= render 'layouts/header' %>
+    <% end %>
 
-    <br />
-    <br />
-    <br />
     <div align="center">
       <% flash.each do |key, value| %>
-          <div class="alert alert-<%= key %>"><%= value %></div>
+        <div class="alert alert-<%= key %>"><%= value %></div>
       <% end %>
     </div>
 
-    <div class="container" id="fields">
+    <% if user_signed_in? %>
+      <% if current_user.role_id == 1 %>
+        <%= render 'layouts/admin_options' %>
+      <% end %>
+    <% end %>
+    <div class="container">
       <%= yield %>
     </div>
-
-</body>
+  </body>
 </html>
