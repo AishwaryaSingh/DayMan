@@ -306,7 +306,8 @@ $(document).ready(function()
           arr.push($(this).val());
         });
         formObject["schedule[batch_id]"] = arr;
-      */  var jObject = JSON.stringify(formObject);
+      */  
+        var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
         
         var t =checkboxBatch();

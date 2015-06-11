@@ -1,30 +1,26 @@
 <html>
   <body>
     <div class="schedule">
-      <table width="100%">
+      <table width="80%">
         <%= form_tag schedules_initialize_subjects_path, method: 'post' do %>
         <tr>
-          <td width="5%">Branch:</td>
-          <td width="20%">
+          <td>Branch:</td>
+          <td>
             <% branch_array = branch.map { |b| [b.name, b.id] } %>
             <%= select_tag(:branch_id, options_for_select(branch_array, selected: branch_id_frmc),{ include_blank: true }) %>
           </td>
-          <td width="5%">Semester:</td>
-          <td width="20%">
+          <td>Semester:</td>
+          <td>
             <% semester_array = semester.map { |b| [b.name, b.id] } %>
             <%= select_tag(:semester_id, options_for_select(semester_array, selected: semester_id_frmc), { include_blank: true }) %>
           </td>
-          <td width="5%">Batch:</td>
-          <td width="20%">
+          <td>Batch:</td>
+          <td>
             <% batch_array = batch.map { |b| [b.name, b.id] } %>
             <%= select_tag(:batch_id, options_for_select(batch_array, selected: batch_id_frmc), { include_blank: true }) %>
           </td>
           <td><%= submit_tag "Apply" , :id => 'apply' %></td>
         </tr>
-        <tr>
-    <div align="right" width="20%">
-      <%= button_to 'Notify Users', update_schedule_schedules_path , method: :get , :id => 'schedule_change' %>
-    </div></tr>
         <% end %>
       </table>
     </div>

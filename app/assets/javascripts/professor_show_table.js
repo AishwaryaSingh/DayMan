@@ -1,4 +1,3 @@
-
     $(function()
     {
         $("#dialog").dialog({
@@ -75,6 +74,9 @@ $(document).ready(function()
                         event.start = d['starttime']; 
                         event.end = d['endtime'];
                         event.allDay = false;
+                        event.start_date = d['start_date']; 
+                        event.end_date = d['end_date'];
+                        event.period = d['period']; 
                         event.subjectId = d['subject_id'];   
                         event.roomId = d['room_id'];   
                         event.userId = d['user_id'];  
@@ -208,6 +210,15 @@ $(document).ready(function()
             });
             $("#startTime").text(start.format(" HH:mm DD-MM-YYYY"));
             $("#endTime").text(end.format(" HH:mm DD-MM-YYYY"));
+            
+            $("#schedule_start_date_1i").val(start.format("YYYY"));
+            $("#schedule_start_date_2i").val(parseInt(start.format("MM")));
+            $("#schedule_start_date_3i").val(parseInt(start.format("DD")));
+
+            $("#schedule_end_date_1i").val(end.format("YYYY"));
+            $("#schedule_end_date_2i").val(parseInt(end.format("MM")));
+            $("#schedule_end_date_3i").val(parseInt(end.format("DD")));
+
             $("#schedule_create").show();
             $("#schedule_update").hide();
             $("#dialog").dialog("open");            
