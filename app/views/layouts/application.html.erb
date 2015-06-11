@@ -13,7 +13,7 @@
       <%= render 'layouts/header' %>
     <% end %>
 
-    <div align="center">
+    <div align="center" class="alert_msgs">
       <% flash.each do |key, value| %>
         <div class="alert alert-<%= key %>"><%= value %></div>
       <% end %>
@@ -24,7 +24,7 @@
         <%= render 'layouts/admin_options' %>
       <% end %>
     <% end %>
-    <div class="container">
+    <div class="container" id="container">
       <%= yield %>
     </div>
   </body>

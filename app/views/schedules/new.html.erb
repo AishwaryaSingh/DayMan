@@ -6,10 +6,14 @@
     <%= javascript_include_tag "new_form.js" %>
   </head>
   <body>
-    <div align="center">
-      <%= render 'initialize_subjects_form', :branch => @branch ,:semester => @semester, :batch => @batch,:branch_id_frmc => @branch_id_frmc ,:semester_id_frmc => @semester_id_frmc, :batch_id_frmc => @batch_id_frmc %>
-      <%= render 'form', :professor => @professor, :branch => @branch ,:semester => @semester, :room => @room, :batch => @batch, :subjects => @subjects, :schedule => @schedule %>
-      <div id="calendar"></div>
+    <div class="schedule">
+      <div align="center">
+        <%= render 'initialize_subjects_form', :branch => @branch ,:semester => @semester, :batch => @batch,:branch_id_frmc => @branch_id_frmc ,:semester_id_frmc => @semester_id_frmc, :batch_id_frmc => @batch_id_frmc %>
+        <%= render 'form', :professor => @professor, :branch => @branch ,:semester => @semester, :room => @room, :batch => @batch, :subjects => @subjects, :schedule => @schedule %>
+        <div class="calendar_container"> 
+          <div id="calendar"></div>
+        </div>
+      </div>
     </div>
   </body>
 </html>

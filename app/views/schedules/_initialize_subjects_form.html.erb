@@ -1,47 +1,32 @@
-<%= form_tag schedules_initialize_subjects_path, method: 'post' do %>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="col-md-4">
-        Branch    :
-      </div>
-      <div class="col-md-4">
-        Semester  :
-      </div>
-      <div class="col-md-4">
-        Batch  :
-      </div>
-    </div>
-
-    <div class="col-md-12">
-      <div class="col-md-4">
-        <% branch_array = branch.map { |b| [b.name, b.id] } %>
-        <% if branch_id_frmc.nil? %>
-          <%= select_tag(:branch_id, options_for_select(branch_array),{include_blank: true}) %>
-        <% else %>
-          <%= select_tag(:branch_id, options_for_select(branch_array, selected: branch_id_frmc)) %>
+<html>
+  <body>
+    <div class="schedule">
+      <table width="100%">
+        <%= form_tag schedules_initialize_subjects_path, method: 'post' do %>
+        <tr>
+          <td width="5%">Branch:</td>
+          <td width="20%">
+            <% branch_array = branch.map { |b| [b.name, b.id] } %>
+            <%= select_tag(:branch_id, options_for_select(branch_array, selected: branch_id_frmc),{ include_blank: true }) %>
+          </td>
+          <td width="5%">Semester:</td>
+          <td width="20%">
+            <% semester_array = semester.map { |b| [b.name, b.id] } %>
+            <%= select_tag(:semester_id, options_for_select(semester_array, selected: semester_id_frmc), { include_blank: true }) %>
+          </td>
+          <td width="5%">Batch:</td>
+          <td width="20%">
+            <% batch_array = batch.map { |b| [b.name, b.id] } %>
+            <%= select_tag(:batch_id, options_for_select(batch_array, selected: batch_id_frmc), { include_blank: true }) %>
+          </td>
+          <td><%= submit_tag "Apply" , :id => 'apply' %></td>
+        </tr>
+        <tr>
+    <div align="right" width="20%">
+      <%= button_to 'Notify Users', update_schedule_schedules_path , method: :get , :id => 'schedule_change' %>
+    </div></tr>
         <% end %>
-      </div>      
-                 
-      <div class="col-md-4">
-        <% semester_array = semester.map { |b| [b.name, b.id] } %>
-        <% if semester_id_frmc.nil? %>
-          <%= select_tag(:semester_id, options_for_select(semester_array), { include_blank: true }) %>
-        <% else %>
-          <%= select_tag(:semester_id, options_for_select(semester_array, selected: semester_id_frmc) ) %>
-        <% end %>
-      </div>
-      <div class="col-md-4">
-        <% batch_array = batch.map { |b| [b.name, b.id] } %>
-        <% if batch_id_frmc.nil? %>
-          <%= select_tag(:batch_id, options_for_select(batch_array),{include_blank: true}) %> 
-        <% else %>
-          <%= select_tag(:batch_id, options_for_select(batch_array, selected: batch_id_frmc)) %> 
-        <% end %>
-      </div>
+      </table>
     </div>
-
-    <div class="col-md-3">
-      <span id="apply"><%= submit_tag "Apply" , :id => 'apply' %></span>
-    </div>
-  </div>
-<% end %>
+  </body>
+</html>

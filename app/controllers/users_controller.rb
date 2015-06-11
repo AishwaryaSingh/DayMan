@@ -11,7 +11,7 @@ class UsersController < ApplicationController
     end
   end
 
-  def schedule
+  def show
     @user = current_user
     @schedule = Schedule.new
     @professor = User.find_all_by_role_id(2)

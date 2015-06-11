@@ -4,20 +4,17 @@ DayMan::Application.routes.draw do
 
   devise_for :users, :controllers => { :registrations => "users/registrations" }
 
-  resources :users  , except: [:show, :create, :update] do
+  resources :users, except: [:create, :update] do
     collection do
       post :import
       post :create_user
       post :update_user
       post :id_for_edit
     end
-    member do
-      get 'schedule'
-    end
   end
 
   resources :schedules ,except: [:show, :index] do
-    member do
+    collection do
       get 'update_schedule'
     end
   end

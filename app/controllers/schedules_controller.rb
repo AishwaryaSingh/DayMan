@@ -35,10 +35,7 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    @schedule = Schedule.create_schedule(params[:batch_ids],params[:period],schedule_params,current_user)
-    if current_user.role_id == "1"
-      $schedule_array.append(@schedule)
-    end
+    Schedule.create_schedule(params[:batch_ids],params[:period],schedule_params,current_user)
     respond_to do |format|
       format.html
       format.json {render :json => @schedule, :status => :created, :location => @schedule }
@@ -59,18 +56,7 @@ class SchedulesController < ApplicationController
       @schedule.update_attributes(schedule_params)
       Schedule.update_name_attribute(@schedule)
     end
-    t = false
-    $schedule_array.each do |s|
-      if s.id == @schedule.id
-        $schedule_array.delete(s)
-        $schedule_array.append(@schedule)
-        t = true
-        break
-      end
-    end
-    if t == false
-      $schedule_array.append(@schedule)
-    end
+    Schedule.update_schedule_array(@schedule)
     respond_to do |format|
       format.html
       format.json {render :json => @schedule }
@@ -80,13 +66,13 @@ class SchedulesController < ApplicationController
 # for when the schedule is changed and the mail needs to be sent
   def update_schedule
     @role_id = current_user.role_id
-    @schedule = $schedule_array
+    @schedule = Schedule.get_schedule_array
     if Schedule.update_email(@schedule, @role_id)
       flash[:success] = "Users Notified!"
-      $schedule_array = []
       redirect_to root_path
     else
       flash[:error] = "Some error occured! Please try again!"
+      redirect_to (:back)
     end
   end
 

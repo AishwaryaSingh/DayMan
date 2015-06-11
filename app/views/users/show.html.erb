@@ -1,14 +1,19 @@
 <html>
-<head>
-
-<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
-
-<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-
-<%= javascript_include_tag "show_calendar_user.js" %>
-
-</head>
-<body>
-	 <div id="calendar"></div>
-</body>
+	<head>
+		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
+		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<% if current_user.role_id == 2 %>
+			<%= javascript_include_tag "professor_show_table.js" %>
+		<% else %>
+			<%= javascript_include_tag "show_calendar_user.js" %>
+		<% end %>
+	</head>
+	<body>
+	<div class="user_schedule">
+		 <div id="calendar"></div>
+		 <% if current_user.role_id == 2 %>
+		 <%= render 'form', :locals => { :user => @user, :schedule => @schedule , :branch => @branch , :subjects => @subjects , :semester => @semester, :room => @room, :batch => @batch }%>
+		<% end %>
+	</div>
+	</body>
 </html>

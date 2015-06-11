@@ -59,14 +59,17 @@
             <td><%= radio_button_tag 'period', 3 %></td><td>Monthly</td><td width="5%"></td>
           </tr>
         </table>
-        <div class="row">
-            <div class="col-md-4">
-              <p>Start Date : </p><%= schedule.date_select(:start_date) %>
-            </div>
-            <div class="col-md-4">
-              <p>End Date : </p><%= schedule.date_select(:end_date) %>
-            </div>
-        </div>
+        <table>
+          <tr>
+            <td><p>Start Date : </p></td>
+            <td><%= schedule.date_select(:start_date) %></td>
+          </tr>
+          <tr>
+            <td><p>End Date : </p></td>
+            <td><%= schedule.date_select(:end_date) %></td>
+          </tr>
+        </table>
+          
         <div class="row">
           <div class="col-md-12">
             <div class="col-md-4">
@@ -76,9 +79,6 @@
           </div>
         </div>
       <% end %>
-    </div>
-    <div align="right">
-      <%= button_to 'Notify Users', update_schedule_schedule_path(1), method: :get , :id => 'schedule_change' %>
     </div>
   </body>
 </html>

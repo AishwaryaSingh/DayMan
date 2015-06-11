@@ -15,10 +15,6 @@ table{
 //  border-bottom:1px solid #ccc;
 }
 
-.container{
-  width:1024px;
-}
-
 header .container{
   background-color:#5a5a5a;
 }
@@ -313,4 +309,70 @@ a
 .admin_links
 {
   color:white;
+}
+
+.alert_msgs
+{
+  position:fixed;
+  top: 30%;
+  left: 50%;
+  margin-top: -15em; /*set to a negative number 1/2 of your height*/
+  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+}
+
+.container #container
+{
+  background-color:white;
+  width:300px;
+  height:600px;
+  position:fixed;
+  top: 5%;
+  left: 50%;
+  margin-top: 20em; /*set to a negative number 1/2 of your height*/
+  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+}
+
+.calendar_container
+{
+  width:1000px;
+  height:700px;
+  position:fixed;
+  top: 0%;
+  left: 20%;
+  margin-top: 15em; /*set to a negative number 1/2 of your height*/
+  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+}
+
+
+.schedule
+{
+  width:1000px;
+  height:200px;
+  position:fixed;
+  top: 0%;
+  left: 20%;
+  margin-top: 7em; /*set to a negative number 1/2 of your height*/
+  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+}
+
+.admin_data_container
+{
+  width:1000px;
+  height:200px;
+  position:fixed;
+  top: 0%;
+  left: 20%;
+  margin-top: 10em; /*set to a negative number 1/2 of your height*/
+  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+}
+
+.user_schedule
+{
+  width:1050px;
+  height:1000px;
+  position:fixed;
+  top: 0%;
+  left: 0%;
+  margin-top: 10em; /*set to a negative number 1/2 of your height*/
+  margin-left:  5em; /*set to a negative number 1/2 of your width*/
 }

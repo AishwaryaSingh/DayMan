@@ -1,5 +1,4 @@
 class HomeController < ApplicationController
-
   def homepage
     if user_signed_in?
       if current_user.sign_up_count == 1

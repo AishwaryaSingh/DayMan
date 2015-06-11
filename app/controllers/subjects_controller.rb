@@ -1,5 +1,4 @@
 class SubjectsController < ApplicationController
-
 	def index
 		@subjects = Subject.all
 		@bss = BranchSemesterSubject.all
@@ -25,6 +24,7 @@ class SubjectsController < ApplicationController
 				@subject.save!
 				Subject.create_BSS(@bss,branches,semesters,@subject.id)
 				redirect_to subjects_path
+				flash[:success] = "Subject Created!"
 			else
 				render 'new'
 				flash[:error] = "Incomplete Information!!"
@@ -65,6 +65,4 @@ class SubjectsController < ApplicationController
 	def subject_params
 		params.require(:subject).permit(:name,:branch_semester_subject_ids => [])
 	end
-
-
 end

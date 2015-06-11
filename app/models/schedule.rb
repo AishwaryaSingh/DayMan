@@ -22,17 +22,46 @@ class Schedule < ActiveRecord::Base
   validates :room_id , presence: true
 
   def self.update_email(schedule , role_id)
-    schedule.each do |schedule|
-      student_array = User.find_all_by_batch_id_and_branch_id_and_semester_id(schedule.batch_id,schedule.branch_id,schedule.semester_id)
-      ScheduleMailer.update_email(student_array,schedule).deliver
-    end
     if role_id == 1
       schedule.each do |schedule|
         professor_array = User.find_all_by_id(schedule.user_id)
-        ScheduleMailer.update_email(professor_array,schedule).deliver
-       end
-     end
+        professor_array.each do |user|
+          ScheduleMailer.update_email(user,schedule).deliver
+        end
+      end
+    end
+    schedule.each do |schedule|
+      student_array = User.find_all_by_batch_id_and_branch_id_and_semester_id(schedule.batch_id,schedule.branch_id,schedule.semester_id)
+      student_array.each do |user|
+        ScheduleMailer.update_email(user,schedule).deliver
+      end
+    end
+    Schedule.reinitialize_array
   end
+
+  def self.reinitialize_array
+    $schedule_array = []
+  end
+
+  def self.update_schedule_array(schedule)
+    t = false
+    $schedule_array.each do |s|
+      if s.id == schedule.id
+        $schedule_array.delete(s)
+        $schedule_array.append(schedule)
+        t = true
+        break
+      end
+    end
+    if t == false
+      $schedule_array.append(schedule)
+    end
+  end
+
+  def self.get_schedule_array
+    return $schedule_array
+  end
+
 
   def self.update_name_attribute(schedule)
     schedule.name = schedule.subject_name+" by "+schedule.user_name+" in "+schedule.room_name+" for "+schedule.batch_name+"("+schedule.branch_name+")"
@@ -63,8 +92,12 @@ class Schedule < ActiveRecord::Base
       else
         Schedule.error_display(schedule)
       end
+      if current_user.role_id == 1
+        $schedules.each do |s|
+          Schedule.update_schedule_array(s)
+        end
+      end
     end
-    return $schedules
   end
 
   def self.create_repeating_events(schedule_params,b,period)

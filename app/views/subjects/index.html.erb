@@ -1,61 +1,65 @@
 <html>
-<head><title>Subjects</title>
-</head>
-<div align="right"> <%= button_to 'Create New' , new_subject_path , method: :get %> </div>
-<div align="center">
-<table width="100%" style="font-size:20px;" cellspacing="20">
-  <tr style="font-size:20px; text-align:center; color:LightCoral ">
-  <th>sub ID</th>
-	<th>Subject</th>
-  <th>Branches</th>
-  <th>Semesters</th>
-  <th></th>
-</tr>
-<% @subjects.each do |subject| %>
-  <tr style="font-size:20px; text-align:center; color:PaleVioletRed">
-	<td style="font-size:16px"><%= subject.id %></td>
-  <td style="font-size:16px"><%= link_to subject.name ,edit_subject_path(subject) %></td>
-  <td style="font-size:16px">
-  <% branchArray = Array.new %>
-  <% c = 0 %>
-  <% @bss.each do |branch| %>
-      <% if branch.subject_id == subject.id %>
-          <% if !branchArray.include?(@branch.find(branch.branch_id).name) %>
-              <%branchArray.push(@branch.find(branch.branch_id).name) %>
-          <%end%>
+  <head><title>Subjects</title>
+  </head>
+  <body>
+    <div class="admin_data_container">
+      <div align="right"> <%= button_to 'Create New' , new_subject_path , method: :get %> </div>
+      <div align="center">
+      <table width="100%" style="font-size:20px;" cellspacing="20">
+        <tr style="font-size:20px; text-align:center; color:LightCoral ">
+        <th>sub ID</th>
+      	<th>Subject</th>
+        <th>Branches</th>
+        <th>Semesters</th>
+        <th></th>
+      </tr>
+      <% @subjects.each do |subject| %>
+        <tr style="font-size:20px; text-align:center; color:PaleVioletRed">
+      	<td style="font-size:16px"><%= subject.id %></td>
+        <td style="font-size:16px"><%= link_to subject.name ,edit_subject_path(subject) %></td>
+        <td style="font-size:16px">
+        <% branchArray = Array.new %>
+        <% c = 0 %>
+        <% @bss.each do |branch| %>
+            <% if branch.subject_id == subject.id %>
+                <% if !branchArray.include?(@branch.find(branch.branch_id).name) %>
+                    <%branchArray.push(@branch.find(branch.branch_id).name) %>
+                <%end%>
+            <% end %>
+        <% end %>
+        <% branchArray.each do |a| %>
+                  <% if c==0 %>
+                      <%= a %>
+                      <% c=1 %>
+                  <%else%>
+                      , <%= a %>
+                  <%end%>
+              <%end%>
+        </td>
+        <td style="font-size:16px">
+        <% semesterArray = Array.new %>
+        <% c = 0 %>
+        <% @bss.each do |semester| %>
+            <% if semester.subject_id == subject.id %>
+                <% if !semesterArray.include?(@semester.find(semester.semester_id).name) %>
+                    <%semesterArray.push(@semester.find(semester.semester_id).name) %>
+                <%end%>
+            <% end %>
+        <% end %>
+        <% semesterArray.each do |a| %>
+                  <% if c==0 %>
+                      <%= a %>
+                      <% c=1 %>
+                  <%else%>
+                      , <%= a %>
+                  <%end%>
+              <%end%>
+        </td>
+        <td><%= button_to 'Destroy',subject,method: :delete, data: {confirm: 'Are you sure?'} %></td>
+        </tr>
       <% end %>
-  <% end %>
-  <% branchArray.each do |a| %>
-            <% if c==0 %>
-                <%= a %>
-                <% c=1 %>
-            <%else%>
-                , <%= a %>
-            <%end%>
-        <%end%>
-  </td>
-  <td style="font-size:16px">
-  <% semesterArray = Array.new %>
-  <% c = 0 %>
-  <% @bss.each do |semester| %>
-      <% if semester.subject_id == subject.id %>
-          <% if !semesterArray.include?(@semester.find(semester.semester_id).name) %>
-              <%semesterArray.push(@semester.find(semester.semester_id).name) %>
-          <%end%>
-      <% end %>
-  <% end %>
-  <% semesterArray.each do |a| %>
-            <% if c==0 %>
-                <%= a %>
-                <% c=1 %>
-            <%else%>
-                , <%= a %>
-            <%end%>
-        <%end%>
-  </td>
-  <td><%= button_to 'Destroy',subject,method: :delete, data: {confirm: 'Are you sure?'} %></td>
-  </tr>
-<% end %>
-</table>
-</div>
+      </table>
+      </div>
+    </div>
+  </body>
 </html
