@@ -18,7 +18,7 @@
   <div>
     <%= form_for subject, :html => { :id => 'form' } do |s| %>
     <table>
-    <tr><td><b>Name : </b></td><td width="50%"><%= s.text_field :name %></td>
+    <tr><td><b>Name : </b></td><td><%= s.text_field :name %></td>
     </tr></table>
     <span style="color:red">
     <% if subject.errors[:name] %>

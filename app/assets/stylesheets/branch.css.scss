@@ -1,14 +1,14 @@
-// Place all the styles related to the semester controller here.
+// Place all the styles related to the branch controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
-.semester_container
+.branch_container
 {
-  width:900px;
+  width:500px;
   padding:15px;
   position:fixed;
   top: 0%;
   left: 0%;
   margin-top: 20em; /*set to a negative number 1/2 of your height*/
-  margin-left: 20em; /*set to a negative number 1/2 of your width*/
+  margin-left: 30em; /*set to a negative number 1/2 of your width*/
 }

@@ -1,24 +1,26 @@
 <html>
 	<body>
-		<div class="admin_data_container">
-			<div align="left" style="width:500px; height:200px" class="user_form">
-				<div align="left">
-					<%= button_to 'Add a New User', new_user_path, method: :get %>
-				</div>
-				<div align="left">
+		<div class="user_container">
+		<div align="left">
+			<%= button_to 'Add a New User', new_user_path, method: :get %>
+		</div>
+		<br />
+			<table width="80%">
+				<tr>
 					<%= form_tag id_for_edit_users_path, method: :post do %>
-						Enter User ID : <%= text_field_tag 'user_id' %>
-						<%= submit_tag 'Edit User' %>
+						<td style="text-align:left;">Enter User ID :</td>
+						<td style="text-align:left;"><%= text_field_tag 'user_id' %></td>
+						<td width="30%"><%= submit_tag 'Edit User' %></td>
 					<% end %>
-				</div>
-				<div align="bottom">
-				Choose a file to import users.. :
-				<%= form_tag import_users_path, multipart: true do %>
-					<%= file_field_tag :file %>
-				  	<%= submit_tag "Import!" %>
-				<% end %>
-				</div>
-			</div>
+				</tr>
+				<tr>
+					<td style="text-align:left;">Choose a file to import users.. :</td>
+					<%= form_tag import_users_path, multipart: true do %>
+						<td  style="text-align:left;"><%= file_field_tag :file %></td>
+						<td width="30%"><%= submit_tag "Import!" %></td>
+					<% end %>
+				</tr>
+			</table>
 		</div>
 	</body>
 </html>

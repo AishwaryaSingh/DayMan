@@ -3,7 +3,11 @@ source 'https://rubygems.org'
 gem 'rails', '4.0.2'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
-gem 'mysql'
+
+
+gem 'pg' 
+
+#gem 'mysql'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -67,6 +71,11 @@ gem 'role_model'
 
 
 gem "rails_best_practices"
+
+
+
+gem 'rails_12factor', group: :production
+
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

@@ -1,3 +1,14 @@
 // Place all the styles related to the subjects controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+.subject_container
+{
+  width:1000px;
+  height:200px;
+  position:fixed;
+  top: 0%;
+  left: 20%;
+  margin-top: 15em; /*set to a negative number 1/2 of your height*/
+  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+}

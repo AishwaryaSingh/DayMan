@@ -1,9 +1,14 @@
-
-<div class="tabs" align="right"><%= button_to 'Back', branches_path , method: :get %></div>
-<div align="center">
-
-<h1>Enter Branch Details :</h1>
-
-<%= render 'form',:branch => @branch %>
-
-</div>
+<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+	</head>
+	<body>
+		<div class="branch_container">
+			<div align="center">
+				<h1>Enter Branch Details :</h1>
+				<%= render 'form',:branch => @branch %>
+			</div>
+		</div>
+	</body>
+</html>

@@ -3,34 +3,29 @@
 <head>
   <title>List of Semesteres</title>
 </head>
-
-<div class="name">
-<h1 style="font-size:30px; text-align:center;color:white;"></h1>
-</div>
-<div align="center">
-<br />
-<br />
-<table width="50%" style="font-size:20px;" cellspacing="20">
-  <tr style="font-size:20px; text-align:center; color:LightCoral ">
-    <th>ID</th>
-    <th>Name</th>
-    <th></th>
-    <th></th>
-  </tr>
-<br />
-<br />
-<% @semesters.each do |semester| %>
-  <tr style="font-size:20px; text-align:center; color:PaleVioletRed">
-    <td style="font-size:16px"><%= semester.id %></td>
-    <td style="font-size:16px"><%= semester.name %></td>
-    <td><%= link_to 'Edit', edit_semester_path(semester) %></td>
-    <td><%= link_to 'Destroy', semester, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
-</table>
-<br /><br />
-<div align="center">
-<%= button_to 'New Semester', new_semester_path , method: :get %>
-</div>
-</div>
+<body>
+  <div class="semester_container">
+    <div align="center">
+      <table width="80%" style="font-size:20px;" cellspacing="20">
+      <% @semesters.each do |semester| %>
+        <tr style="color:PaleVioletRed">
+          <td width="20%" style="text-align:center">Semester</td>
+          <td width="20%" style="text-align:left;font-size:20px;"><%= semester.name %></td>
+          <td width="20%" style="text-align:left"><%= link_to 'Edit', edit_semester_path(semester) %></td>
+          <td width="20%" style="text-align:left"><%= link_to 'Destroy', semester, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      <% end %>
+      </table>
+      <div>
+        <%= button_to 'New Semester', new_semester_path , method: :get %>
+      </div>
+    </div>
+  </div>
+</body>
 </html>

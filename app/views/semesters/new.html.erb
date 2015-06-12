@@ -1,9 +1,6 @@
-
-<div class="tabs" align="right"><%= button_to 'Back', semesters_path , method: :get %></div>
-<div align="center">
-
-<h1>Enter Semester Details :</h1>
-
-<%= render 'form',:locals => { :semester => @semester } %>
-
+<div class="semester_container">
+	<div align="center">
+		<h1>Enter Semester Details :</h1>
+		<%= render 'form',:locals => { :semester => @semester } %>
+	</div>
 </div>
