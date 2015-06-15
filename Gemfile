@@ -45,7 +45,7 @@ gem 'iconv'
 gem 'spreadsheet'
 
 # To upload images
-# gem 'paperclip', '~> 4.1'
+ gem 'paperclip', '~> 4.1'
 
 #gem "rmagick"
 #gem "carrierwave"
