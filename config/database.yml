@@ -12,10 +12,11 @@ development:
   adapter: postgresql
   encoding: utf8
   reconnect: false
-  database: DayMan_development
+  database: daymanager
   pool: 5
-  username: root
-  password: #passwordforMySQL
+  username: postgres
+  # password: root123 #passwordforMySQL
+  host: localhost
 #  socket: /var/run/mysqld/mysqld.sock
 
 # Warning: The database defined as "test" will be erased and
@@ -25,18 +26,20 @@ test:
   adapter: postgresql
   encoding: utf8
   reconnect: false
-  database: DayMan_test
+  database: daymanager
   pool: 5
-  username: root
-  password: #passwordforMySQL
+  username: postgres
+  # password: root123 #passwordforMySQL
+  host: localhost
 #  socket: /var/run/mysqld/mysqld.sock
 
 production:
   adapter: postgresql
   encoding: utf8
   reconnect: false
-  database: DayMan_production
+  database: daymanager
   pool: 5
-  username: root
-  password: #passwordforMySQL
+  username: postgres
+  # password: root123 #passwordforMySQL
+  host: localhost
 #  socket: /var/run/mysqld/mysqld.sock

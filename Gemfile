@@ -5,7 +5,11 @@ gem 'rails', '4.0.2'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 
-gem 'pg' 
+gem 'pg'
+
+
+gem 'rails_12factor', group: :production
+
 
 #gem 'mysql'
 # Gems used only for assets and not required
@@ -49,7 +53,7 @@ gem 'paperclip', '~> 4.1'
 gem 'letter_opener', :group => :development
 
 #to send mails
-gem 'mailcatcher'
+#gem 'mailcatcher'      #HAS SQLITE3 DEPENDANCY
 
 #Jquery plugin for calendar
 
@@ -71,10 +75,6 @@ gem 'role_model'
 
 
 gem "rails_best_practices"
-
-
-
-gem 'rails_12factor', group: :production
 
 
 # To use ActiveModel has_secure_password
