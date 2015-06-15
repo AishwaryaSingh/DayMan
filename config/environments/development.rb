@@ -7,7 +7,6 @@ DayMan::Application.configure do
   config.cache_classes = false
 
   # Log error messages when you accidentally call methods on nil.
-
   config.whiny_nils = true
 
   # Show full error reports and disable caching
@@ -54,5 +53,5 @@ DayMan::Application.configure do
   enable_starttls_auto: true  }
 
   #PaperClip
-  Paperclip.options[:command_path] = "/usr/local/bin/"
+  #Paperclip.options[:command_path] = "/usr/local/bin/"
 end
