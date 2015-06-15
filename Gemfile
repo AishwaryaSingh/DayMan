@@ -45,7 +45,7 @@ gem 'iconv'
 gem 'spreadsheet'
 
 # To upload images
-gem 'paperclip', '~> 4.1'
+# gem 'paperclip', '~> 4.1'
 
 #gem "rmagick"
 #gem "carrierwave"
@@ -60,13 +60,7 @@ gem 'letter_opener', :group => :development
 
 gem 'fullcalendar-rails', '~> 2.3.1.0'
 
-# gem 'fullcalendar-rails', '~>2.0.2.0'
-
-# gem 'jquery-rails', '~> 4.0.3' #just added
-
 gem 'momentjs-rails', '~> 2.10.2'
-
-# gem 'momentjs-rails', '>= 2.8.1', :github => 'derekprior/momentjs-rails'
 
 gem 'activesupport','~>4.0.2'
 
@@ -74,9 +68,7 @@ gem 'bootstrap-sass', '~> 3.3.4'
 
 gem 'role_model'
 
-
 gem "rails_best_practices"
-
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

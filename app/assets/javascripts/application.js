@@ -16,9 +16,22 @@
 //= require moment
 //= require fullcalendar
 //= require bootstrap
-//= require alert_and_timeouts.js
-//= require new_form.js
-//= require professor_show_table.js
-//= require show_calendar_user.js
-//= require log_in.js
 
+$(document).ready(function() 
+{
+  $(function()
+  {
+  	setTimeout(function()
+  	{
+    	$('.alert').slideUp(500);
+  	}, 1000);
+	});
+	$(function()
+  {
+    setTimeout(function()
+  	{
+      $('.up').slideToggle(3500);
+    	$('.greet_user').slideToggle(2000);
+  	}, 500);
+	});
+});
