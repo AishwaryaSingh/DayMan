@@ -62,5 +62,13 @@ module DayMan
     #asset pipeline
     #config.serve_static_assets = true   #Did not help
 
+     config.assets.precompile += [
+        'new_form.js',
+        'professor_show_table.js',
+        'show_calendar_user.js',
+        'log_in.js',
+        'log_in.css.scss'
+    ]
+
   end
 end
