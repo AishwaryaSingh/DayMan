@@ -60,7 +60,7 @@ module DayMan
     config.assets.version = '1.0'
 
 #asset pipeline
-    config.serve_static_assets = true
+    #config.serve_static_assets = true   #Did not help
 
   end
 end

@@ -5,7 +5,7 @@ DayMan::Application.configure do
   config.cache_classes = true
 
   #For precompiling and showing on heroku
-  config.assets.compress = true
+  #config.assets.compress = true        #Did not help
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false

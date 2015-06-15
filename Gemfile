@@ -10,6 +10,7 @@ gem 'pg'
 
 gem 'rails_12factor', group: :production
 
+#gem 'rails_serve_static_assets'
 
 #gem 'mysql'
 # Gems used only for assets and not required
