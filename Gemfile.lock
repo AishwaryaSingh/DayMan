@@ -213,6 +213,7 @@ DEPENDENCIES
   rails (= 4.0.2)
   rails_12factor
   rails_best_practices
+  rails_serve_static_assets
   role_model
   roo
   sass-rails
