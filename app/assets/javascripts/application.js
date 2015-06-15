@@ -16,10 +16,6 @@
 //= require moment
 //= require fullcalendar
 //= require bootstrap
-//= require new_form.js
-//= require professor_show_table.js
-//= require show_calendar_user.js
-//= require log_in.js
 
 
 $(document).ready(function() 
