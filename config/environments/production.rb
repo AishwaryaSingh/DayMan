@@ -4,6 +4,8 @@ DayMan::Application.configure do
   # Code is not reloaded between requests
   config.cache_classes = true
 
+  #For precompiling and showing on heroku
+  config.assets.compress = true
 
   # Full error reports are disabled and caching is turned on
   config.consider_all_requests_local       = false
