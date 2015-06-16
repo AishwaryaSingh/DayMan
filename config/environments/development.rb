@@ -37,9 +37,6 @@ DayMan::Application.configure do
 
   config.action_mailer.default_url_options = { host: 'guarded-taiga-6031.herokuapp.com' } #, port: 3000
 
-  #Letter_opener
-  config.action_mailer.delivery_method = :letter_opener
-
   #SMTP Server Settings :
   # For Gmail:
   # config.action_mailer.delivery_method = :smtp

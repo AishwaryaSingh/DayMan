@@ -49,17 +49,7 @@ gem 'spreadsheet'
 # To upload images
  gem 'paperclip', '~> 4.1'
 
-#gem "rmagick"
-#gem "carrierwave"
-
-#emails checking
-gem 'letter_opener', :group => :development
-
-#to send mails
-#gem 'mailcatcher'      #HAS SQLITE3 DEPENDANCY
-
 #Jquery plugin for calendar
-
 gem 'fullcalendar-rails', '~> 2.3.1.0'
 
 gem 'momentjs-rails', '~> 2.10.2'
