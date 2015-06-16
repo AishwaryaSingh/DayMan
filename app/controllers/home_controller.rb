@@ -30,12 +30,10 @@ class HomeController < ApplicationController
   def roles_homepage
     if current_user.role.name == "admin"
       redirect_to admin_path
-    elsif current_user.role.name == "professor"
-      redirect_to user_path(current_user)
-    elsif current_user.role.name == "student"
-      redirect_to user_path(current_user)
-    else
+    elsif current_user.role.name == "user"
       redirect_to home_path
+    else
+      redirect_to user_path(current_user)
     end
   end
 end

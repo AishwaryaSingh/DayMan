@@ -21,6 +21,7 @@
 		          <%= u.select(:branch_id, options_for_select(branch, selected: @user.branch_id),{ include_blank: true}) %>
 		    <%= u.submit %>
 		  <% end %>
+		  <%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
 		</div>
   </body>
 </html>

@@ -9,6 +9,7 @@
 Role.create!(:name => "admin")
 Role.create!(:name => "professor")
 Role.create!(:name => "student")
+Role.create!(:name => "student_professor")
 Role.create!(:name => "user")
 
 User.create!(name: "Admin Test", email: "admin@test.com", password: "aaaaaaaa", role_id: "1")

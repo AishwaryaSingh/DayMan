@@ -2,15 +2,23 @@
 	<head>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function() 
+			{
+				$("#current_user_id").hide();
+			});
+		</script>
 		<% if current_user.role_id == 2 %>
 			<%= javascript_include_tag "professor_show_table.js" %>
+		<% elsif current_user.role_id == 4 %>
+			<%= javascript_include_tag "student_professor_show_table.js" %>
 		<% else %>
 			<%= javascript_include_tag "show_calendar_user.js" %>
 		<% end %>
 	</head>
 	<body>
 	<div class="user_schedule">
-    <div class="greet_user"><div class="up"><br /><br /><br /><br /><br /><br /><br /><h1>Hello <%= @user.name %>!!</h1></div></div>
+    <div class="greet_user"><div class="up"><br /><br /><br /><br /><br /><br /><br /><h1>Hello <%= @user.name %>!!</h1><span id="current_user_id"><%= current_user.id %></span></div></div>
 		<div id="calendar"></div>
 		<% if current_user.role_id == 2 %>
 		<%= render 'form', :user => @user, :schedule => @schedule , :branch => @branch , :subjects => @subjects , :semester => @semester, :room => @room, :batch => @batch %>
