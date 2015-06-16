@@ -49,7 +49,7 @@ class UsersController < ApplicationController
     @user.password = "12345678"
     @user.sign_up_count = "1"
     if @user.save!
-      UserMailer.welcome_email(@user).deliver
+    #  UserMailer.welcome_email(@user).deliver
       flash[:success] = "Created a New User!"
     else
       flash[:error] = "User not created."
