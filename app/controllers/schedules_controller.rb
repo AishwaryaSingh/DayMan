@@ -67,7 +67,7 @@ class SchedulesController < ApplicationController
   def update_schedule
     @role_id = current_user.role_id
     @schedule = Schedule.get_schedule_array
-    if Schedule.update_email(@schedule, @role_id)
+    if  true #Schedule.update_email(@schedule, @role_id)
       flash[:success] = "Users Notified!"
       redirect_to root_path
     else
