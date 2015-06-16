@@ -46,12 +46,12 @@ DayMan::Application.configure do
   config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
   port:                  25,
-  domain:               'http://localhost:3000/users',
-  user_name:            'ab.de.mn.ij.no@gmail.com',
-  password:             'as1df2m!3io4nm5',
+  domain:               'https://guarded-taiga-6031.herokuapp.com',
+  user_name:            ENV['GMAIL_USERNAME_DEV'],#'ab.de.mn.ij.no@gmail.com',
+  password:             ENV['GMAIL_PASSWORD_DEV'],#'as1df2m!3io4nm5',
   authentication:       'plain',
   enable_starttls_auto: true  }
 
   #PaperClip
-  #Paperclip.options[:command_path] = "/usr/local/bin/"
+  Paperclip.options[:command_path] = "/usr/local/bin/"
 end

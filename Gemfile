@@ -6,6 +6,8 @@ gem 'rails', '4.0.2'
 
 ruby '1.9.3' # For deployment on Heroku
 
+gem "figaro" # For rails application configuration to secure env vars
+
 gem 'pg'
 
 gem 'rails_12factor', group: :production
