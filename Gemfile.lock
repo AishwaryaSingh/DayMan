@@ -25,7 +25,6 @@ GEM
       multi_json (~> 1.3)
       thread_safe (~> 0.1)
       tzinfo (~> 0.3.37)
-    addressable (2.3.8)
     arel (4.0.2)
     autoprefixer-rails (5.2.0)
       execjs
@@ -75,10 +74,6 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.3)
     jwt (1.5.0)
-    launchy (2.4.3)
-      addressable (~> 2.3)
-    letter_opener (1.4.1)
-      launchy (~> 2.2)
     libv8 (3.16.14.7)
     mail (2.5.4)
       mime-types (~> 1.16)
@@ -207,7 +202,6 @@ DEPENDENCIES
   fullcalendar-rails (~> 2.3.1.0)
   iconv
   jquery-rails
-  letter_opener
   momentjs-rails (~> 2.10.2)
   omniauth
   omniauth-digitalocean
