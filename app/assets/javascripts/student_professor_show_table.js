@@ -111,7 +111,7 @@ $(document).ready(function()
         defaultView: "agendaWeek",
         selectable: true,
         selectHelper: true,
-     //   editable: true,
+        editable: false,
         height: 650,
         timeFormat: "h:mm ",
         dragOpacity: "0.5",

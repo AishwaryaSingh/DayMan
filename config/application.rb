@@ -68,7 +68,7 @@ module DayMan
         'show_calendar_user.js',
         'student_professor_show_table.js',
         'log_in.js',
-        'log_in.css'
+        'log_in'
     ]
 
   end

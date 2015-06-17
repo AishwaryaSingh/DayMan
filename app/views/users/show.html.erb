@@ -20,7 +20,7 @@
 	<div class="user_schedule">
     <div class="greet_user"><div class="up"><br /><br /><br /><br /><br /><br /><br /><h1>Hello <%= @user.name %>!!</h1><span id="current_user_id"><%= current_user.id %></span></div></div>
 		<div id="calendar"></div>
-		<% if current_user.role_id == 2 %>
+		<% if current_user.role_id == 2 || current_user.role_id == 4 %>
 		<%= render 'form', :user => @user, :schedule => @schedule , :branch => @branch , :subjects => @subjects , :semester => @semester, :room => @room, :batch => @batch %>
 		<% end %>
 	</div>
