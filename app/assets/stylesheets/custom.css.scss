@@ -220,30 +220,7 @@ footer ul li {
     img { width: 100% }
 }
 
-
-/* input feild */
-
-input[type="text"]
-{
-  padding: 10px;
-  border: solid 1px #fff;
-  box-shadow: inset 1px 1px 2px 0 #707070;
-  transition: box-shadow 0.3s;
-  width: 50px;
-}
-
-
 /* select feild */
-
-input[type="text"]
-{
-  padding: 10px;
-  border: solid 1px #fff;
-  box-shadow: inset 1px 1px 2px 0 #707070;
-  transition: box-shadow 0.3s;
-  width: 50px;
-}
-
 
 .alert {
   padding: 10px;
@@ -280,7 +257,6 @@ a
 {
   color: #5a5a5a; //#FF7052;
 }
-
 
 /* Admin_user Fixed options */
 
@@ -382,4 +358,15 @@ a
   width:1050px;
   height:900px;
   color:#FF7052;
+}
+
+/* input feild */
+
+input[type="password"],input[type="email"],input[type="text"]
+{
+  padding: 10px;
+  border: solid 1px #fff;
+  box-shadow: inset 1px 1px 2px 0 #707070;
+  transition: box-shadow 0.3s;
+  width: 100%;
 }
