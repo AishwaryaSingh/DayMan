@@ -156,7 +156,7 @@ $(document).ready(function()
 
         eventRender: function(event, element)
         {    
-            element.find('.fc-time', this ).append("<img src='close.png' width='15px' height='15px' id='close'/>");
+            element.find('.fc-time', this ).append("<img src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' id='close'/>");
             //element.find('.fc-title').append("<br/>" + event.description);
             element.find('#close', this).hide();
         },
