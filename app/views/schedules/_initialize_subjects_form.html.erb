@@ -1,25 +1,25 @@
 <html>
   <body>
     <div class="schedule">
-      <table width="80%">
+      <table width="100%">
         <%= form_tag schedules_initialize_subjects_path, method: 'post' do %>
         <tr>
-          <td>Branch:</td>
+          <td style="color:#5a5a5a;"><b>Branch:</b></td>
           <td>
             <% branch_array = branch.map { |b| [b.name, b.id] } %>
-            <%= select_tag(:branch_id, options_for_select(branch_array, selected: branch_id_frmc),{ include_blank: true }) %>
+            <%= select_tag(:branch_id, options_for_select(branch_array, selected: branch_id_frmc),{:class => 'form-control',prompt: 'Select Branch'}) %>
           </td>
-          <td>Semester:</td>
+          <td style="color:#5a5a5a;"><b>Semester:</b></td>
           <td>
             <% semester_array = semester.map { |b| [b.name, b.id] } %>
-            <%= select_tag(:semester_id, options_for_select(semester_array, selected: semester_id_frmc), { include_blank: true }) %>
+            <%= select_tag(:semester_id, options_for_select(semester_array, selected: semester_id_frmc), {:class => 'form-control',prompt: 'Select Semester'}) %>
           </td>
-          <td>Batch:</td>
+          <td style="color:#5a5a5a;"><b>Batch:</b></td>
           <td>
             <% batch_array = batch.map { |b| [b.name, b.id] } %>
-            <%= select_tag(:batch_id, options_for_select(batch_array, selected: batch_id_frmc), { include_blank: true }) %>
+            <%= select_tag(:batch_id, options_for_select(batch_array, selected: batch_id_frmc),{:class => 'form-control',prompt: 'Select Batch'}) %>
           </td>
-          <td><%= submit_tag "Apply" , :id => 'apply' %></td>
+          <td width="20%" style="text-align:left;"><%= submit_tag "Apply" , :id => 'apply',:class => 'form-control' %></td>
         </tr>
         <% end %>
       </table>

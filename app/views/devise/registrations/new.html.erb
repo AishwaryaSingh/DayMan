@@ -10,14 +10,20 @@
               <%= f.label :name %><br />
               <%= f.text_field :name, autofocus: true %>
             </div>
+            </div>
+            <div class="input">
             <div class="field">
               <%= f.label :user_name %><br />
               <%= f.text_field :user_name, autofocus: true %>
             </div>
+            </div>
+            <div class="input">
             <div class="field">
               <%= f.label :email %><br />
               <%= f.email_field :email, autofocus: true %>
             </div>
+            </div>
+            <div class="input">
             <div class="field">
               <%= f.label :password %>
               <% if @validatable %>
@@ -25,11 +31,13 @@
               <% end %><br />
               <%= f.password_field :password, autocomplete: "off" %>
             </div>
+            </div>
+            <div class="input">
             <div class="field">
               <%= f.label :password_confirmation %><br />
               <%= f.password_field :password_confirmation, autocomplete: "off" %>
             </div>
-          </div>
+            </div>
           <table width="100%">
             <tr>
               <td width="5%"></td>
