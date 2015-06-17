@@ -370,3 +370,43 @@ input[type="password"],input[type="email"],input[type="text"]
   transition: box-shadow 0.3s;
   width: 100%;
 }
+
+/* fullcalendar */
+.eo-calendar table tr td{
+background-color:#c2e0ff;
+}
+
+/* sign up container*/
+
+#sign_up
+{
+  position:fixed;
+  top: 30%;
+  left: 50%;
+  width:40em;
+  height:40em;
+  margin-top: -9em; /*set to a negative number 1/2 of your height*/
+  margin-left: -20em; /*set to a negative number 1/2 of your width*/
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.other_containers
+{
+  position:fixed;
+  top: 30%;
+  left: 50%;
+  margin-top: -7em; /*set to a negative number 1/2 of your height*/
+  margin-left: -23em; /*set to a negative number 1/2 of your width*/
+//  border: 1px solid #ccc;
+}
+
+.edit_user_containers
+{
+  top: 30%;
+  left: 50%;
+  width:40em;
+  height:40em;
+  margin-top: -2em; /*set to a negative number 1/2 of your height*/
+  margin-left: 25em; /*set to a negative number 1/2 of your width*/
+}
