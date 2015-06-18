@@ -7,7 +7,10 @@ gem 'rails', '4.0.2'
 
 gem 'pg' 
 
-#gem 'mysql'
+gem 'rails_12factor', group: :production
+
+
+# gem 'mysql'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
@@ -71,10 +74,6 @@ gem 'role_model'
 
 
 gem "rails_best_practices"
-
-
-
-gem 'rails_12factor', group: :production
 
 
 # To use ActiveModel has_secure_password
