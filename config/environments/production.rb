@@ -77,8 +77,8 @@ DayMan::Application.configure do
   address:              'smtp.gmail.com',
   port:                  25,
   domain:               'guarded-taiga-6031.herokuapp.com',
-  user_name:            ENV['GMAIL_USERNAME_DEV'],#'ab.de.mn.ij.no@gmail.com',
-  password:             ENV['GMAIL_PASSWORD_DEV'],#'as1df2m!3io4nm5',
+  user_name:            ENV['SENDGRID_USERNAME'],
+  password:             ENV['SENDGRID_PASSWORD'],
   authentication:       'plain',
   enable_starttls_auto: true  }
 
