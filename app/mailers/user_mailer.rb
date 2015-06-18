@@ -1,16 +1,9 @@
 class UserMailer < ApplicationMailer
-
-#	before_filter :set_url
-#	default from: ""
-	
-#	include Users::AdminsHelper	
-#	helper :updates
-	
-  default from: 'notifications@example.com'
+  default from: 'TheDayManager@dayman.com'
 
   def welcome_email(user)
     @user = user
-    @url  = 'http://http://localhost:3000/users'
+    @url  = 'https://guarded-taiga-6031.herokuapp.com'
     mail(to: user.email, subject: 'Welcome to Day Manager!')
   end
 end

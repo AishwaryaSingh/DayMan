@@ -59,7 +59,7 @@ html, body{
 .input
 {
   position: relative;
-  width: 90%;
+  width: 80%;
   margin: 15px auto;
   
   span{
@@ -71,7 +71,7 @@ html, body{
     font-size: 20px;
   }
   
-  input
+  input 
   {
     width: 100%;
     padding: 10px 5px 10px 40px;
@@ -86,6 +86,35 @@ html, body{
       outline: 0;
       border-color: #FF7052;
     }
+  }
+
+  select
+  {
+    padding: 10px;
+    border: solid 1px #fff;
+    box-shadow: inset 1px 1px 2px 0 #707070;
+    transition: box-shadow 0.3s;
+    width: 100%;
+    padding: 0px 0px 0px 40px;
+    display: block;
+    border: 1px solid #EDEDED;
+    border-radius: 4px;
+    transition: 0.2s ease-out;
+    color: darken(#EDEDED, 30%);
+    
+    &:focus{
+      padding: 0px 0px 0px 10px;
+      outline: 0;
+      border-color: #FF7052;
+    }
+  }
+
+  input[type="file"]
+  {
+    padding: 10px;
+    border: solid 1px #fff;
+    box-shadow: inset 1px 1px 2px 0 #707070;
+    transition: box-shadow 0.3s;
   }
 }
 
@@ -161,5 +190,5 @@ html, body{
 
   a
   {
-    color:#5a5a5a;//#FF7052;
+    color:black;//#F2506b;
   }

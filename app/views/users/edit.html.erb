@@ -3,25 +3,53 @@
     <title>User</title>
   </head>
   <body>
+	  <br/>
+	  <br/>
+		<div class="name">
+			<h1>Editing  <span style="color:lightblue"><%= @user.name %>'s</span>  Details</h1>
+		</div>
 		<div align="center" style="width:500px; height:200px" class="user_form">
-			<div class="name">
-				<h1>Editing  <span style="color:lightblue"><%= @user.name %>'s</span>  Details</h1>
-			</div>
-			<%= form_for @user , url: update_user_users_path(@user), method: :post do |u| %>
-		    Name: <%= u.text_field :name %>
-		    Email: <%= u.email_field :email %>
-		    ID: <%= u.text_field :id %>
-		    Role: <% role = @roles.map{ |b| [b.name.to_s, b.id.to_i] } %>
-		        <%= u.select(:role_id, options_for_select(role, selected: @user.role_id ),{ include_blank: true}) %>
-		    Batch: <% batch = @batch.map{ |b| [b.name.to_s, b.id.to_i] } %>
-		        <%= u.select(:batch_id, options_for_select(batch, selected: @user.batch_id),{ include_blank: true}) %>
-		    Semester: <% semester = @semester.map{ |b| [b.name.to_s, b.id.to_i] } %>
-		        <%= u.select(:semester_id, options_for_select(semester, selected: @user.semester_id),{ include_blank: true}) %>
-		    Branch: <% branch = @branch.map{ |b| [b.name.to_s, b.id.to_i] } %>
-		          <%= u.select(:branch_id, options_for_select(branch, selected: @user.branch_id),{ include_blank: true}) %>
-		    <%= u.submit %>
-		  <% end %>
-		  <%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' } %>
+			<form role="form">
+				<%= form_for @user , url: update_user_users_path(@user), method: :post do |u| %>
+			    <div class="input" style="text-align:left">
+			    	<b>Name</b><%= u.text_field :name %>
+			    </div>
+			    <div class="input" style="text-align:left">
+			    	<b>Email</b><%= u.email_field :email %>
+			    </div>
+			    <div class="input" style="text-align:left">
+			    	<b>ID</b><%= u.text_field :id %>
+			    </div>
+			    <div style="text-align:left">
+					  <div class="input">
+						  <b>Role</b><% role = @roles.map{ |b| [b.name.to_s, b.id.to_i] } %>
+						  <%= u.select(:role_id, options_for_select(role, selected: @user.role_id ),{ include_blank: true},{:class => 'form-control'}) %>
+			      </div>
+			      <div class="input" >
+			    		<b>Batch</b><% batch = @batch.map{ |b| [b.name.to_s, b.id.to_i] } %>
+			        <%= u.select(:batch_id, options_for_select(batch, selected: @user.batch_id),{ include_blank: true},{:class => 'form-control'}) %>
+			      </div>
+			      <div class="input" >
+			    		<b>Semester</b><% semester = @semester.map{ |b| [b.name.to_s, b.id.to_i] } %>
+			        <%= u.select(:semester_id, options_for_select(semester, selected: @user.semester_id),{ include_blank: true},{:class => 'form-control'}) %>
+			      </div>
+			      <div  class="input" >
+						  <b>Branch</b><% branch = @branch.map{ |b| [b.name.to_s, b.id.to_i] } %>
+						  <%= u.select(:branch_id, options_for_select(branch, selected: @user.branch_id),{ include_blank: true},{:class => 'form-control'}) %>
+			      </div>
+			    </div>
+			    <br />
+					<div style="text-align:left">
+						<div style="float:left; width:500px;"> 
+						  <%= u.submit %>
+						</div>
+						<div style="text-align: center;"><b>Or?</b></div>
+						<div style="float:rigth;"> 
+							<%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }%>
+						</div>
+					</div>
+			  <% end %>
+			</form>
 		</div>
   </body>
 </html>

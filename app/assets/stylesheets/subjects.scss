@@ -9,6 +9,22 @@
   position:fixed;
   top: 0%;
   left: 20%;
-  margin-top: 15em; /*set to a negative number 1/2 of your height*/
-  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+  margin-top: 15em; 							/*set to a negative number 1/2 of your height*/
+  margin-left: -5em;							/*set to a negative number 1/2 of your width*/
+}
+
+#create_button_subjects
+{
+  width : 21%;
+  font-size:20px;
+}
+
+.create_new_subjects
+{
+  width:965px;
+  position:fixed;
+  top: 0%;
+  left: 20%;
+  margin-top: 15em;
+  margin-left: -5em;
 }

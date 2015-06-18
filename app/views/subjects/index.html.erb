@@ -3,20 +3,24 @@
   </head>
   <body>
     <div class="subject_container">
+      <div align="right" class="create_new_subjects">
+        <%= button_to 'Create New' , new_subject_path , method: :get,:id=>'create_button_subjects', :class=>'form_control'%>
+      </div>
       <div align="center">
-        <table width="100%" style="font-size:20px;" cellspacing="20">
+        <table width="90%" style="font-size:20px;" cellspacing="20">   
+          <br />
+          <br />
+          <br />
           <tr style="font-size:20px; text-align:center; color:LightCoral ">
-            <th width="10%"></th>
           	<th width="25%"></th>
-            <th width="20%"></th>
-            <th width="20%"></th>
-            <th width="30%"></th>
+            <th width="25%"></th>
+            <th width="25%"></th>
+            <th width="25%"></th>
           </tr>
           <% @subjects.each do |subject| %>
-            <tr style="font-size:20px;color:PaleVioletRed">
-          	<td style="font-size:16px"><%= subject.id %></td>
-            <td style="font-size:16px;text-align:left;"><%= link_to subject.name ,edit_subject_path(subject) %></td>
-            <td style="font-size:16px">
+            <tr style="font-size:20px;">
+            <td style="font-size:16px;text-align:left;color:PaleVioletRed;"><%= link_to subject.name ,edit_subject_path(subject) %></td>
+            <td style="font-size:16px;color:#a2a2a2;text-align:center;">
             <% branchArray = Array.new %>
             <% c = 0 %>
             <% @bss.each do |branch| %>
@@ -35,7 +39,7 @@
                       <%end%>
                   <%end%>
             </td>
-            <td style="font-size:16px">
+            <td style="font-size:16px;color:#5a5a5a">
             <% semesterArray = Array.new %>
             <% c = 0 %>
             <% @bss.each do |semester| %>
@@ -54,12 +58,11 @@
                       <%end%>
                   <%end%>
             </td>
-              <td><%= button_to 'Destroy',subject,method: :delete, data: {confirm: 'Are you sure?'} %></td>
+            <td style="font-size:16px;text-align:left;"><%= button_to 'Destroy',subject,method: :delete, data: {confirm: 'Are you sure?'} %></td>
             </tr>
           <% end %>
         </table>
         <br />
-        <div align="right"> <%= button_to 'Create New' , new_subject_path , method: :get %> </div>
       </div>
     </div>
   </body>

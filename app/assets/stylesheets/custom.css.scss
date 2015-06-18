@@ -154,16 +154,12 @@ th,td{
   margin-right: 10px;
 }
 
-.submit-button {
-  width: 10%;
-}
 .import-users h2{
   text-align:left;
   color:#999;
   margin-bottom:10px;
   margin-top:40px;
 }
-
 
 /*Avatar */
 
@@ -192,22 +188,6 @@ th,td{
   margin-top: 5px;
 }
 
-.image-show{
-  height: 200px;
-  max-width: 200px;
-}
-
-#task{
-  float:right;
-}
-
-.hidden{
-  display: none;
-}
-
-.task-error{
-  color: red;
-}
 
 /* Admin_user Fixed options */
 
@@ -220,17 +200,17 @@ th,td{
   float:left;
   padding:15px; 
 
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";       /* IE 8 */
-  filter: alpha(opacity=50);  /* IE 5-7 */
-  -moz-opacity: 0.5;          /* Netscape */
-  -khtml-opacity: 0.5;        /* Safari 1.x */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";  /* IE 8 */
+  filter: alpha(opacity=50);                                          /* IE 5-7 */
+  -moz-opacity: 0.5;                                                  /* Netscape */
+  -khtml-opacity: 0.5;                                                /* Safari 1.x */
   opacity: 0.5; 
 
   position:fixed;
   top: 30%;
   left: 50%;
-  margin-top: -17em; /*set to a negative number 1/2 of your height*/
-  margin-left: -43em; /*set to a negative number 1/2 of your width*/
+  margin-top: -17em;                                                   /*set to a negative number 1/2 of your height*/
+  margin-left: -43em;                                                  /*set to a negative number 1/2 of your width*/
 }
 
 .admin_links
@@ -238,13 +218,16 @@ th,td{
   color:white;
 }
 
+
+/* layout containers */
+
 .alert_msgs
 {
   position:fixed;
   top: 30%;
   left: 50%;
-  margin-top: -15em; /*set to a negative number 1/2 of your height*/
-  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+  margin-top: -15em; 
+  margin-left: -5em; 
 }
 
 .container #container
@@ -255,8 +238,8 @@ th,td{
   position:fixed;
   top: 5%;
   left: 50%;
-  margin-top: 20em; /*set to a negative number 1/2 of your height*/
-  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+  margin-top: 20em; 
+  margin-left: -5em; 
 }
 
 .calendar_container
@@ -266,20 +249,19 @@ th,td{
   position:fixed;
   top: 0%;
   left: 20%;
-  margin-top: 15em; /*set to a negative number 1/2 of your height*/
-  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+  margin-top: 15em; 
+  margin-left: -5em; 
 }
 
-
-.schedule
+.initialize_subjects
 {
-  width:1000px;
+  width:900px;
   height:200px;
   position:fixed;
   top: 0%;
   left: 20%;
-  margin-top: 7em; /*set to a negative number 1/2 of your height*/
-  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+  margin-top: 10em; 
+  margin-left: -5em; 
 }
 
 .admin_data_container
@@ -289,8 +271,8 @@ th,td{
   position:fixed;
   top: 0%;
   left: 20%;
-  margin-top: 10em; /*set to a negative number 1/2 of your height*/
-  margin-left: -5em; /*set to a negative number 1/2 of your width*/
+  margin-top: 10em; 
+  margin-left: -5em; 
 }
 
 .user_schedule
@@ -300,8 +282,8 @@ th,td{
   position:fixed;
   top: 0%;
   left: 0%;
-  margin-top: 10em; /*set to a negative number 1/2 of your height*/
-  margin-left:  5em; /*set to a negative number 1/2 of your width*/
+  margin-top: 10em; 
+  margin-left:  5em; 
 }
 
 .greet_user
@@ -313,7 +295,7 @@ th,td{
 
 /* input feild */
 
-input[type="password"],input[type="email"],input[type="text"]
+input[type="password"],input[type="email"],input[type="text"],select
 {
   padding: 10px;
   border: solid 1px #fff;
@@ -331,8 +313,8 @@ input[type="password"],input[type="email"],input[type="text"]
   left: 50%;
   width:40em;
   height:42em;
-  margin-top: -9em; /*set to a negative number 1/2 of your height*/
-  margin-left: -20em; /*set to a negative number 1/2 of your width*/
+  margin-top: -9em; 
+  margin-left: -20em; 
   border: 1px solid #ccc;
   background-color: white;
 }
@@ -342,8 +324,8 @@ input[type="password"],input[type="email"],input[type="text"]
   position:fixed;
   top: 30%;
   left: 50%;
-  margin-top: -7em; /*set to a negative number 1/2 of your height*/
-  margin-left: -23em; /*set to a negative number 1/2 of your width*/
+  margin-top: -7em; 
+  margin-left: -23em; 
 //  border: 1px solid #ccc;
 }
 
@@ -353,8 +335,8 @@ input[type="password"],input[type="email"],input[type="text"]
   left: 50%;
   width:40em;
   height:40em;
-  margin-top: -2em; /*set to a negative number 1/2 of your height*/
-  margin-left: 25em; /*set to a negative number 1/2 of your width*/
+  margin-top: -2em; 
+  margin-left: 25em; 
 }
 
 .forgot_password_containers
@@ -362,7 +344,59 @@ input[type="password"],input[type="email"],input[type="text"]
   position:fixed;
   top: 30%;
   left: 50%;
-  margin-top: -7em; /*set to a negative number 1/2 of your height*/
-  margin-left: -15em; /*set to a negative number 1/2 of your width*/
+  margin-top: -7em; 
+  margin-left: -15em; 
 //  border: 1px solid #ccc;
+}
+
+.user_form
+{
+  
+  position:fixed;
+  top: 30%;
+  left: 50%;
+  margin-top: -7em; 
+  margin-left: -15em; 
+}
+
+#file
+{ 
+  position: relative;
+  width: 95%;
+  margin: 15px auto;
+  background-color:white;
+  border: solid 1px #fff;
+  box-shadow: inset 1px 1px 2px 0 #707070;
+  transition: box-shadow 0.3s;
+  display: block;
+  border: 1px solid #EDEDED;
+  border-radius: 4px;
+  transition: 0.2s ease-out;
+  color: darken(#EDEDED, 30%);
+
+  span{
+    position: absolute;
+    display: block;
+    color: darken(#EDEDED, 10%);
+    left: 10px;
+    top: 8px;
+    font-size: 20px;
+  }
+    
+  &:focus{
+    padding: 0px 0px 0px 10px;
+    outline: 0;
+    border-color: #FF7052;
+  }
+}
+
+/* 100% width for button */
+.button_new
+{
+  width : 100%;
+}
+
+#button_new
+{
+  width : 100%;
 }

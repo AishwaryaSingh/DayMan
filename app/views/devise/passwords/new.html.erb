@@ -5,7 +5,7 @@
 <div class="input">
 	<div class="field">
 	    <%= f.label :email %><br />
-	    <%= f.email_field :email, autofocus: true %>
+	    <%= f.email_field :email, autofocus: true , :class => 'form_control' %>
 	</div>
 </div>
 
@@ -16,7 +16,7 @@
 		</td>
 		<td>	
 		  	<div class="actions">
-				<%= f.submit "Send instructions                                    ." %>
+				<%= f.submit "Send instructions", :class => 'form_control'  %>
 			</div>
 		</td>
 	</tr>

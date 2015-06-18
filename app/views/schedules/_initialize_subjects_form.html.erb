@@ -1,6 +1,6 @@
 <html>
   <body>
-    <div class="schedule">
+    <div class="initialize_subjects">
       <table width="100%">
         <%= form_tag schedules_initialize_subjects_path, method: 'post' do %>
         <tr>
@@ -19,7 +19,7 @@
             <% batch_array = batch.map { |b| [b.name, b.id] } %>
             <%= select_tag(:batch_id, options_for_select(batch_array, selected: batch_id_frmc),{:class => 'form-control',prompt: 'Select Batch'}) %>
           </td>
-          <td width="20%" style="text-align:left;"><%= submit_tag "Apply" , :id => 'apply',:class => 'form-control' %></td>
+          <td style="text-align:left;"><%= submit_tag "Apply" , :id => 'apply',:id =>'button_new',:class => 'form-control' %></td>
         </tr>
         <% end %>
       </table>

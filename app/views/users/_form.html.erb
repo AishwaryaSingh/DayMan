@@ -21,7 +21,7 @@
               <% branch_array = branch.map { |b| [b.name, b.id] } %>
             </td>
             <td width="60%">
-              <%= s.select(:branch_id, options_for_select(branch_array),{include_blank: true}) %> 
+              <%= s.select(:branch_id, options_for_select(branch_array),{include_blank: true},{:class => 'form-control'}) %> 
             </td>
           </tr>
           <tr>
@@ -30,7 +30,7 @@
               <% semester_array = semester.map { |b| [b.name, b.id] } %>
             </td>
             <td width="60%">
-              <%= s.select(:semester_id, options_for_select(semester_array), { include_blank: true }  ) %>
+              <%= s.select(:semester_id, options_for_select(semester_array), { include_blank: true } ,{:class => 'form-control'} ) %>
             </td>
           </tr>
           <tr>
@@ -39,7 +39,7 @@
               <% subject_array = subjects.map{ |b| [b.name.to_s, b.id.to_i] } %>
             </td>
             <td width="60%">
-              <%= s.select(:subject_id, options_for_select(subject_array),{ include_blank: true}) %>
+              <%= s.select(:subject_id, options_for_select(subject_array),{ include_blank: true},{:class => 'form-control'}) %>
             </td>
           </tr>
           <tr>
@@ -48,7 +48,7 @@
               <% room_array = room.map { |b| [b.name, b.id] } %>
             </td>
             <td width="60%">
-              <%= s.select(:room_id , options_for_select(room_array), { include_blank: true }) %>
+              <%= s.select(:room_id , options_for_select(room_array), { include_blank: true },{:class => 'form-control'}) %>
             </td>
           </tr>
         </table>

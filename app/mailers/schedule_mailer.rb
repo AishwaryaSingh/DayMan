@@ -1,5 +1,5 @@
 class ScheduleMailer < ApplicationMailer
-  default from: 'notifications@example.com'
+  default from: 'TheDayManager@dayman.com'
 
   def update_email(user,schedule)
 		@user = user

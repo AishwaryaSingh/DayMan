@@ -1,23 +1,30 @@
 <html>
 	<body>
 		<div class="user_container">
-		<div align="left">
-			<%= button_to 'Add a New User', new_user_path, method: :get %>
-		</div>
-		<br />
-			<table width="80%">
+			<br />
+			<table width="75%">
+				<tr>
+					<td style="text-align:right;"><b>Add New User ?</b></td>
+					<td></td>
+					<td style="text-align:left;">
+						<%= button_to 'Add a New User', new_user_path, method: :get,:id => 'button_new' %>
+						<br />
+					</td>
+				</tr>
 				<tr>
 					<%= form_tag id_for_edit_users_path, method: :post do %>
-						<td style="text-align:left;">Enter User ID :</td>
-						<td style="text-align:left;"><%= text_field_tag 'user_id' %></td>
-						<td width="30%"><%= submit_tag 'Edit User', :id => "edit_user"  %></td>
+						<div class="input">
+							<td style="text-align:right;"><b>Enter User ID : </b></td>
+							<td style="text-align:center;"><%= text_field_tag 'user_id' %></td>
+							<td style="text-align:left;"><%= submit_tag 'Edit User', :id => "edit_user", :id => 'button_new' %></td>
+						</div>
 					<% end %>
 				</tr>
 				<tr>
-					<td style="text-align:left;">Choose a file to import users.. :</td>
 					<%= form_tag import_users_path, multipart: true do %>
-						<td  style="text-align:left;"><%= file_field_tag :file %></td>
-						<td width="30%"><%= submit_tag "Import!" %></td>
+						<td style="text-align:right;"><b>Choose a file to import users.. :  </b></td>
+						<td style="text-align:center;"><%= file_field_tag :file %></td>
+						<td style="text-align:left;" ><%= submit_tag "Import!", :id => 'button_new' %></td>
 					<% end %>
 				</tr>
 			</table>
