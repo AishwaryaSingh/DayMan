@@ -22,6 +22,18 @@ class User < ActiveRecord::Base
         d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
         d.save!
       end
+    elsif current_user.role.name == "student_professor"
+      data=Schedule.find_all_by_batch_id_and_semester_id_and_branch_id(current_user.batch_id,current_user.semester_id,current_user.branch_id)
+      data.each do |d|
+        d.name= d.subject.name+" by "+d.user.name+" in "+d.room.name  #FULCALENDAR TITLE FOR STUDENT
+        d.save!
+      end
+      professor_data=Schedule.find_all_by_user_id(current_user.id)
+      professor_data.each do |d|
+        d.name= d.subject.name+" for "+d.batch.name+" in "+d.room.name  #FULCALENDAR TITLE FOR PROFESSOR
+        d.save!
+        data.append(d);
+      end
     else
       data=Schedule.find_all_by_batch_id_and_semester_id_and_branch_id(current_user.batch_id,current_user.semester_id,current_user.branch_id)
       data.each do |d|

@@ -5,7 +5,7 @@ class SchedulesController < ApplicationController
     @semester_id_frmc = params[:semester_id]
     @batch_id_frmc = params[:batch_id]
     @schedule = Schedule.new
-    @professor = User.find_all_by_role_id(2)
+    @professor = User.find_all_by_role_id([2,4])
     @branch =Branch.all
     @semester = Semester.all
     @batch = Batch.all
@@ -25,7 +25,7 @@ class SchedulesController < ApplicationController
     branch_semester_subject = BranchSemesterSubject.find_all_by_branch_id_and_semester_id(params[:branch_id],params[:semester_id])
     @subjects = branch_semester_subject.collect! { |x| Subject.find(x.subject_id) }
     @schedule = Schedule.new
-    @professor = User.find_all_by_role_id(2)
+    @professor = User.find_all_by_role_id([2,4])
     @branch =Branch.all
     @semester = Semester.all
     @batch = Batch.all

@@ -17,7 +17,6 @@
 //= require fullcalendar
 //= require bootstrap
 
-
 $(document).ready(function() 
 {
   $(function()
@@ -27,7 +26,6 @@ $(document).ready(function()
     	$('.alert').slideUp(500);
   	}, 1000);
 	});
-
 	$(function()
   {
     setTimeout(function()

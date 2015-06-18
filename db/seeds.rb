@@ -9,6 +9,7 @@
 Role.create!(:name => "admin")
 Role.create!(:name => "professor")
 Role.create!(:name => "student")
+Role.create!(:name => "student_professor")
 Role.create!(:name => "user")
 
 User.create!(name: "Admin Test", email: "admin@test.com", password: "aaaaaaaa", role_id: "1")
@@ -17,7 +18,7 @@ User.create!(name: "Kalyani Kadam", email: "kalyanik@sitpune.edu.in", password: 
 User.create!(name: "Praveen Gubbala", email: "praveeng@sitpune.edu.in", password: "aaaaaaaa", role_id: "2")
 User.create!(name: "Raj Kalpesh Shah", email: "raj.shah@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "1", semester_id: "1", branch_id: "3")
 User.create!(name: "Manish Sharma", email: "manish.sharma@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "3", semester_id: "1", branch_id: "3")
-User.create!(name: "Aishwarya Singh", email: "aishwarya.singh@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "1", semester_id: "5", branch_id: "1")
+#User.create!(name: "Aishwarya Singh", email: "aishwarya.singh@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "1", semester_id: "5", branch_id: "1")
 User.create!(name: "Aman Bhatia", email: "aman.bhatia@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "2", semester_id: "5", branch_id: "1")
 User.create!(name: "Akshita Pradhan", email: "akshita.pradhan@sitpune.edu.in", password: "aaaaaaaa", role_id: "3", batch_id: "3", semester_id: "5", branch_id: "1")
 

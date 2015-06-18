@@ -7,7 +7,6 @@ DayMan::Application.configure do
   config.cache_classes = false
 
   # Log error messages when you accidentally call methods on nil.
-
   config.whiny_nils = true
 
   # Show full error reports and disable caching
@@ -36,10 +35,7 @@ DayMan::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
-  #Letter_opener
-  config.action_mailer.delivery_method = :letter_opener
+  config.action_mailer.default_url_options = { host: 'guarded-taiga-6031.herokuapp.com' } #, port: 3000
 
   #SMTP Server Settings :
   # For Gmail:
@@ -47,9 +43,9 @@ DayMan::Application.configure do
   config.action_mailer.smtp_settings = {
   address:              'smtp.gmail.com',
   port:                  25,
-  domain:               'http://localhost:3000/users',
-  user_name:            'ab.de.mn.ij.no@gmail.com',
-  password:             'as1df2m!3io4nm5',
+  domain:               'guarded-taiga-6031.herokuapp.com',
+  user_name:            ENV['GMAIL_USERNAME_DEV'],#'ab.de.mn.ij.no@gmail.com',
+  password:             ENV['GMAIL_PASSWORD_DEV'],#'as1df2m!3io4nm5',
   authentication:       'plain',
   enable_starttls_auto: true  }
 

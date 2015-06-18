@@ -146,46 +146,6 @@ th,td{
   text-align:center;
 }
 
-
-/* footer */
-
-.footer{
-  position:fixed;
-  bottom:0;
-  background-color:white;
-  width:940px;
-}
-
-footer {
-  margin-top: 45px;
-  padding-top: 5px;
-  border-top: 1px solid #eaeaea;
-  color: #999;
-}
-
-footer a {
-  color: #555;
-}
-
-footer a:hover {
-  color: #222;
-}
-
-footer small {
-  float: left;
-}
-
-footer ul {
-  float: right;
-  list-style: none;
-}
-
-footer ul li {
-  float: left;
-  margin-left: 10px;
-}
-
-
 /*import file */
 
 .input-field {
@@ -220,30 +180,7 @@ footer ul li {
     img { width: 100% }
 }
 
-
-/* input feild */
-
-input[type="text"]
-{
-  padding: 10px;
-  border: solid 1px #fff;
-  box-shadow: inset 1px 1px 2px 0 #707070;
-  transition: box-shadow 0.3s;
-  width: 50px;
-}
-
-
 /* select feild */
-
-input[type="text"]
-{
-  padding: 10px;
-  border: solid 1px #fff;
-  box-shadow: inset 1px 1px 2px 0 #707070;
-  transition: box-shadow 0.3s;
-  width: 50px;
-}
-
 
 .alert {
   padding: 10px;
@@ -260,10 +197,6 @@ input[type="text"]
   max-width: 200px;
 }
 
-.datepicker{
-  z-index: 1150 !important;
-}
-
 #task{
   float:right;
 }
@@ -275,12 +208,6 @@ input[type="text"]
 .task-error{
   color: red;
 }
-
-a
-{
-  color: #5a5a5a; //#FF7052;
-}
-
 
 /* Admin_user Fixed options */
 
@@ -382,4 +309,60 @@ a
   width:1050px;
   height:900px;
   color:#FF7052;
+}
+
+/* input feild */
+
+input[type="password"],input[type="email"],input[type="text"]
+{
+  padding: 10px;
+  border: solid 1px #fff;
+  box-shadow: inset 1px 1px 2px 0 #707070;
+  transition: box-shadow 0.3s;
+  width: 100%;
+}
+
+/* sign up container*/
+
+#sign_up
+{
+  position:fixed;
+  top: 30%;
+  left: 50%;
+  width:40em;
+  height:42em;
+  margin-top: -9em; /*set to a negative number 1/2 of your height*/
+  margin-left: -20em; /*set to a negative number 1/2 of your width*/
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.other_containers
+{
+  position:fixed;
+  top: 30%;
+  left: 50%;
+  margin-top: -7em; /*set to a negative number 1/2 of your height*/
+  margin-left: -23em; /*set to a negative number 1/2 of your width*/
+//  border: 1px solid #ccc;
+}
+
+.edit_user_containers
+{
+  top: 30%;
+  left: 50%;
+  width:40em;
+  height:40em;
+  margin-top: -2em; /*set to a negative number 1/2 of your height*/
+  margin-left: 25em; /*set to a negative number 1/2 of your width*/
+}
+
+.forgot_password_containers
+{
+  position:fixed;
+  top: 30%;
+  left: 50%;
+  margin-top: -7em; /*set to a negative number 1/2 of your height*/
+  margin-left: -15em; /*set to a negative number 1/2 of your width*/
+//  border: 1px solid #ccc;
 }

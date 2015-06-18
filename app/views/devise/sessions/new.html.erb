@@ -24,7 +24,6 @@
             <%= f.password_field :password, autocomplete: "off" %>
           </div>
         </div>
-
         <table width="100%">
           <tr>
           <td></td>
@@ -41,16 +40,14 @@
           <tr>
           <td width="5%"></td>
             <td style="text-align:left;">
-              <div class="input">
+              <div width="50%">
                 <%= render "devise/shared/links" %>
               </div>
             </td>
-            <td width="60%" style="text-align:right;">
-                <div class="input">
-                  <div class="actions">
-                    <%= f.submit "Log in" , :id => "log_in" %>
-                  </div>
-                </div>
+            <td width="60%" style="text-align:left;">
+              <div class="actions">
+                <%= f.submit "Log in" , :id => "log_in" %>
+              </div>
             </td>
           </tr>
         </table>
