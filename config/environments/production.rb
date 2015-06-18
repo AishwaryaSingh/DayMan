@@ -74,8 +74,8 @@ DayMan::Application.configure do
   # For Gmail:
   # config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-  address:              'smtp.gmail.com',
-  port:                  25,
+  address:              'smtp.sendgrid.net',
+  port:                  '587',
   domain:               'guarded-taiga-6031.herokuapp.com',
   user_name:            ENV['SENDGRID_USERNAME'],
   password:             ENV['SENDGRID_PASSWORD'],
