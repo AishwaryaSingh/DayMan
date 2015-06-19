@@ -5,48 +5,59 @@
   <body>
     <div id="dialog" title="Enter Event Details">
       <%= form_for(schedule, :remote => true, :format => :json) do |s| %>
-        <p>
-          Start Time : <span id="startTime"></span>
-        </p>
-        <p>
-          End Time : <span id="endTime"></span>
-        </p>
-        <p>
-          Professor : <%= user.name %> <span id="user_id"><%= user.id %></span>
         </p>
         <table width="70%">
           <tr>
+            <td> <p style="text-align:right;">Start Time : </p></td>
+            <td width="5%"></td>
+            <td><p style="text-align:left;"><span id="startTime"></span></p></td>
+          </tr>
+          <tr>
+            <td><p style="text-align:right;"> End Time : </p></td>
+            <td width="5%"></td>
+            <td><p style="text-align:left;"><span id="endTime"></span></p></td>
+          </tr>
+          <tr>
+            <td><p style="text-align:right;">Professor : </p></td>
+            <td width="5%"></td>
+            <td><p style="text-align:left;"><%= user.name %> <span id="user_id"><%= user.id %></span></p></td>
+          </tr>
+          <tr>
             <td>
-              <p>Branch : </p>
+              <p style="text-align:right;">Branch : </p>
               <% branch_array = branch.map { |b| [b.name, b.id] } %>
             </td>
+            <td width="5%"></td>
             <td width="60%">
               <%= s.select(:branch_id, options_for_select(branch_array),{include_blank: true},{:class => 'form-control'}) %> 
             </td>
           </tr>
           <tr>
             <td>
-              <p>Semester : </p>
+              <p style="text-align:right;">Semester : </p>
               <% semester_array = semester.map { |b| [b.name, b.id] } %>
             </td>
+            <td width="5%"></td>
             <td width="60%">
               <%= s.select(:semester_id, options_for_select(semester_array), { include_blank: true } ,{:class => 'form-control'} ) %>
             </td>
           </tr>
           <tr>
             <td>
-              <p>Subject : </p>
+              <p style="text-align:right;">Subject : </p>
               <% subject_array = subjects.map{ |b| [b.name.to_s, b.id.to_i] } %>
             </td>
+            <td width="5%"></td>
             <td width="60%">
               <%= s.select(:subject_id, options_for_select(subject_array),{ include_blank: true},{:class => 'form-control'}) %>
             </td>
           </tr>
           <tr>
             <td>
-              <p>Room No. : </p>
+              <p style="text-align:right;">Room No. : </p>
               <% room_array = room.map { |b| [b.name, b.id] } %>
             </td>
+            <td width="5%"></td>
             <td width="60%">
               <%= s.select(:room_id , options_for_select(room_array), { include_blank: true },{:class => 'form-control'}) %>
             </td>
@@ -54,7 +65,8 @@
         </table>
         <table>
           <tr>
-            <td width="40%"><p>Repeat for Batches: </p></td>
+            <td width="46%"><p style="text-align:right;">For Batches: </p></td>
+            <td width="5%"></td>
             <% batch.each do |batch| %>
               <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
               <td><%= batch.name %></td>
@@ -64,20 +76,23 @@
         </table>
         <table>
           <tr>
-            <td width="40%"><p>Repeat : </p></td>
-            <td><%= radio_button_tag 'period', 0 %></td><td>Today</td><td width="5%"></td>
-            <td><%= radio_button_tag 'period', 1 %></td><td>Daily</td><td width="5%"></td>
-            <td><%= radio_button_tag 'period', 2 %></td><td>Weekly</td><td width="5%"></td>
-            <td><%= radio_button_tag 'period', 3 %></td><td>Monthly</td><td width="5%"></td>
+            <td width="28%"><p style="text-align:right;">Repeat : </p></td>
+            <td width="4%"></td>
+            <td><%= radio_button_tag 'period', 0 %></td><td>Today</td><td width="4%"></td>
+            <td><%= radio_button_tag 'period', 1 %></td><td>Daily</td><td width="4%"></td>
+            <td><%= radio_button_tag 'period', 2 %></td><td>Weekly</td><td width="4%"></td>
+            <td><%= radio_button_tag 'period', 3 %></td><td>Monthly</td><td width="4%"></td>
           </tr>
         </table>
         <table>
-          <tr>
-            <td><p>Start Date : </p></td>
+        <tr>
+            <td width="40%" style="text-align:right;"><p style="text-align:right;">Start Date : </p></td>
+            <td width="4%"></td>
             <td><%= s.date_select(:start_date) %></td>
           </tr>
           <tr>
-            <td><p>End Date : </p></td>
+            <td width="40%" style="text-align:right;"><p>End Date : </p></td>
+            <td width="4%"></td>
             <td><%= s.date_select(:end_date) %></td>
           </tr>
         </table>
@@ -85,16 +100,17 @@
         <div class="row">
           <div class="col-md-12">
             <div class="col-md-4">
-              <input type="button" id="schedule_create" value="Create"> 
-              <input type="button" id="schedule_update" value="Update"> 
+            </div>
+            <div class="col-md-4">
+            </div>
+            <div class="col-md-4">
+              <input type="button" id="schedule_create" value="Create" class ='form-control'> 
+              <input type="button" id="schedule_update" value="Update" class ='form-control'> 
             </div>
           </div>
         </div>
       <% end %>
     </div>
     <br />
-    <div>
-      <%= button_to 'Notify Users', update_schedule_schedules_path, method: :get, :id => 'schedule_change' %>
-    </div>
   </body>
 </html>

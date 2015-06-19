@@ -59,7 +59,7 @@ html, body{
 .input
 {
   position: relative;
-  width: 80%;
+  width: 90%;
   margin: 15px auto;
   
   span{
@@ -107,14 +107,6 @@ html, body{
       outline: 0;
       border-color: #FF7052;
     }
-  }
-
-  input[type="file"]
-  {
-    padding: 10px;
-    border: solid 1px #fff;
-    box-shadow: inset 1px 1px 2px 0 #707070;
-    transition: box-shadow 0.3s;
   }
 }
 
@@ -175,8 +167,8 @@ html, body{
     left: 50%;
     width:30em;
     height:18em;
-    margin-top: -9em; /*set to a negative number 1/2 of your height*/
-    margin-left: -15em; /*set to a negative number 1/2 of your width*/
+    margin-top: -8em;
+    margin-left: -15em;
     border: 1px solid #ccc;
     background-color: white;
   }
