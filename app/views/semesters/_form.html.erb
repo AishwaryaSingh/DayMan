@@ -1,7 +1,11 @@
 <%= form_for(@semester) do |f| %>
 <div align="center">
 <table>
- <tr><td> Name   : </td><td><%= f.text_field :name %></td>
+ <tr>
+ 	<td><%= f.text_field :name,:placeholder =>" Enter Semester" %></td>
+  <td>
+  	<div align="left"><%= f.submit  :id =>'button_new'  %></div>
+  </td>
   <td>
   <span style="color:red">
   <% if @semester.errors[:name] %>
@@ -11,6 +15,5 @@
   </span></td>
   </tr>
   </table>
-<div align="left"><%= f.submit  %></div>
 <% end %>
 </div>

@@ -6,9 +6,22 @@
 	<body>
 		<div class="branch_container">
 			<div align="center">
-				<h1>Enter Branch Details :</h1>
 				<%= render 'form',:branch => @branch %>
 			</div>
+    <table width="100%" style="font-size:20px;" cellspacing="20">
+      <% @branches.each do |branch| %>
+      <tr style="font-size:20px; text-align:center; color:PaleVioletRed">
+        <td style="font-size:16px"><%= branch.name %></td>
+        <td><%= link_to image_tag('Actions-document-edit-icon.png'), edit_branch_path(branch) %></td>
+        <td><%= link_to image_tag('Delete-icon 24px.png'), branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+      <% end %>
+    </table>
 		</div>
 	</body>
 </html>

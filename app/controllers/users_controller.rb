@@ -28,11 +28,18 @@ class UsersController < ApplicationController
   end
 
   def import
-    if User.import(params[:file])
-      flash[:success] = "Uploaded"
-      redirect_to admin_users_path
+    if params[:file]
+      if User.import(params[:file])
+        flash[:success] = "Uploaded"
+        redirect_to admin_users_path
+      else
+        flash[:error] = "Some error occured! Please try again!"
+        @errors=User.import(params[:file])
+        redirect_to :back
+      end
     else
-      flash[:error] = "Some error occured! Please try again!"
+      flash[:error] = "Choose a file to import!"
+      redirect_to :back
     end
   end
 
@@ -59,8 +66,16 @@ class UsersController < ApplicationController
 
   def id_for_edit
     user_id=params[:user_id]
-    @user=User.find_by_id(user_id)
-    redirect_to edit_user_path(@user)
+    if user_id == ""
+      flash[:error] = "Enter an ID to edit!"
+      redirect_to :back
+    elsif !User.find_by_id(user_id)
+      flash[:error] = "Enter a VALID ID to edit!"
+      redirect_to :back
+    else 
+      @user=User.find_by_id(user_id)
+      redirect_to edit_user_path(@user)
+    end
   end
 
   def edit

@@ -54,6 +54,8 @@ class User < ActiveRecord::Base
     spreadsheet = open_spreadsheet(file)
   # spreadsheet = Roo::Excelx.new(file.path, nil, :ignore)
     header = spreadsheet.row(1)
+    $error_array = []
+    $error_count = 0
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
       user = find_by_id(row["id"]) || new
@@ -67,8 +69,18 @@ class User < ActiveRecord::Base
       user.semester_id = row['semester_id']
       user.branch_id = row['branch_id']
       user.sign_up_count = "1"
-      user.save!
-      UserMailer.welcome_email(user).deliver
+      if user.valid?
+        user.save!
+        UserMailer.welcome_email(user).deliver
+      else
+        $error_array.append([i, user.error_messages])
+        $error_count = $error_count + 1
+      end
+    end
+    if $error_count > 0
+      return $error_array
+    else
+      return true
     end
   end
 

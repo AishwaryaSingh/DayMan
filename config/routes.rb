@@ -24,10 +24,6 @@ DayMan::Application.routes.draw do
   resources :semesters
 
   post 'schedules/initialize_subjects', :to => 'schedules#initialize_subjects'
-  
-  post 'users/', :to => 'users#create_user'
-
-  post 'users/', :to => 'users#list_of_users'
  
   get '/home', to: 'home#index'
 
@@ -41,7 +37,11 @@ DayMan::Application.routes.draw do
 
   get '/admin/semesters', to: 'semesters#index'
 
-  get '/admin/users', to: 'users#import_users'
+  get '/admin/users', to: 'users#select_options'
+
+  get '/import', to: 'users#import_users'
+
+  get '/get_user_id', to: 'users#get_user_id'
 
   #mount FullcalendarEngine::Engine => "/fullcalendar_engine"
 

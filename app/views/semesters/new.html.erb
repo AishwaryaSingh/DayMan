@@ -1,6 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>List of Semesteres</title>
+</head>
+<body>
 <div class="semester_container">
-	<div align="center">
-		<h1>Enter Semester Details :</h1>
-		<%= render 'form',:locals => { :semester => @semester } %>
-	</div>
+  <div align="center">
+    <%= render 'form',:locals => { :semester => @semester } %>
+  </div>
+    <div align="center">
+      <table width="80%" style="font-size:20px;" cellspacing="20">
+      <% @semesters.each do |semester| %>
+        <tr style="color:PaleVioletRed">
+          <td width="20%" style="text-align:center"> </td>
+          <td width="20%" style="text-align:left;font-size:20px;"><%= semester.name %></td>
+          <td width="20%" style="text-align:left"><%= link_to image_tag('Actions-document-edit-icon.png'), edit_semester_path(semester) %></td>
+          <td width="20%" style="text-align:left"><%= link_to image_tag('Delete-icon 24px.png'), semester, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      <% end %>
+      </table>
+    </div>
 </div>
+</body>
+</html>

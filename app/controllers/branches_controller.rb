@@ -9,6 +9,8 @@ class BranchesController < ApplicationController
 
   def new
     @branch = Branch.new
+    @user = current_user
+    @branches = Branch.all
   end
 
   def edit
@@ -19,7 +21,7 @@ class BranchesController < ApplicationController
     @branch = Branch.new(unit_params)
     if @branch.valid?
        @branch.save
-       redirect_to branches_path
+       redirect_to new_branch_path
     else
       render 'new'
     end
@@ -29,7 +31,7 @@ class BranchesController < ApplicationController
     @branch = Branch.find(params[:id])
     if @branch.valid?
       @branch.update_attributes!(unit_params)
-      redirect_to branches_path
+      redirect_to new_branch_path
     else
       render 'edit'
     end
@@ -38,7 +40,7 @@ class BranchesController < ApplicationController
   def destroy
     @branches = Branch.find(params[:id])
     @branches.destroy   
-    redirect_to branches_path
+    redirect_to new_branch_path
   end
 
   def unit_params

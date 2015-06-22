@@ -2,24 +2,30 @@
 	<body>
 		<div class="user_container">
 			<br />
+
+			<% if !@errors.nil? %>
+			  <div id="error_explanation">
+			    <h2>
+			    <%= pluralize(@errors.lenght, "error")%>
+			      prohibited this file from being uploaded:  
+			    </h2>
+			    <p>There were problems with the following rows :</p>
+			    <ul>
+				    <%= @errors.each do |row| %>
+				      <li>
+				      	Row <%= row[0] %> has the following problems:
+				      	<ul>
+				      		<% row[1].each do |message| %>
+				      			<li><%= message %></li>
+				      		<% end %>
+				      	</ul>
+				      </li>
+				    <% end %>
+			    </ul>   
+			  </div>
+			<% end %>
+
 			<table width="75%">
-				<tr>
-					<td style="text-align:right;"><b>Add New User ?</b></td>
-					<td></td>
-					<td style="text-align:left;">
-						<%= button_to 'Add a New User', new_user_path, method: :get,:id => 'button_new' %>
-						<br />
-					</td>
-				</tr>
-				<tr>
-					<%= form_tag id_for_edit_users_path, method: :post do %>
-						<div class="input">
-							<td style="text-align:right;"><b>Enter User ID : </b></td>
-							<td style="text-align:center;"><%= text_field_tag 'user_id' %></td>
-							<td style="text-align:left;"><%= submit_tag 'Edit User', :id => "edit_user", :id => 'button_new' %></td>
-						</div>
-					<% end %>
-				</tr>
 				<tr>
 					<%= form_tag import_users_path, multipart: true do %>
 						<td style="text-align:right;"><b>Choose a file to import users.. :  </b></td>

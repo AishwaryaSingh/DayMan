@@ -8,20 +8,20 @@
 		<%= form_for(branch) do |f| %>
 		<div align="center">
 		<table>
-		 <tr><td> Name   : </td><td><%= f.text_field :name %>
-		  </td>
-		  <td>
-		  <span style="color:red">
-		  <% if branch.errors[:name] %>
-		    <% a= branch.errors.full_messages_for(:name) %>
-		    <%= a.join(", ") %>
-		  <% end %>
-		  </span>
-		</td>
+		<tr>
+		 	<td><%= f.text_field :name ,:placeholder =>" Enter Branch" %></td>
+			<td><div align="left"><%= f.submit :id =>'button_new' %></div></td>
+			<td>
+			  <span style="color:red">
+			  <% if branch.errors[:name] %>
+			    <% a= branch.errors.full_messages_for(:name) %>
+			    <%= a.join(", ") %>
+			  <% end %>
+			  </span>
+			</td>
 		</tr>
 		</table>
 		<br />
-		<div align="left"><%= f.submit  %></div>
 		 <% end %>
 		</div>
 	</div>

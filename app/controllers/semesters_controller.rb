@@ -9,6 +9,8 @@ class SemestersController < ApplicationController
 
   def new
     @semester = Semester.new
+    @semesters = Semester.all
+    @user = current_user
   end
 
   def edit
@@ -19,7 +21,7 @@ class SemestersController < ApplicationController
     @semester = Semester.new(unit_params)
     if @semester.valid?
        @semester.save
-       redirect_to semesters_path
+       redirect_to new_semester_path
     else
       render 'new'
     end
@@ -29,7 +31,7 @@ class SemestersController < ApplicationController
     @semester = Semester.find(params[:id])
     if @semester.valid?
       @semester.update_attributes!(unit_params)
-      redirect_to semesters_path
+      redirect_to new_semester_path
     else
       render 'edit'
     end 
@@ -38,7 +40,7 @@ class SemestersController < ApplicationController
   def destroy
     @semester = Semester.find(params[:id])
     @semester.destroy   
-    redirect_to semesters_path
+    redirect_to new_semester_path
   end
 
   def unit_params

@@ -4,9 +4,8 @@
   </head>
   <body>
 		<div align="left" style="width:500px; height:200px" class="user_form">
-			<form role="form">
 			<h1>Enter User Details :</h1>
-			<%= form_for @user, url: create_user_users_path, method: :post do |u| %>
+			<%= form_for @user,url: create_user_users_path, method: 'post' do |u| %>
 				<div class="input" style="text-align:left">
 					<b>Name</b><%= u.text_field :name %>
 				</div>
@@ -37,7 +36,6 @@
 				<br />
 			<%= u.submit :class => 'form-control' %>
 		  <% end %>
-		</form>
 		</div>
   </body>
 </html>

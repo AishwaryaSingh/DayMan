@@ -1,0 +1,8 @@
+<div class="user_container">
+	<br />
+	<%= form_tag id_for_edit_users_path, method: :post do %>
+		<b>Enter User ID : </b>
+		<%= text_field_tag 'user_id' %>
+		<%= submit_tag 'Edit User', :id => "edit_user" %>
+	<% end %>
+</div>

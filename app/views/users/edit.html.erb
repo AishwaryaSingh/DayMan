@@ -9,8 +9,7 @@
 			<h1>Editing  <span style="color:lightblue"><%= @user.name %>'s</span>  Details</h1>
 		</div>
 		<div align="center" style="width:500px; height:200px" class="user_form">
-			<form role="form">
-				<%= form_for @user , url: update_user_users_path(@user), method: :post do |u| %>
+				<%= form_for @user, url: update_user_users_path(@user), method: 'post' do |u| %>
 			    <div class="input" style="text-align:left">
 			    	<b>Name</b><%= u.text_field :name %>
 			    </div>
@@ -18,7 +17,7 @@
 			    	<b>Email</b><%= u.email_field :email %>
 			    </div>
 			    <div class="input" style="text-align:left">
-			    	<b>ID</b><%= u.text_field :id %>
+			    	<b>ID</b><%= u.text_field :id, :readonly => true %>
 			    </div>
 			    <div style="text-align:left">
 					  <div class="input">
@@ -43,13 +42,13 @@
 						<div style="float:left; width:500px;"> 
 						  <%= u.submit %>
 						</div>
+
+			  <% end %>
 						<div style="text-align: center;"><b>Or?</b></div>
 						<div style="float:rigth;"> 
 							<%= button_to 'Destroy', @user, method: :delete, data: { confirm: 'Are you sure?' }%>
 						</div>
 					</div>
-			  <% end %>
-			</form>
 		</div>
   </body>
 </html>
