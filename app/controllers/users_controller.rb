@@ -52,16 +52,20 @@ class UsersController < ApplicationController
   end
 
   def create_user
-    @user=User.new(user_params)
-    @user.password = "12345678"
-    @user.sign_up_count = "1"
-    if @user.save!
-      UserMailer.welcome_email(@user).deliver
-      flash[:success] = "Created a New User!"
+    if user_params.nil?
+      flash[:error] = "Enter Data!"
     else
-      flash[:error] = "User not created."
+      @user=User.new(user_params)
+      @user.password = "12345678"
+      @user.sign_up_count = "1"
+      if @user.save!
+        UserMailer.welcome_email(@user).deliver
+        flash[:success] = "Created a New User!"
+      else
+        flash[:error] = "User not created."
+      end
+      redirect_to admin_users_path
     end
-    redirect_to admin_users_path
   end
 
   def id_for_edit
