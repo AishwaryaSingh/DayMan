@@ -1,4 +1,3 @@
-require 'mail'
 class Schedule < ActiveRecord::Base
 
   belongs_to :branch

@@ -36,19 +36,12 @@ class UsersController < ApplicationController
         flash[:error] = "Some error occured! Please try again!"
     @errors=User.get_errors
         session[:errors]=User.get_errors
-#        redirect_to import_errors_path
         redirect_to :back
       end
     else
       flash[:error] = "Choose a file to import!"
       redirect_to :back
     end
-  end
-
-  def errors
-    @errors=User.get_errors
-    puts "=============================================="
-    puts @errors.inspect
   end
 
   def new

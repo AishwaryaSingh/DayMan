@@ -13,8 +13,8 @@ gem 'pg'
 gem 'rails_12factor', group: :production
 
 #validate email
-gem 'valid_email', require: ['valid_email/all_with_extensions']
-
+#gem 'valid_email', require: ['valid_email/all_with_extensions']
+gem 'valid_email', require: 'valid_email/validate_email'
 #gem 'rails_serve_static_assets'
 
 # gem 'mysql'

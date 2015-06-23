@@ -1,5 +1,6 @@
 require 'iconv'
-
+require 'valid_email'
+require 'mail'
 class User < ActiveRecord::Base
 
  # after_create :email_to_user
@@ -14,7 +15,8 @@ class User < ActiveRecord::Base
   #To Upload a Profile Avatar
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
-
+  validates :email, :presence => true, :email => true
+  
   def self.save_event_to_display(current_user)
     if current_user.role.name == "professor"
       data=Schedule.find_all_by_user_id(current_user.id)
@@ -69,8 +71,8 @@ class User < ActiveRecord::Base
       user.semester_id = row['semester_id']
       user.branch_id = row['branch_id']
       user.sign_up_count = "1"
-      if !user.email.nil?
-        if user.email.email?
+      if !user.email.nil? && !user.name.nil?
+        if ValidateEmail.valid?(user.email)
           if user.valid?
             if User.find(user.id)
               if user.email == User.find(user.id).email && user.name == User.find(user.id).name
@@ -97,12 +99,17 @@ class User < ActiveRecord::Base
           $error_count = $error_count + 1
         end
       else
-        $error_array.append([i, "Email Can NOT Be Empty/NULL!"])
-        $error_count = $error_count + 1
+        if user.email.nil?
+          $error_array.append([i, "Email Can NOT Be Empty/NULL!"])
+          $error_count = $error_count + 1
+        else
+          $error_array.append([i, "Name Can NOT Be Empty/NULL!"])
+          $error_count = $error_count + 1
+        end
       end
     end
     if $error_count > 0
-      return false #$error_array
+      return false
     else
       return true
     end
