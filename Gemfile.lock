@@ -185,6 +185,9 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
+    valid_email (0.0.7)
+      activemodel
+      mail
     warden (1.2.3)
       rack (>= 1.0)
 
@@ -216,3 +219,4 @@ DEPENDENCIES
   spreadsheet
   therubyracer
   uglifier (>= 1.0.3)
+  valid_email

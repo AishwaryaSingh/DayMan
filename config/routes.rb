@@ -41,6 +41,8 @@ DayMan::Application.routes.draw do
 
   get '/import', to: 'users#import_users'
 
+  get '/import_errors', to: 'users#errors'
+
   get '/get_user_id', to: 'users#get_user_id'
 
   #mount FullcalendarEngine::Engine => "/fullcalendar_engine"

@@ -1,0 +1,21 @@
+<html>
+	<body>
+		<div class="user_container">
+			<br />
+			<% if !@errors.nil? %>
+			    <h2 style="text-align:left;">
+			    <%= pluralize(@errors.length, "error")%>
+			      prohibited this file from being uploaded:  
+			    </h2>
+			    <p>There were problems with the following rows :</p>
+			    <ul>
+				    <% @errors.each do |row| %>
+				      <li>
+				      	Row <%= row[0] %> has the following problem: <%= row[1] %>
+				      </li>
+				    <% end %>
+			    </ul>   
+			<% end %>
+		</div>
+	</body>
+</html>

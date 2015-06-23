@@ -34,13 +34,21 @@ class UsersController < ApplicationController
         redirect_to admin_users_path
       else
         flash[:error] = "Some error occured! Please try again!"
-        @errors=User.import(params[:file])
+    @errors=User.get_errors
+        session[:errors]=User.get_errors
+#        redirect_to import_errors_path
         redirect_to :back
       end
     else
       flash[:error] = "Choose a file to import!"
       redirect_to :back
     end
+  end
+
+  def errors
+    @errors=User.get_errors
+    puts "=============================================="
+    puts @errors.inspect
   end
 
   def new
@@ -113,5 +121,6 @@ class UsersController < ApplicationController
     params.require(:user).permit(:name,:email,:id,:role_id,:batch_id,:semester_id,:branch_id)
   end
 
+  $error_array = Array.new()
 
 end

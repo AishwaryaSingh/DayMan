@@ -2,29 +2,6 @@
 	<body>
 		<div class="user_container">
 			<br />
-
-			<% if !@errors.nil? %>
-			  <div id="error_explanation">
-			    <h2>
-			    <%= pluralize(@errors.lenght, "error")%>
-			      prohibited this file from being uploaded:  
-			    </h2>
-			    <p>There were problems with the following rows :</p>
-			    <ul>
-				    <%= @errors.each do |row| %>
-				      <li>
-				      	Row <%= row[0] %> has the following problems:
-				      	<ul>
-				      		<% row[1].each do |message| %>
-				      			<li><%= message %></li>
-				      		<% end %>
-				      	</ul>
-				      </li>
-				    <% end %>
-			    </ul>   
-			  </div>
-			<% end %>
-
 			<table width="75%">
 				<tr>
 					<%= form_tag import_users_path, multipart: true do %>
@@ -34,6 +11,24 @@
 					<% end %>
 				</tr>
 			</table>
+      <br />
+			<div style="text-align:center">
+				<% if session[:errors] %>
+					<h2>
+				    <%= pluralize(session[:errors].length, "error")%>
+				    prohibited this file from being uploaded:  
+				  </h2>
+					<p>There were problems with the following rows :</p>
+	        <p>
+	          <ul>
+	            <% session[:errors].each do |row| %>
+	              <li><b>Row <%= row[0] %></b> has the following problem: <b><%= row[1] %></b></li>
+	            <% end %>
+	          </ul> 
+	        </p>
+	        <% session[:errors] = nil %>
+	      <% end %>
+	    </div>
 		</div>
 	</body>
 </html>

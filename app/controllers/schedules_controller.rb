@@ -67,7 +67,8 @@ class SchedulesController < ApplicationController
   def update_schedule
     @role_id = current_user.role_id
     @schedule = Schedule.get_schedule_array
-    if Schedule.update_email(@schedule, @role_id)
+    @create_schedule = Schedule.get_create_schedule_array
+    if Schedule.send_email(@role_id,@schedule,@create_schedule,$delete_schedule_array)
       flash[:success] = "Users Notified!"
       redirect_to root_path
     else
@@ -78,6 +79,7 @@ class SchedulesController < ApplicationController
 
   def destroy
     @schedule = Schedule.find(params[:id])
+    $delete_schedule_array.append(@schedule)
     @schedule.destroy
     respond_to do |format|
       format.html
@@ -92,4 +94,6 @@ class SchedulesController < ApplicationController
   end
 
   $schedule_array = Array.new()
+  $create_schedule_array = Array.new()
+  $delete_schedule_array = Array.new()
 end

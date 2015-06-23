@@ -1,3 +1,4 @@
+require 'mail'
 class Schedule < ActiveRecord::Base
 
   belongs_to :branch
@@ -21,6 +22,100 @@ class Schedule < ActiveRecord::Base
  	validates :batch_id , presence: true
   validates :room_id , presence: true
 
+  def self.send_email(role_id,schedule,create_schedule,delete_schedule_array)
+    t= false
+    if schedule == "" && !create_schedule.nil?
+      if Schedule.create_email(create_schedule, role_id)  
+        t = true     
+      else
+        t = false
+      end
+    elsif create_schedule == "" && !schedule.nil?
+      if Schedule.update_email(schedule, role_id)
+        t = true
+      else
+        t = false
+      end
+    else
+      if Schedule.update_email(schedule, role_id) && Schedule.create_email(create_schedule, role_id)  
+        t = true
+      else
+        t = false
+      end
+    end
+    if !delete_schedule_array.nil?
+      if Schedule.delete_email(delete_schedule_array,role_id)
+        t=true
+      else
+        t=false
+      end
+    end
+    return t
+  end
+  
+  def self.delete_email(schedule, role_id)
+    if role_id == 1
+      schedule.each do |schedule|
+        professor_array = User.find_all_by_id(schedule.user_id)
+        professor_array.each do |user|
+          ScheduleMailer.delete_email(user,schedule).deliver
+        end
+      end
+    end
+    schedule.each do |schedule|
+      student_array = User.find_all_by_batch_id_and_branch_id_and_semester_id(schedule.batch_id,schedule.branch_id,schedule.semester_id)
+      student_array.each do |user|
+        ScheduleMailer.delete_email(user,schedule).deliver
+      end
+    end
+    $delete_schedule_array = []
+  end
+
+  def self.create_email(schedule, role_id)
+    user_array=Array.new()
+    if role_id == 1
+      schedule.each do |schedule|
+        professor_array = User.find_all_by_id(schedule[0].user_id)
+        professor_array.each do |p|
+          user_array.append(p)
+        end
+      end
+    end
+    schedule.each do |schedule|
+      student_array = User.find_all_by_batch_id_and_branch_id_and_semester_id(schedule[0].batch_id,schedule[0].branch_id,schedule[0].semester_id)
+      student_array.each do |s|
+        user_array.append(s)
+      end
+    end
+    user_array.each do |user|
+      ScheduleMailer.create_email(user,schedule[0],schedule[1]).deliver
+    end
+    $create_schedule_array = []
+  end
+
+  def self.update_create_schedule_array(schedule,day)
+    t = false
+    if !$create_schedule_array.nil?
+      $create_schedule_array.each do |s|
+        if s[0].id == schedule.id
+          $create_schedule_array.delete(s)
+          $create_schedule_array.append([schedule,day])
+          t = true
+          break
+        end
+      end
+    else
+      $create_schedule_array.append([schedule,day])
+    end
+    if t == false
+      $create_schedule_array.append([schedule,day])
+    end
+  end
+
+  def self.get_create_schedule_array
+    return $create_schedule_array
+  end
+
   def self.update_email(schedule , role_id)
     if role_id == 1
       schedule.each do |schedule|
@@ -36,10 +131,6 @@ class Schedule < ActiveRecord::Base
         ScheduleMailer.update_email(user,schedule).deliver
       end
     end
-    Schedule.reinitialize_array
-  end
-
-  def self.reinitialize_array
     $schedule_array = []
   end
 
@@ -62,13 +153,13 @@ class Schedule < ActiveRecord::Base
     return $schedule_array
   end
 
-
   def self.update_name_attribute(schedule)
     schedule.name = schedule.subject_name+" by "+schedule.user_name+" in "+schedule.room_name+" for "+schedule.batch_name+"("+schedule.branch_name+")"
     schedule.save!
   end
 
   def self.create_schedule(batch_ids,period,schedule_params,current_user)
+    $day = "once"
     $schedules = Array.new()
     arr = batch_ids
     arr.each do |b|
@@ -87,20 +178,18 @@ class Schedule < ActiveRecord::Base
           $schedules.append(schedule)
           if period != "0"
             Schedule.create_repeating_events(schedule_params,b,$period)
+          else
+             Schedule.update_create_schedule_array(s,$day)
           end
         end
       else
         Schedule.error_display(schedule)
       end
-      if current_user.role_id == 1
-        $schedules.each do |s|
-          Schedule.update_schedule_array(s)
-        end
-      end
     end
   end
 
   def self.create_repeating_events(schedule_params,b,period)
+    $day = "once"
     while  $start<$end do
       schedule = Schedule.new(schedule_params)
       if $period == "1"
@@ -110,6 +199,7 @@ class Schedule < ActiveRecord::Base
         $start_time = $start_time + 1.days
         $end_time = $end_time + 1.days
         $start = $start + 1.days
+        $day = "daily"
       elsif $period == "2"
         schedule.start_date = $start + 7.days
         schedule.starttime = $start_time + 7.days
@@ -117,6 +207,7 @@ class Schedule < ActiveRecord::Base
         $start_time = $start_time + 7.days
         $end_time = $end_time + 7.days
         $start = $start + 7.days
+        $day = "weekly"
       else
         schedule.start_date = schedule.start_date + 28.days
         schedule.starttime = $start_time + 28.days
@@ -124,6 +215,7 @@ class Schedule < ActiveRecord::Base
         $start_time = $start_time + 28.days
         $end_time = $end_time + 28.days
         $start = $start + 28.days
+        $day = "monthly"
       end
       if $start<=$end
         schedule.batch_id = b
@@ -136,6 +228,7 @@ class Schedule < ActiveRecord::Base
         end
       end
     end
+    Schedule.update_create_schedule_array(schedule,$day)
   end
 
   def self.error_display(schedule)

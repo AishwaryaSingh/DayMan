@@ -69,19 +69,47 @@ class User < ActiveRecord::Base
       user.semester_id = row['semester_id']
       user.branch_id = row['branch_id']
       user.sign_up_count = "1"
-      if user.valid?
-        user.save!
-        UserMailer.welcome_email(user).deliver
+      if !user.email.nil?
+        if user.email.email?
+          if user.valid?
+            if User.find(user.id)
+              if user.email == User.find(user.id).email && user.name == User.find(user.id).name
+                if user.email == User.find(user.id).email
+                  user.save!
+                  if user.email != User.find(user.id).email && user.name != User.find(user.id).name
+                    UserMailer.welcome_email(user).deliver
+                  end
+                else
+                  $error_array.append([i, "Email Address Can NOT Be Changed!"])
+                  $error_count = $error_count + 1
+                end
+              else
+                $error_array.append([i, "ID Taken- Please assign a new ID!"])
+                $error_count = $error_count + 1
+              end
+            else
+              user.save!
+              UserMailer.welcome_email(user).deliver
+            end
+          end
+        else
+          $error_array.append([i, "Invalid Email Address!"])
+          $error_count = $error_count + 1
+        end
       else
-        $error_array.append([i, user.error_messages])
+        $error_array.append([i, "Email Can NOT Be Empty/NULL!"])
         $error_count = $error_count + 1
       end
     end
     if $error_count > 0
-      return $error_array
+      return false #$error_array
     else
       return true
     end
+  end
+
+  def self.get_errors
+    return $error_array
   end
 
   def self.open_spreadsheet(file)
