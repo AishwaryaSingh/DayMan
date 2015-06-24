@@ -71,5 +71,11 @@ module DayMan
         'log_in'
     ]
 
+
   end
+        EmailVerifier.config do |config|
+          config.verifier_email = "ab.de.mn.ij.no@gmail.com"
+        end
+
+        
 end

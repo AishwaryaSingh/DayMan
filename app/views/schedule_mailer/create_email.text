@@ -1,3 +1,3 @@
 Hello <%= @user.name %>! There is change in your schedule.
 
- "<%= @schedule.name %>" by "<%= @schedule.user.name %>" will be held at "<%= @schedule.starttime %>" to "<%= @schedule.endtime %>" <%= @day %> in class "<%= @schedule.room.name %>" for batch "<%= @schedule.batch.name %>" "<%= @schedule.start_date %>" to "<%= @schedule.end_date %>".
+ "<%= @create_schedule.name %>" by "<%= @create_schedule.user.name %>" will be held at "<%= @create_schedule.starttime %>" to "<%= @create_schedule.endtime %>" <%= @day %> in class "<%= @create_schedule.room.name %>" for batch "<%= @create_schedule.batch.name %>" "<%= @create_schedule.start_date %>" to "<%= @create_schedule.end_date %>".

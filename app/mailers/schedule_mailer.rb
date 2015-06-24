@@ -7,15 +7,15 @@ class ScheduleMailer < ApplicationMailer
 		mail(to: user.email, subject: 'DayMan : There has been a change in your Schedule!')
     end
 
-    def delete_email(user,schedule)
+    def delete_email(user,delete_schedule_array)
 		@user = user
-		@schedule = schedule
+		@delete_schedule_array = delete_schedule_array
 		mail(to: user.email, subject: 'DayMan : There has been a change in your Schedule!')
   	end
 
-    def create_email(user,schedule,day)
+    def create_email(user,create_schedule,day)
 		@user = user
-		@schedule = schedule
+		@create_schedule = create_schedule
 		@day=day
 		mail(to: user.email, subject: 'DayMan : There has been an addition in your Schedule!')
 	end

@@ -8,14 +8,11 @@ ruby '1.9.3' # For deployment on Heroku
 
 gem "figaro" # For rails application configuration to secure env vars
 
+#gem 'rails_serve_static_assets'
+
 gem 'pg'
 
 gem 'rails_12factor', group: :production
-
-#validate email
-#gem 'valid_email', require: ['valid_email/all_with_extensions']
-gem 'valid_email', require: 'valid_email/validate_email'
-#gem 'rails_serve_static_assets'
 
 # gem 'mysql'
 # Gems used only for assets and not required
@@ -64,6 +61,9 @@ gem 'bootstrap-sass', '~> 3.3.4'
 gem 'role_model'
 
 gem "rails_best_practices"
+
+#validate email
+gem 'email_verifier'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

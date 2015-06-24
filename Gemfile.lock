@@ -56,6 +56,10 @@ GEM
       responders
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
+    dnsruby (1.58.0)
+    email_verifier (0.0.9)
+      dnsruby (>= 1.5)
+      rails (>= 3.0.0)
     erubis (2.7.0)
     execjs (2.5.2)
     faraday (0.9.1)
@@ -185,9 +189,6 @@ GEM
     uglifier (2.7.1)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
-    valid_email (0.0.7)
-      activemodel
-      mail
     warden (1.2.3)
       rack (>= 1.0)
 
@@ -201,6 +202,7 @@ DEPENDENCIES
   cancancan (~> 1.9)
   coffee-rails
   devise
+  email_verifier
   figaro
   fullcalendar-rails (~> 2.3.1.0)
   iconv
@@ -219,4 +221,3 @@ DEPENDENCIES
   spreadsheet
   therubyracer
   uglifier (>= 1.0.3)
-  valid_email

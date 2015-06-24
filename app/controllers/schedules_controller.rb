@@ -35,6 +35,7 @@ class SchedulesController < ApplicationController
   end
 
   def create
+    puts "================================#{params[:period]}"
     Schedule.create_schedule(params[:batch_ids],params[:period],schedule_params,current_user)
     respond_to do |format|
       format.html
@@ -65,10 +66,12 @@ class SchedulesController < ApplicationController
 
 # for when the schedule is changed and the mail needs to be sent
   def update_schedule
-    @role_id = current_user.role_id
-    @schedule = Schedule.get_schedule_array
-    @create_schedule = Schedule.get_create_schedule_array
-    if Schedule.send_email(@role_id,@schedule,@create_schedule,$delete_schedule_array)
+    role_id = current_user.role_id
+    schedule = Schedule.get_schedule_array
+    create_schedule = Schedule.get_create_schedule_array
+    puts "================================#{create_schedule.inspect}"
+    delete_schedule = Schedule.get_delete_schedule_array
+    if Schedule.send_email(role_id,schedule,create_schedule,delete_schedule)
       flash[:success] = "Users Notified!"
       redirect_to root_path
     else
@@ -79,7 +82,7 @@ class SchedulesController < ApplicationController
 
   def destroy
     @schedule = Schedule.find(params[:id])
-    $delete_schedule_array.append(@schedule)
+    Schedule.update_delete_array(@schedule)
     @schedule.destroy
     respond_to do |format|
       format.html
@@ -88,12 +91,7 @@ class SchedulesController < ApplicationController
   end
 
   private
-
   def schedule_params
     params.require(:schedule).permit(:name, :branch_id, :semester_id, :user_id, :subject_id, :batch_id, :room_id, :starttime, :endtime, :start_date,  :end_date, :period, :batch_ids=>[])
   end
-
-  $schedule_array = Array.new()
-  $create_schedule_array = Array.new()
-  $delete_schedule_array = Array.new()
 end

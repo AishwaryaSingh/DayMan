@@ -72,7 +72,7 @@ class User < ActiveRecord::Base
       user.branch_id = row['branch_id']
       user.sign_up_count = "1"
       if !user.email.nil? && !user.name.nil?
-        if ValidateEmail.valid?(user.email)
+        if EmailVerifier.check(user.email)
           if user.valid?
             if User.find(user.id)
               if user.email == User.find(user.id).email && user.name == User.find(user.id).name
