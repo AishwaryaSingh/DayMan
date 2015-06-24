@@ -1,5 +1,4 @@
 require 'iconv'
-require 'valid_email'
 require 'mail'
 class User < ActiveRecord::Base
 

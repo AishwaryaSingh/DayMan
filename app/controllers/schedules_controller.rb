@@ -35,7 +35,6 @@ class SchedulesController < ApplicationController
   end
 
   def create
-    puts "================================#{params[:period]}"
     Schedule.create_schedule(params[:batch_ids],params[:period],schedule_params,current_user)
     respond_to do |format|
       format.html
@@ -69,7 +68,6 @@ class SchedulesController < ApplicationController
     role_id = current_user.role_id
     schedule = Schedule.get_schedule_array
     create_schedule = Schedule.get_create_schedule_array
-    puts "================================#{create_schedule.inspect}"
     delete_schedule = Schedule.get_delete_schedule_array
     if Schedule.send_email(role_id,schedule,create_schedule,delete_schedule)
       flash[:success] = "Users Notified!"
