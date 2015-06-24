@@ -53,8 +53,14 @@ class SchedulesController < ApplicationController
   def update
     @schedule = Schedule.find(params[:id])
     if @schedule.valid?
-      @schedule.update_attributes(schedule_params)
-      Schedule.update_name_attribute(@schedule)
+      if params[:period]=="0" || params[:period].nil?
+        @schedule.update_attributes(schedule_params)
+        Schedule.update_name_attribute(@schedule)
+      else
+        @schedule.update_attributes(schedule_params)
+        Schedule.update_name_attribute(@schedule)
+        Schedule.create_schedule(@schedule)
+      end
     end
     Schedule.update_schedule_array(@schedule)
     respond_to do |format|

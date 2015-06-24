@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
       if !user.email.nil? && !user.name.nil?
         if EmailVerifier.check(user.email)
           if user.valid?
-            if User.find(user.id)
+            if User.exists?(user.id)
               if user.email == User.find(user.id).email && user.name == User.find(user.id).name
                 if user.email == User.find(user.id).email
                   user.save!
