@@ -1,5 +1,5 @@
 require 'iconv'
-require 'mail'
+
 class User < ActiveRecord::Base
 
  # after_create :email_to_user
@@ -14,7 +14,7 @@ class User < ActiveRecord::Base
   #To Upload a Profile Avatar
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
-  validates :email, :presence => true, :email => true
+  validates :email, :presence => true
   
   def self.save_event_to_display(current_user)
     if current_user.role.name == "professor"
