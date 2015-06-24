@@ -52,7 +52,11 @@
             <td width="46%"><p style="text-align:right;">For Batches: </p></td>
             <td width="5%"></td>
             <% batch.each do |batch| %>
-              <td><%= check_box_tag 'batch_ids[]', batch.id, :id => "batch_checkbox" %></td>
+            <% if batch.id.to_s==@batch_id_frmc.to_s %>
+              <td><%= check_box_tag 'batch_ids[]', batch.id, true %></td>
+            <% else %>
+              <td><%= check_box_tag 'batch_ids[]', batch.id %></td>
+            <% end %>
               <td><%= batch.name %></td>
               <td width="5%"></td>
             <% end %>   
@@ -72,12 +76,12 @@
           <tr>
             <td width="40%" style="text-align:right;"><p style="text-align:right;">Start Date : </p></td>
             <td width="4%"></td>
-            <td><%= schedule.date_select :start_date,:with_css_classes => true %></td>
+            <td><%= schedule.date_select(:start_date) %></td>
           </tr>
           <tr>
             <td width="40%" style="text-align:right;"><p>End Date : </p></td>
             <td width="4%"></td>
-            <td><%= schedule.date_select(:end_date, :id => "date_select" ) %></td>
+            <td><%= schedule.date_select(:end_date) %></td>
           </tr>
         </table>
           

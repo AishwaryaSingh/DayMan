@@ -84,7 +84,7 @@ $(document).ready(function()
                         event.start_date = d['start_date']; 
                         event.end_date = d['end_date'];
                         event.period = d['period']; 
-                        event.subjectId = d['subject_id'];   
+                        event.subjectId = d['subject_id'];
                         event.roomId = d['room_id'];   
                         event.userId = d['user_id'];  
                         event.subjectId = d['batch_ids[]'];    
@@ -179,6 +179,14 @@ $(document).ready(function()
 
             $("#schedule_create").hide();
             $("#schedule_update").show();
+
+            $("#schedule_start_date_1i").val(event.start.format("YYYY"));
+            $("#schedule_start_date_2i").val(parseInt(event.start.format("MM")));
+            $("#schedule_start_date_3i").val(parseInt(event.start.format("DD")));
+
+            $("#schedule_end_date_1i").val(event.end.format("YYYY"));
+            $("#schedule_end_date_2i").val(parseInt(event.end.format("MM")));
+            $("#schedule_end_date_3i").val(parseInt(event.end.format("DD")));
 
             $("#dialog").data("event-id",event.id);
 
@@ -380,6 +388,4 @@ $(document).ready(function()
         var branch_id = $("#branch_id").val();
         var semester_id = $("#semester_id").val();
     });
-
-
 });

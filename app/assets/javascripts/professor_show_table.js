@@ -168,6 +168,14 @@ $(document).ready(function()
                
             $("#schedule_create").hide();
             $("#schedule_update").show();
+            
+            $("#schedule_start_date_1i").val(event.start.format("YYYY"));
+            $("#schedule_start_date_2i").val(parseInt(event.start.format("MM")));
+            $("#schedule_start_date_3i").val(parseInt(event.start.format("DD")));
+
+            $("#schedule_end_date_1i").val(event.end.format("YYYY"));
+            $("#schedule_end_date_2i").val(parseInt(event.end.format("MM")));
+            $("#schedule_end_date_3i").val(parseInt(event.end.format("DD")));
 
             $("#dialog").data("event-id",event.id);
 

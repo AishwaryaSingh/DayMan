@@ -21,6 +21,94 @@ class Schedule < ActiveRecord::Base
  	validates :batch_id , presence: true
   validates :room_id , presence: true
 
+
+  def self.create_updated_repeating_events(schedule_params,b,period)
+    schedule = Schedule.new(schedule_params)
+    schedule.batch_id = b
+    schedule.period = period
+    $period = period
+    $start = schedule.start_date
+    $end = schedule.end_date
+    if $start == $end
+        $period = "0"
+    end
+    $start_time = schedule.starttime
+    $end_time = schedule.endtime
+    $day = "once"
+    while $start<$end do
+      schedule = Schedule.new(schedule_params)
+      if $period == "1"
+        schedule.start_date = schedule.start_date + 1.days
+        schedule.starttime = $start_time + 1.days
+        schedule.endtime = $end_time  + 1.days
+        $start_time = $start_time + 1.days
+        $end_time = $end_time + 1.days
+        $start = $start + 1.days
+        $day = "daily"
+      elsif $period == "2"
+        schedule.start_date = $start + 7.days
+        schedule.starttime = $start_time + 7.days
+        schedule.endtime = $end_time + 7.days
+        $start_time = $start_time + 7.days
+        $end_time = $end_time + 7.days
+        $start = $start + 7.days
+        $day = "weekly"
+      else
+        schedule.start_date = schedule.start_date + 28.days
+        schedule.starttime = $start_time + 28.days
+        schedule.endtime = $end_time + 28.days
+        $start_time = $start_time + 28.days
+        $end_time = $end_time + 28.days
+        $start = $start + 28.days
+        $day = "monthly"
+      end
+      if $start<=$end
+        schedule.batch_id = b
+        schedule.period = period
+        if validate_professor_availability(schedule) && validate_room_availability(schedule) #&& !same_schedule(@schedule)
+          if schedule.valid?
+            schedule.name = schedule.subject_name+" by "+schedule.user_name+" in "+schedule.room_name+" for "+schedule.batch_name+"("+schedule.branch_name+")"
+            schedule.save!
+          end
+        end
+      end
+    end
+    $create_schedule_array.append([schedule,$day])
+    #Schedule.update_create_schedule_array(schedule,$day)
+  end
+
+  def self.create_updated_schedule(batch_ids,period,schedule_params,current_user,current_batch_id)
+    $day = "once"
+    arr = batch_ids
+    arr.each do |b|
+      schedule = Schedule.new(schedule_params)
+      schedule.batch_id = b
+      schedule.period = period
+      $period = period
+      $start = schedule.start_date
+      $end = schedule.end_date
+      if $start == $end
+        $period = "0"
+      end
+      $start_time = schedule.starttime
+      $end_time = schedule.endtime
+      if Schedule.validate_professor_availability(schedule) && Schedule.validate_room_availability(schedule) #&& !same_schedule(@schedule)
+        if schedule.valid?
+          schedule.name = schedule.subject_name+" by "+schedule.user_name+" in "+schedule.room_name+" for "+schedule.batch_name+"("+schedule.branch_name+")"
+          if schedule.batch_id != current_batch_id
+            schedule.save!
+          end
+          if $period == "0" || $period.nil?
+            $create_schedule_array.append([schedule,$day])
+          else
+            Schedule.create_repeating_events(schedule_params,b,$period)
+          end
+        end
+      else
+        Schedule.error_display(schedule)
+      end
+    end
+  end
   def self.create_schedule(batch_ids,period,schedule_params,current_user)
     $day = "once"
     arr = batch_ids
@@ -64,7 +152,7 @@ class Schedule < ActiveRecord::Base
 
   def self.create_repeating_events(schedule_params,b,period)
     $day = "once"
-    while  $start<$end do
+    while $start<$end do
       schedule = Schedule.new(schedule_params)
       if $period == "1"
         schedule.start_date = schedule.start_date + 1.days
