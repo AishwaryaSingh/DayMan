@@ -164,11 +164,11 @@ html, body{
 
   #fields 
   {
+
+    white-space: nowrap;
     position:fixed;
     top: 30%;
     left: 50%;
-    width:30em;
-    height:18em;
     margin-top: -8em;
     margin-left: -15em;
     border: 1px solid #ccc;
