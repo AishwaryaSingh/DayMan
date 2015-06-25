@@ -73,29 +73,28 @@ class User < ActiveRecord::Base
       if !user.email.nil? && !user.name.nil?
         if EmailVerifier.check(user.email)
           if user.valid?
-            if user.role_id<=3 && !user.role_id.nil?
-                        if User.exists?(user.id)
-                          if user.email == User.find(user.id).email && user.name == User.find(user.id).name
-                            if user.email == User.find(user.id).email
-                              user.save!
-                              if user.email != User.find(user.id).email && user.name != User.find(user.id).name
-                              end
-                            else
-                              $error_array.append([i, "Email Address Can NOT Be Changed!"])
-                              $error_count = $error_count + 1
-                            end
-                          else
-                            $error_array.append([i, "ID Taken- Please assign a new ID!"])
-                            $error_count = $error_count + 1
-                          end
-                        else
-                          user.save!
-                          UserMailer.welcome_email(user).deliver
-                        end
+            if user.role_id<=3 && !user.role_id.nil? && user.role_id != 0
+              if User.exists?(user.id)
+                if user.email == User.find(user.id).email && user.name == User.find(user.id).name
+                  if user.email == User.find(user.id).email
+                    user.save!
+                  else
+                    $error_array.append([i, "Email Address Can NOT Be Changed!"])
+                    $error_count = $error_count + 1
+                  end
+                else
+                  $error_array.append([i, "ID Taken- Please assign a new ID!"])
+                  $error_count = $error_count + 1
+                end
+              else
+                user.save!
+                UserMailer.welcome_email(user).deliver
+              end
             else
               $error_array.append([i, "Enter Valid Role_id!"])
               $error_count = $error_count + 1
             end
+          end
         else
           $error_array.append([i, "Invalid Email Address!"])
           $error_count = $error_count + 1
