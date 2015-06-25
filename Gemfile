@@ -4,7 +4,7 @@ gem 'rails', '4.0.2'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
-ruby '1.9.3' # For deployment on Heroku
+#ruby '1.9.3' # For deployment on Heroku
 
 gem "figaro" # For rails application configuration to secure env vars
 

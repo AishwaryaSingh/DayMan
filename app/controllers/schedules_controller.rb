@@ -53,18 +53,7 @@ class SchedulesController < ApplicationController
   def update
     @schedule = Schedule.find(params[:id])
     $batch_id=@schedule.batch_id
-    if @schedule.valid?
-      if params[:period]=="0" || params[:period].nil?
-        @schedule.update_attributes(schedule_params)
-        Schedule.update_name_attribute(@schedule)
-      else
-        if params[:batch_ids].length > 1
-          Schedule.create_updated_schedule(params[:batch_ids],params[:period],schedule_params,current_user,$batch_id)
-        else
-          Schedule.create_updated_repeating_events(schedule_params,$batch_id,params[:period])
-        end
-      end
-    end
+    Schedule.update_schedule(@schedule,$batch_id,params[:period],params[:batch_ids],schedule_params,current_user)
     Schedule.update_schedule_array(@schedule)
     respond_to do |format|
       format.html

@@ -98,7 +98,7 @@ class User < ActiveRecord::Base
           $error_count = $error_count + 1
         end
       else
-        if user.email.nil?
+        if !user.email?
           $error_array.append([i, "Email Can NOT Be Empty/NULL!"])
           $error_count = $error_count + 1
         else

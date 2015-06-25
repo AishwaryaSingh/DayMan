@@ -21,6 +21,20 @@ class Schedule < ActiveRecord::Base
  	validates :batch_id , presence: true
   validates :room_id , presence: true
 
+  def self.update_schedule(schedule,batch_id,period,batch_ids,schedule_params,current_user)
+    if schedule.valid?
+      if period =="0" ||period.nil?
+        schedule.update_attributes(schedule_params)
+        Schedule.update_name_attribute(schedule)
+      else
+        if batch_ids.length > 1
+          Schedule.create_updated_schedule(batch_ids,period,schedule_params,current_user,batch_id)
+        else
+          Schedule.create_updated_repeating_events(schedule_params,batch_id,period)
+        end
+      end
+    end
+  end
 
   def self.create_updated_repeating_events(schedule_params,b,period)
     schedule = Schedule.new(schedule_params)

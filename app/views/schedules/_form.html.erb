@@ -52,7 +52,7 @@
             <td width="46%"><p style="text-align:right;">For Batches: </p></td>
             <td width="5%"></td>
             <% batch.each do |batch| %>
-            <% if batch.id.to_s==@batch_id_frmc.to_s %>
+            <% if batch.id.to_s== batch_id_frmc.to_s %>
               <td><%= check_box_tag 'batch_ids[]', batch.id, true %></td>
             <% else %>
               <td><%= check_box_tag 'batch_ids[]', batch.id %></td>
