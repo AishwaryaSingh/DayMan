@@ -9,6 +9,7 @@ $(document).ready(function()
     var t = date.getTime();
 
     $('#date_range').hide();
+    $('#schedule_change').hide();
 
     $('#calendar').fullCalendar({
 
