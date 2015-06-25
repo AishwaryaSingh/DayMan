@@ -73,7 +73,7 @@ class User < ActiveRecord::Base
       if !user.email.nil? && !user.name.nil?
         if EmailVerifier.check(user.email)
           if user.valid?
-            if user.role_id<=3
+            if user.role_id<=3 && !user.role_id.nil?
                         if User.exists?(user.id)
                           if user.email == User.find(user.id).email && user.name == User.find(user.id).name
                             if user.email == User.find(user.id).email
@@ -96,8 +96,6 @@ class User < ActiveRecord::Base
               $error_array.append([i, "Enter Valid Role_id!"])
               $error_count = $error_count + 1
             end
-
-          end
         else
           $error_array.append([i, "Invalid Email Address!"])
           $error_count = $error_count + 1
