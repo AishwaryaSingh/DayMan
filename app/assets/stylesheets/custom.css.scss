@@ -231,6 +231,7 @@ th,td{
   background-color:white;
   width:300px;
   height:600px;
+  padding-left:100px;// 0px 0px 0px;
   position:fixed;
   top: 5%;
   left: 50%;
@@ -425,4 +426,13 @@ input[type="password"],input[type="email"],input[type="text"]
 #button_new
 {
   width : 100%;
+}
+
+.alert alert-error
+{
+  color:red;
+}
+.alert alert-success
+{
+  color:green;
 }
