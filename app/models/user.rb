@@ -93,7 +93,7 @@ class User < ActiveRecord::Base
                           UserMailer.welcome_email(user).deliver
                         end
             else
-              $error_array.append([i, "Role_id Can not Be Empty!"])
+              $error_array.append([i, "Enter Valid Role_id!"])
               $error_count = $error_count + 1
             end
 
