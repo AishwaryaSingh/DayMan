@@ -231,23 +231,23 @@ th,td{
   background-color:white;
   width:300px;
   height:600px;
+  padding-left:100px;// 0px 0px 0px;
   position:fixed;
-  top: 5%;
-  left: 50%;
-  margin-top: 20em; 
-  margin-left: -5em; 
+  top: 0%;
+  left: 0%;
+  margin-top: 2%; 
+  margin-left: 4%; 
 }
 
 .calendar_container
 {
   width:1000px;
   height:700px;
-  padding-left:100px;// 0px 0px 0px;
   position:fixed;
   top: 0%;
-  left: 20%;
-  margin-top: 15em; 
-  margin-left: -5em; 
+  left: 0%;
+  margin-top: 17%; 
+  margin-left: 15%; 
 }
 
 .initialize_subjects
@@ -256,9 +256,9 @@ th,td{
   height:200px;
   position:fixed;
   top: 0%;
-  left: 20%;
-  margin-top: 10em; 
-  margin-left: -5em; 
+  left: 0%;
+  margin-top: 13%; 
+  margin-left: 15%; 
 }
 
 .admin_data_container
