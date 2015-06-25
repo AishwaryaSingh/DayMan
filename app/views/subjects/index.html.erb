@@ -7,11 +7,11 @@
         <%= button_to 'Create New' , new_subject_path , method: :get,:id=>'create_button_subjects', :class=>'form_control'%>
       </div>
       <div align="center">
-        <table width="90%" style="font-size:20px;" cellspacing="20">   
+        <table width="90%" style="font-size:20px" cellspacing="20">   
           <br />
           <br />
           <br />
-          <tr style="font-size:20px; text-align:center; color:LightCoral ">
+          <tr style="text-align:center; color:LightCoral ">
           	<th width="28%"></th>
             <th width="30%"></th>
             <th width="30%"></th>
@@ -19,9 +19,9 @@
             <th width="6%"></th>
           </tr>
           <% @subjects.each do |subject| %>
-            <tr style="font-size:20px;">
-            <td style="font-size:16px;text-align:left;color:#5a5a5a;"><%= subject.name %></td>
-            <td style="font-size:16px;color:#a2a2a2;text-align:center;">
+            <tr>
+            <td style="text-align:left;color:#5a5a5a;"><%= subject.name %></td>
+            <td style="color:#a2a2a2;text-align:center;">
             <% branchArray = Array.new %>
             <% c = 0 %>
             <% @bss.each do |branch| %>
@@ -40,7 +40,7 @@
                       <%end%>
                   <%end%>
             </td>
-            <td style="font-size:16px;color:#5a5a5a">
+            <td style="color:#5a5a5a">
             <% semesterArray = Array.new %>
             <% c = 0 %>
             <% @bss.each do |semester| %>
@@ -62,7 +62,7 @@
             <td>
               <%= link_to image_tag('Actions-document-edit-icon.png'),edit_subject_path(subject) %>
             </td>
-            <td style="font-size:16px;text-align:left;"><%= link_to image_tag('Delete-icon 24px.png'),subject,method: :delete, data: {confirm: 'Are you sure?'} %></td>
+            <td style="text-align:left;"><%= link_to image_tag('Delete-icon 24px.png'),subject,method: :delete, data: {confirm: 'Are you sure?'} %></td>
             </tr>
           <% end %>
         </table>

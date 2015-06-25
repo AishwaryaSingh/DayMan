@@ -9,10 +9,10 @@
     <%= render 'form', :semester => @semester  %>
   </div>
     <div align="center">
-      <table width="80%" style="font-size:20px;" cellspacing="20">
+      <table width="70%" style="font-size:2%;" cellspacing="20">
       <% @semesters.each do |semester| %>
         <tr style="color:PaleVioletRed">
-          <td width="20%" style="text-align:center"> </td>
+        <td width="20%"></td>
           <td width="20%" style="text-align:left;font-size:20px;"><%= semester.name %></td>
           <td width="20%" style="text-align:left"><%= link_to image_tag('Actions-document-edit-icon.png'), edit_semester_path(semester) %></td>
           <td width="20%" style="text-align:left"><%= link_to image_tag('Delete-icon 24px.png'), semester, method: :delete, data: { confirm: 'Are you sure?' } %></td>

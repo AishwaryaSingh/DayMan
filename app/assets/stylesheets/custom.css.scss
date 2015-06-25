@@ -225,17 +225,17 @@ th,td{
 .alert_msgs
 {
   position:fixed;
-  top: 30%;
-  left: 50%;
-  margin-top: -15em; 
-  margin-left: -5em; 
+  top: 0%;
+  left: 0%;
+  margin-top: 5%; 
+  margin-left: 43%; 
 }
 
 .container #container
 {
   background-color:white;
-  width:300px;
-  height:600px;
+  width:100%;
+  height:65%;
   padding-left:100px;// 0px 0px 0px;
   position:fixed;
   top: 0%;
@@ -246,8 +246,8 @@ th,td{
 
 .calendar_container
 {
-  width:1000px;
-  height:700px;
+  width:83%;
+  height:65%;
   position:fixed;
   top: 0%;
   left: 0%;
@@ -257,8 +257,8 @@ th,td{
 
 .initialize_subjects
 {
-  width:900px;
-  height:200px;
+  width:80%;
+  height:21%;
   position:fixed;
   top: 0%;
   left: 0%;
@@ -268,8 +268,8 @@ th,td{
 
 .user_schedule
 {
-  width:1050px;
-  height:1000px;
+  width:85%;
+  height:100%;
   position:fixed;
   top: 0%;
   left: 0%;
@@ -279,8 +279,8 @@ th,td{
 
 .greet_user
 {
-  width:1050px;
-  height:900px;
+  width:100%;
+  height:90%;
   color:#FF7052;
 }
 
@@ -309,7 +309,7 @@ input[type="password"],input[type="email"],input[type="text"]
   border: 1px solid #ccc;
   background-color: white;
 }
-
+// #################################### STOP ONCE THIS GOES
 .other_containers
 {
   position:fixed;
@@ -343,8 +343,8 @@ input[type="password"],input[type="email"],input[type="text"]
 
 .admin_data_container
 {
-  width:1000px;
-  height:200px;
+  width:100%;
+  height:20%;
   position:fixed;
   top: 0%;
   left: 20%;

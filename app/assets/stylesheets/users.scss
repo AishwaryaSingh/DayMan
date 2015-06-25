@@ -4,27 +4,14 @@
 
 .user_container
 {
-  width:1000px;
-  height:200px;
+  width:100%;
+  height:25%;
   position:fixed;
   top: 0%;
   left: 0%;
-  margin-top: 15em; /*set to a negative number 1/2 of your height*/
-  margin-left: 15em; /*set to a negative number 1/2 of your width*/
+  margin-top: 20%; /*set to a negative number 1/2 of your height*/
+  margin-left: 15%; /*set to a negative number 1/2 of your width*/
 }
-
-/*
-table {
-    border-collapse: collapse;
-}
-
-td {
-    padding-top: .9em;
-    padding-bottom: .9em;
-}
-
-
-*/
 
 .circleBase {
     border-radius: 50%;
@@ -65,4 +52,13 @@ td {
 }
 .circleBase:hover {
     background: #ccc; //#262626;
+}
+
+.get_id
+{
+  width:50%;
+  height:25%;
+  margin-top: 0%; 
+  margin-left: 21%;
+  position:fixed;
 }

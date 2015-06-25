@@ -1,8 +1,20 @@
 <div class="user_container">
 	<br />
 	<%= form_tag id_for_edit_users_path, method: :post do %>
-		<b>Enter User ID : </b>
-		<%= text_field_tag 'user_id' %>
-		<%= submit_tag 'Edit User', :id => "edit_user" %>
+		<div class="get_id">
+			<table width="90%">
+				<tr>
+					<td width="30%">
+						<b>Enter User ID : </b>
+					</td>
+					<td style="text-align:left;">
+						<div class="input">
+							<%= text_field_tag 'user_id' %>
+						</div>
+					</td>
+					<td width="40%"><%= submit_tag 'Edit User', :id => "edit_user" ,:id => "button_new" %></td>
+				</tr>
+			</table>
+		</div>
 	<% end %>
 </div>
