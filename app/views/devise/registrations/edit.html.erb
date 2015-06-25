@@ -26,28 +26,28 @@
     </div>
 
     <% if current_user.role_id == 3 %>
-    <div class="input">
-    <div class="field">
-      <b>Batch:</b>
-      <% batch = Batch.all.map { |b| [b.name.to_s, b.id.to_i] } %>
-      <%= f.select(:batch_id, options_for_select(batch, selected: resource.batch_id),{:class => 'form-control'}) %>
-    </div>
-    </div>
-    <div class="input">
-    <div class="field">
-      <b>Semester:</b>
-      <% semester = Semester.all.map { |b| [b.name.to_s, b.id.to_i] } %>
-      <%= f.select(:semester_id, options_for_select(semester, selected: resource.semester_id),{:class => 'form-control'}) %>
-      <b>Branch:</b>
-    </div>
-    </div>
-    <div class="input">
-    <div class="field">
-      <% branch = Branch.all.map { |b| [b.name.to_s, b.id.to_i] } %>
-      <%= f.select(:branch_id, options_for_select(branch, selected: resource.branch_id),{:class => 'form-control'}) %>
-    </div>
-    </div>
-  <% end %>
+      <div class="input">
+      <div class="field">
+        <b>Batch:</b>
+        <% batch = Batch.all.map { |b| [b.name.to_s, b.id.to_i] } %>
+        <%= f.select(:batch_id, options_for_select(batch, selected: resource.batch_id),{:class => 'form-control'}) %>
+      </div>
+      </div>
+      <div class="field">
+      <div class="input">
+        <b>Semester:</b>
+        <% semester = Semester.all.map { |b| [b.name.to_s, b.id.to_i] } %>
+        <%= f.select(:semester_id, options_for_select(semester, selected: resource.semester_id),{:class => 'form-control'}) %>
+        <b>Branch:</b>
+      </div>
+      </div>
+      <div class="input">
+      <div class="field">
+        <% branch = Branch.all.map { |b| [b.name.to_s, b.id.to_i] } %>
+        <%= f.select(:branch_id, options_for_select(branch, selected: resource.branch_id),{:class => 'form-control'}) %>
+      </div>
+      </div>
+    <% end %>
 
     <div class="input">
     <div class="field">
@@ -86,7 +86,7 @@
   <% end %>
   <br />
   <br />
-      <h3>Do you want to cancel you account?</h3>
+      <h3>Do you want to cancel your account?</h3>
       <%= button_to "Cancel my account", registration_path(resource_name), data: { confirm: "Are you sure?" }, method: :delete %>
   <br />
   <br />
