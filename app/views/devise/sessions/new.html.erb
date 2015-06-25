@@ -9,7 +9,10 @@
 <body>
   <div style="width:40%; height:40%;" id="fields">
     <fieldset>
+    <div>
       <legend class="legend">Login</legend>
+      </div>
+      <div>
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
         <div class="input">
           <div class="field">
@@ -52,6 +55,7 @@
           </tr>
         </table>
       <% end %>
+      </div>
     </fieldset>
   </div>
 </body>
