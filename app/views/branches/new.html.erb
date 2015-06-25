@@ -8,19 +8,15 @@
 			<div align="center">
 				<%= render 'form',:branch => @branch %>
 			</div>
+      <br />
     <div align="center">
-    <table width="70%" style="font-size:2%;" cellspacing="20">
+    <table width="30%" style="font-size:2%;" cellspacing="20">
       <% @branches.each do |branch| %>
       <tr style="font-size:20px; text-align:right; color:PaleVioletRed">
-        <td width="20%"></td>
-        <td width="20%" style="font-size:20px; text-align:left;"><%= branch.name %></td>
-        <td width="20%" style="text-align:left;"><%= link_to image_tag('Actions-document-edit-icon.png'), edit_branch_path(branch) %></td>
-        <td width="20%" style="text-align:left;"><%= link_to image_tag('Delete-icon 24px.png'), branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-      <tr>
-        <th></th>
-        <th></th>
-        <th></th>
+        <td width="5%"></td>
+        <td width="15%" style="font-size:20px; text-align:left;"><%= branch.name %></td>
+        <td width="5%" style="text-align:left;"><%= link_to image_tag('Actions-document-edit-icon.png'), edit_branch_path(branch) %></td>
+        <td width="5%" style="text-align:left;"><%= link_to image_tag('Delete-icon 24px.png'), branch, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
       <% end %>
     </table>

@@ -26,6 +26,7 @@ $(document).ready(function()
     	$('.alert').slideUp(500);
   	}, 1000);
 	});
+
 	$(function()
   {
     setTimeout(function()
@@ -34,4 +35,5 @@ $(document).ready(function()
     	$('.greet_user').slideToggle(2000);
   	}, 500);
 	});
+  
 });
