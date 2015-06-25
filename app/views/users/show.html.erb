@@ -2,12 +2,6 @@
 	<head>
 		<link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" />
 		<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
-		<script type="text/javascript">
-			$(document).ready(function() 
-			{
-				$("#current_user_id").hide();
-			});
-		</script>
 		<% if current_user.role_id == 2 %>
 			<%= javascript_include_tag "professor_show_table.js" %>
 		<% elsif current_user.role_id == 4 %>
