@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
  # after_create :email_to_user
   before_create :set_default_role
 
-  devise :database_authenticatable, :registerable,:recoverable,:validatable, :rememberable, :trackable ,:timeoutable
+  devise :database_authenticatable, :registerable,:recoverable,:validatable, :rememberable, :trackable #,:timeoutable
 
   belongs_to :role
   belongs_to :batch
