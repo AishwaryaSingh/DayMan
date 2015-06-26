@@ -60,7 +60,6 @@ class User < ActiveRecord::Base
     (2..spreadsheet.last_row).each do |i|
       row = Hash[[header, spreadsheet.row(i)].transpose]
       user = find_by_id(row["id"]) || new
-      #user.attributes = row.to_hash.slice(*accessible_attributes)
       user.id = row['id']
       user.name = row['name']
       user.email = row['email']
@@ -71,8 +70,12 @@ class User < ActiveRecord::Base
       user.branch_id = row['branch_id']
       user.sign_up_count = "1"
       if !user.email.nil? && !user.name.nil?
-        result=EmailVerifier.check(user.email)
-        if result == true
+        begin
+        ex=EmailVerifier.check(user.email)
+        rescue => ex
+          ex = false
+        end
+        if ex == true
           if user.valid?
             if user.role_id.to_s < "4" && !user.role_id.nil? && user.role_id.to_s != "0"
               if User.exists?(user.id)
