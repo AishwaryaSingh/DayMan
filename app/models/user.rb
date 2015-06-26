@@ -71,9 +71,10 @@ class User < ActiveRecord::Base
       user.branch_id = row['branch_id']
       user.sign_up_count = "1"
       if !user.email.nil? && !user.name.nil?
-        if EmailVerifier.check(user.email)
+        result=EmailVerifier.check(user.email)
+        if result == true
           if user.valid?
-            if user.role_id<=3 && !user.role_id.nil? && user.role_id != 0
+            if user.role_id.to_s < "4" && !user.role_id.nil? && user.role_id.to_s != "0"
               if User.exists?(user.id)
                 if user.email == User.find(user.id).email && user.name == User.find(user.id).name
                   if user.email == User.find(user.id).email
@@ -91,8 +92,14 @@ class User < ActiveRecord::Base
                 UserMailer.welcome_email(user).deliver
               end
             else
-              $error_array.append([i, "Enter Valid Role_id!"])
-              $error_count = $error_count + 1
+              if user.role_id.to_s > "3" || user.role_id.to_s == "0"
+                $error_array.append([i, "Invalid Role_id! Must be Between 1 to 3"])
+                $error_count = $error_count + 1
+              end
+              if user.role_id.nil?
+                $error_array.append([i, "Role_id Can NOT Be Empty!"])
+                $error_count = $error_count + 1
+              end
             end
           end
         else
