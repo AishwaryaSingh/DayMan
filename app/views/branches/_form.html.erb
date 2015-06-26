@@ -11,14 +11,6 @@
 		<tr>
 		 	<td><%= f.text_field :name ,:placeholder =>" Enter Branch" %></td>
 			<td><div align="left"><%= f.submit :id =>'button_new' %></div></td>
-			<td>
-			  <span style="color:red">
-			  <% if branch.errors[:name] %>
-			    <% a= branch.errors.full_messages_for(:name) %>
-			    <%= a.join(", ") %>
-			  <% end %>
-			  </span>
-			</td>
 		</tr>
 		</table>
 		<br />

@@ -1,11 +1,4 @@
 class SemestersController < ApplicationController
-  def index
-    @semesters = Semester.all
-  end
-
-  def show
-    @semesters = Semester.all
-  end
 
   def new
     @semester = Semester.new
@@ -15,24 +8,33 @@ class SemestersController < ApplicationController
 
   def edit
     @semester = Semester.find(params[:id])
+    @semesters = Semester.all
   end
 
   def create
+    @semesters = Semester.all
     @semester = Semester.new(unit_params)
-    if @semester.valid?
+    if @semester.valid? 
        @semester.save
        redirect_to new_semester_path
     else
+      flash[:error]="Invalid Semester!"
       render 'new'
     end
   end
 
   def update
     @semester = Semester.find(params[:id])
-    if @semester.valid?
-      @semester.update_attributes!(unit_params)
-      redirect_to new_semester_path
+    if @semester.valid? 
+      if unit_params == ""
+        @semester.update_attributes!(unit_params)
+        redirect_to new_semester_path
+      else
+      flash[:error]="Semester Cant't be BLank!"
+      render 'edit'
+      end
     else
+      flash[:error]="Invalid Semester!"
       render 'edit'
     end 
   end

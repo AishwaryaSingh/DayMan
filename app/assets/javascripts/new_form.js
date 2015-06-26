@@ -9,7 +9,7 @@ $(function()
         disabled: true
     });
 });
-
+ var global=false;
 jQuery.fn.serializeObject = function()
 {
     var arrayData, objectData;
@@ -24,7 +24,8 @@ jQuery.fn.serializeObject = function()
         } 
         else 
         {
-            throw new Error(this.name+" is null! please fill in all details.");
+            alert(this.name+" is null! please fill in all details.");
+            global=true;
         }
         if (objectData[this.name] != null) 
         {            
@@ -39,6 +40,7 @@ jQuery.fn.serializeObject = function()
             objectData[this.name] = value;
         }
     });
+    global=false;
     return objectData;
 };
 
@@ -317,7 +319,17 @@ $(document).ready(function()
       */  
         var jObject = JSON.stringify(formObject);
         var jsonObject = JSON.parse(jObject);
-        
+            
+        if($("#branch_id").val() == "" || $("#semester_id").val() == "" || $("#batch_id").val()=="")
+        {
+            if(global==false)
+            {
+                alert("Enter All the Details!");
+            }       
+        }
+        else
+        {
+
         var t =checkboxBatch();
         if (t)
         {
@@ -338,6 +350,7 @@ $(document).ready(function()
             });
         }
         $('#schedule_change').show();
+    }
     });
 
     //On updating rails form

@@ -6,13 +6,6 @@
   <td>
   	<div align="left"><%= f.submit  :id =>'button_new'  %></div>
   </td>
-  <td>
-  <span style="color:red">
-  <% if semester.errors[:name] %>
-    <% a= semester.errors.full_messages_for(:name) %>
-    <%= a.join(", ") %>
-  <% end %>
-  </span></td>
   </tr>
   </table>
 <% end %>

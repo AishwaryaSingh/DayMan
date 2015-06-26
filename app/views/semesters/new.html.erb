@@ -15,8 +15,8 @@
         <tr style="color:PaleVioletRed">
         <td width="5%"></td>
           <td width="15%" style="text-align:left;font-size:20px;"><%= semester.name %></td>
-          <td width="5%" style="text-align:left"><%= link_to image_tag('Actions-document-edit-icon.png'), edit_semester_path(semester) %></td>
-          <td width="5%" style="text-align:left"><%= link_to image_tag('Delete-icon 24px.png'), semester, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          <td width="5%" style="text-align:left"><%= link_to image_tag('edit-icon.png'), edit_semester_path(semester) %></td>
+          <td width="5%" style="text-align:left"><%= link_to image_tag('Close-2-icon.png'), semester, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
       </table>

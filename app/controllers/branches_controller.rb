@@ -1,11 +1,4 @@
 class BranchesController < ApplicationController
-  def index
-    @branches = Branch.all
-  end
-
-  def show
-    @branches = Branch.all
-  end
 
   def new
     @branch = Branch.new
@@ -14,25 +7,34 @@ class BranchesController < ApplicationController
   end
 
   def edit
+    @branches = Branch.all
     @branch = Branch.find(params[:id])
   end
 
   def create
+    @branches = Branch.all
     @branch = Branch.new(unit_params)
-    if @branch.valid?
-       @branch.save
-       redirect_to new_branch_path
-    else
-      render 'new'
-    end
+      if @branch.valid?
+         @branch.save
+         redirect_to new_branch_path
+      else
+        flash[:error]="Invalid Branch!"
+        render 'new'
+      end
   end
 
   def update
     @branch = Branch.find(params[:id])
     if @branch.valid?
-      @branch.update_attributes!(unit_params)
-      redirect_to new_branch_path
+      if unit_params == ""
+        @branch.update_attributes!(unit_params)
+        redirect_to new_branch_path
+      else
+      flash[:error]="Branch Cant't be BLank!"
+      render 'edit'
+      end
     else
+      flash[:error]="Invalid Branch!"
       render 'edit'
     end
   end
