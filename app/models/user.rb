@@ -5,7 +5,7 @@ class User < ActiveRecord::Base
  # after_create :email_to_user
   before_create :set_default_role
 
-  devise :database_authenticatable, :registerable,:recoverable,:validatable, :rememberable, :trackable ,:timeoutable
+  devise :database_authenticatable, :registerable,:recoverable,:validatable, :rememberable, :trackable #,:timeoutable
 
   belongs_to :role
   belongs_to :batch
@@ -71,32 +71,36 @@ class User < ActiveRecord::Base
       user.branch_id = row['branch_id']
       user.sign_up_count = "1"
       if !user.email.nil? && !user.name.nil?
-        if EmailVerifier.check(user.email)
+        result=EmailVerifier.check(user.email)
+        if result == true
           if user.valid?
-            if user.role_id<=3
-                        if User.exists?(user.id)
-                          if user.email == User.find(user.id).email && user.name == User.find(user.id).name
-                            if user.email == User.find(user.id).email
-                              user.save!
-                              if user.email != User.find(user.id).email && user.name != User.find(user.id).name
-                              end
-                            else
-                              $error_array.append([i, "Email Address Can NOT Be Changed!"])
-                              $error_count = $error_count + 1
-                            end
-                          else
-                            $error_array.append([i, "ID Taken- Please assign a new ID!"])
-                            $error_count = $error_count + 1
-                          end
-                        else
-                          user.save!
-                          UserMailer.welcome_email(user).deliver
-                        end
+            if user.role_id.to_s < "4" && !user.role_id.nil? && user.role_id.to_s != "0"
+              if User.exists?(user.id)
+                if user.email == User.find(user.id).email && user.name == User.find(user.id).name
+                  if user.email == User.find(user.id).email
+                    user.save!
+                  else
+                    $error_array.append([i, "Email Address Can NOT Be Changed!"])
+                    $error_count = $error_count + 1
+                  end
+                else
+                  $error_array.append([i, "ID Taken- Please assign a new ID!"])
+                  $error_count = $error_count + 1
+                end
+              else
+                user.save!
+                UserMailer.welcome_email(user).deliver
+              end
             else
-              $error_array.append([i, "Role_id Can not Be Empty!"])
-              $error_count = $error_count + 1
+              if user.role_id.to_s > "3" || user.role_id.to_s == "0"
+                $error_array.append([i, "Invalid Role_id! Must be Between 1 to 3"])
+                $error_count = $error_count + 1
+              end
+              if user.role_id.nil?
+                $error_array.append([i, "Role_id Can NOT Be Empty!"])
+                $error_count = $error_count + 1
+              end
             end
-
           end
         else
           $error_array.append([i, "Invalid Email Address!"])
