@@ -103,7 +103,7 @@ $(document).ready(function()
             center: 'title',
             right: 'month,agendaWeek,agendaDay'
         },
-
+        hiddenDays:[0],
         defaulEventEnd: 60,
         eventOverlap: true,
         eventLimit: true,
@@ -157,8 +157,7 @@ $(document).ready(function()
 
         eventRender: function(event, element)
         {    
-            element.find('.fc-time', this ).append("<img src='http://desxcloud.com/daniel/img/delete-icon.gif' width='15px' height='15px' id='close'/>");
-            //element.find('.fc-title').append("<br/>" + event.description);
+            element.find('.fc-time', this ).append("<img src='http://icons.iconarchive.com/icons/visualpharm/must-have/256/Delete-icon.png' width='15px' height='15px' id='close'/>");
             element.find('#close', this).hide();
         },
 

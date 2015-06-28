@@ -5,11 +5,10 @@
   <body>
 	  <br/>
 	  <br/>
-		<div class="name">
-			<h1>Editing  <span style="color:lightblue"><%= @user.name %>'s</span>  Details</h1>
-		</div>
+			
 		<div align="center" style="width:500px; height:200px" class="user_form">
-				<%= form_for @user, url: update_user_users_path(@user), method: 'post' do |u| %>
+				<h1>Editing  <span style="color:#FF7052"><%= @user.name %>'s</span>  Details</h1>
+		<%= form_for @user, url: update_user_users_path(@user), method: 'post' do |u| %>
 			    <div class="input" style="text-align:left">
 			    	<b>Name</b><%= u.text_field :name %>
 			    </div>

@@ -51,6 +51,7 @@ $(document).ready(function()
             right: 'month,agendaWeek,agendaDay'
         },
 
+        hiddenDays:[0],
         defaulEventEnd: 60,
         eventLimit: true,
         defaultView: "agendaWeek",

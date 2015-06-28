@@ -14,11 +14,13 @@ class SemestersController < ApplicationController
   def create
     @semesters = Semester.all
     @semester = Semester.new(unit_params)
-    if @semester.valid? 
-       @semester.save
-       redirect_to new_semester_path
+    if unit_params == ""
+      if @semester.valid? 
+         @semester.save
+         redirect_to new_semester_path
+      end
     else
-      flash[:error]="Invalid Semester!"
+      flash[:error]="Semester Can't be Blank!"
       render 'new'
     end
   end

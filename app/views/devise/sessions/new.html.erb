@@ -7,13 +7,12 @@
   <% end %>
 </head>
 <body>
-  <div style="width:40%; height:40%;" id="fields">
+  <div id="fields">
     <fieldset>
-    <div>
       <legend class="legend">Login</legend>
-      </div>
-      <div>
+      
       <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        
         <div class="input">
           <div class="field">
             <%= f.label :email %><br />
@@ -27,8 +26,7 @@
             <%= f.password_field :password, autocomplete: "off" %>
           </div>
         </div>
-        </div>
-        <div>
+
         <table width="100%">
           <tr>
           <td></td>
@@ -50,16 +48,15 @@
               </div>
             </td>
             <td width="60%" style="text-align:left;">
-              <div class="actions">
+              <div class="actions" align="center">
                 <%= f.submit "Log in" , :id => "log_in" %>
               </div>
             </td>
           </tr>
         </table>
-        <br />
+
       <% end %>
-      </div>
-      <div><br /></div>
+
     </fieldset>
   </div>
 </body>

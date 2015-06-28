@@ -7,18 +7,16 @@
 
   </head>
   <body>
-    <div class="schedule">
-      <div align="center">
-        <%= render 'initialize_subjects_form', :branch => @branch ,:semester => @semester, :batch => @batch,:branch_id_frmc => @branch_id_frmc ,:semester_id_frmc => @semester_id_frmc, :batch_id_frmc => @batch_id_frmc %>
-        <%= render 'form', :professor => @professor, :branch => @branch ,:semester => @semester, :room => @room, :batch => @batch, :subjects => @subjects, :schedule => @schedule, :batch_id_frmc => @batch_id_frmc %>
-        <div class="calendar_container"> 
-          <div align="right" >
-            <%= button_to 'Notify Users', update_schedule_schedules_path , method: :get , :id => 'schedule_change' %>
-          </div>
-          <br />
-          <div id="calendar"></div>
-        </div>
+    <div class="initialize_subjects">
+      <%= render 'initialize_subjects_form', :branch => @branch ,:semester => @semester, :batch => @batch,:branch_id_frmc => @branch_id_frmc ,:semester_id_frmc => @semester_id_frmc, :batch_id_frmc => @batch_id_frmc %>
+    </div>
+    <div class="calendar_container">
+      <%= render 'form', :professor => @professor, :branch => @branch ,:semester => @semester, :room => @room, :batch => @batch, :subjects => @subjects, :schedule => @schedule, :batch_id_frmc => @batch_id_frmc %>
+      <div align="right" >    
+        <%= button_to 'Notify Users', update_schedule_schedules_path , method: :get , :id => 'schedule_change' %>
       </div>
+      <br />
+      <div id="calendar"></div>
     </div>
   </body>
 </html>

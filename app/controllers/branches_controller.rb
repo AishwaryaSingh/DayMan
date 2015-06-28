@@ -14,11 +14,13 @@ class BranchesController < ApplicationController
   def create
     @branches = Branch.all
     @branch = Branch.new(unit_params)
-      if @branch.valid?
-         @branch.save
-         redirect_to new_branch_path
+      if unit_params == ""
+        if @branch.valid?
+           @branch.save
+           redirect_to new_branch_path
+         end
       else
-        flash[:error]="Invalid Branch!"
+        flash[:error]="Branch Can't be Blank!"
         render 'new'
       end
   end
