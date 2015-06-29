@@ -19,6 +19,7 @@ class SchedulesController < ApplicationController
   end
 
   def initialize_subjects
+    if !params[:branch_id].nil? && !params[:semester_id].nil? && !params[:batch_id].nil?
     @branch_id_frmc = params[:branch_id]
     @semester_id_frmc = params[:semester_id]
     @batch_id_frmc = params[:batch_id]
@@ -32,6 +33,10 @@ class SchedulesController < ApplicationController
     @room = Room.all
     @schedules = Schedule.find_all_by_batch_id_and_branch_id_and_semester_id( params[:batch_id], params[:branch_id], params[:semester_id])
     render :new
+  else
+    flash[:error]="Select Values!"
+     render :new
+  end
   end
 
   def create
