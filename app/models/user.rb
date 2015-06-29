@@ -15,7 +15,40 @@ class User < ActiveRecord::Base
   has_attached_file :avatar, :styles => { :medium => "300x300>", :thumb => "100x100#" }, :default_url => "/images/:style/missing.png"
   validates_attachment_content_type :avatar, :content_type => /\Aimage\/.*\Z/
   validates :email, :presence => true
+  validates_email_realness_of :email
+ # validates :name, :presence => true
   
+
+  def self.validate_new_user(user)
+    t = "true"
+    if user.name.nil? || user.email.nil? || user.role_id.nil?
+      if user.name ==""
+        t="Name"
+      elsif user.email==""
+        t="Email"
+      elsif user.role_id.nil?
+        t="Role"
+      else
+       t= "true"
+      end
+    end
+    return t
+  end
+
+  def self.validate_user(name,role_id)
+    $t="true"
+    if name == "" || role_id == ""
+      if name ==""
+        $t="Name"
+      elsif role_id == ""
+        $t="Role"
+      else
+       $t= "true"
+      end
+    end
+    return $t
+  end
+
   def self.save_event_to_display(current_user)
     if current_user.role.name == "professor"
       data=Schedule.find_all_by_user_id(current_user.id)

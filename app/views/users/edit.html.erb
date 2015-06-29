@@ -13,7 +13,7 @@
 			    	<b>Name</b><%= u.text_field :name %>
 			    </div>
 			    <div class="input" style="text-align:left">
-			    	<b>Email</b><%= u.email_field :email %>
+			    	<b>Email</b><%= u.email_field :email, :readonly => true  %>
 			    </div>
 			    <div class="input" style="text-align:left">
 			    	<b>ID</b><%= u.text_field :id, :readonly => true %>

@@ -53,19 +53,26 @@ class UsersController < ApplicationController
   end
 
   def create_user
-    if user_params.nil?
-      flash[:error] = "Enter Data!"
-    else
-      @user=User.new(user_params)
+    @user=User.new(user_params)
+    error= User.validate_new_user(@user)
+    if error == "true"
       @user.password = "12345678"
       @user.sign_up_count = "1"
-      if @user.save!
+      if @user.valid?
+        @user.save!
         UserMailer.welcome_email(@user).deliver
         flash[:success] = "Created a New User!"
-      else
-        flash[:error] = "User not created."
-      end
       redirect_to admin_users_path
+      else
+        if error != "true"
+          flash[:error]="Enter "+error
+          flash[:error] = "User not created."
+        end
+        redirect_to new_user_path
+      end
+    else
+      flash[:error]="Enter "+error+"!"
+      redirect_to new_user_path
     end
   end
 
@@ -93,12 +100,18 @@ class UsersController < ApplicationController
 
   def update_user
     @user = User.find(params[:user][:id])
-    if @user.update_attributes!(user_params)
-      flash[:success] = "Updated User "+@user.name
+    error=User.validate_user(params[:user][:name],params[:user][:role_id])
+    if error == "true"
+      if @user.update_attributes!(user_params)
+        flash[:success] = "Updated User "+@user.name
+        redirect_to get_user_id_path
+      else
+        flash[:error] = "User not updated."
+      end
     else
-      flash[:error] = "User not updated."
+      flash[:error]=error+" can not be left empty!"
+      redirect_to edit_user_path(@user)
     end
-    redirect_to admin_users_path
   end
 
   def destroy
