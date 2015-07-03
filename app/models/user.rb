@@ -85,77 +85,81 @@ class User < ActiveRecord::Base
 
   #To import a file :-
   def self.import(file)
-    spreadsheet = open_spreadsheet(file)
-  # spreadsheet = Roo::Excelx.new(file.path, nil, :ignore)
-    header = spreadsheet.row(1)
-    $error_array = []
-    $error_count = 0
-    (2..spreadsheet.last_row).each do |i|
-      row = Hash[[header, spreadsheet.row(i)].transpose]
-      user = find_by_id(row["id"]) || new
-      user.id = row['id']
-      user.name = row['name']
-      user.email = row['email']
-      user.password = "12345678"
-      user.role_id = row['role_id']
-      user.batch_id = row['batch_id']
-      user.semester_id = row['semester_id']
-      user.branch_id = row['branch_id']
-      user.sign_up_count = "1"
-      if !user.email.nil? && !user.name.nil?
-        begin
-        ex=EmailVerifier.check(user.email)
-        rescue => ex
-          ex = false
-        end
-        if ex == true
-          if user.valid?
-            if user.role_id.to_s < "4" && !user.role_id.nil? && user.role_id.to_s != "0"
-              if User.exists?(user.id)
-                if user.email == User.find(user.id).email && user.name == User.find(user.id).name
-                  if user.email == User.find(user.id).email
-                    user.save!
+    if open_spreadsheet(file) != false
+      spreadsheet = open_spreadsheet(file)
+    # spreadsheet = Roo::Excelx.new(file.path, nil, :ignore)
+      header = spreadsheet.row(1)
+      $error_array = []
+      $error_count = 0
+      (2..spreadsheet.last_row).each do |i|
+        row = Hash[[header, spreadsheet.row(i)].transpose]
+        user = find_by_id(row["id"]) || new
+        user.id = row['id']
+        user.name = row['name']
+        user.email = row['email']
+        user.password = "12345678"
+        user.role_id = row['role_id']
+        user.batch_id = row['batch_id']
+        user.semester_id = row['semester_id']
+        user.branch_id = row['branch_id']
+        user.sign_up_count = "1"
+        if !user.email.nil? && !user.name.nil?
+          begin
+          ex=EmailVerifier.check(user.email)
+          rescue => ex
+            ex = false
+          end
+          if ex == true
+            if user.valid?
+              if user.role_id.to_s < "4" && !user.role_id.nil? && user.role_id.to_s != "0"
+                if User.exists?(user.id)
+                  if user.email == User.find(user.id).email && user.name == User.find(user.id).name
+                    if user.email == User.find(user.id).email
+                      user.save!
+                    else
+                      $error_array.append([i, "Email Address Can NOT Be Changed!"])
+                      $error_count = $error_count + 1
+                    end
                   else
-                    $error_array.append([i, "Email Address Can NOT Be Changed!"])
+                    $error_array.append([i, "ID Taken- Please assign a new ID!"])
                     $error_count = $error_count + 1
                   end
                 else
-                  $error_array.append([i, "ID Taken- Please assign a new ID!"])
-                  $error_count = $error_count + 1
+                  user.save!
+                  UserMailer.welcome_email(user).deliver
                 end
               else
-                user.save!
-                UserMailer.welcome_email(user).deliver
-              end
-            else
-              if user.role_id.to_s > "3" || user.role_id.to_s == "0"
-                $error_array.append([i, "Invalid Role_id! Must be Between 1 to 3"])
-                $error_count = $error_count + 1
-              end
-              if user.role_id.nil?
-                $error_array.append([i, "Role_id Can NOT Be Empty!"])
-                $error_count = $error_count + 1
+                if user.role_id.to_s > "3" || user.role_id.to_s == "0"
+                  $error_array.append([i, "Invalid Role_id! Must be Between 1 to 3"])
+                  $error_count = $error_count + 1
+                end
+                if user.role_id.nil?
+                  $error_array.append([i, "Role_id Can NOT Be Empty!"])
+                  $error_count = $error_count + 1
+                end
               end
             end
+          else
+            $error_array.append([i, "Invalid Email Address!"])
+            $error_count = $error_count + 1
           end
         else
-          $error_array.append([i, "Invalid Email Address!"])
-          $error_count = $error_count + 1
-        end
-      else
-        if !user.email?
-          $error_array.append([i, "Email Can NOT Be Empty/NULL!"])
-          $error_count = $error_count + 1
-        else
-          $error_array.append([i, "Name Can NOT Be Empty/NULL!"])
-          $error_count = $error_count + 1
+          if !user.email?
+            $error_array.append([i, "Email Can NOT Be Empty/NULL!"])
+            $error_count = $error_count + 1
+          else
+            $error_array.append([i, "Name Can NOT Be Empty/NULL!"])
+            $error_count = $error_count + 1
+          end
         end
       end
-    end
-    if $error_count > 0
-      return false
+      if $error_count > 0
+        return false
+      else
+        return true
+      end
     else
-      return true
+      return false
     end
   end
 
@@ -169,7 +173,7 @@ class User < ActiveRecord::Base
     when ".xls" then Roo::Excel.new(file.path, packed: nil, file_warning: :ignore)
     when ".xlsx" then Roo::Excelx.new(file.path, packed: nil, file_warning: :ignore)
     else
-      raise "Unknown file type: #{file.original_filename}"
+      return false
     end
   end
 

@@ -33,10 +33,15 @@ class UsersController < ApplicationController
         flash[:success] = "Uploaded"
         redirect_to admin_users_path
       else
-        flash[:error] = "Some error occured! Please try again!"
-    @errors=User.get_errors
-        session[:errors]=User.get_errors
-        redirect_to :back
+        if User.open_spreadsheet(params[:file]) == false
+          flash[:error] = "Unknown file type!! Only .xls .xlsx .csv allowed!"
+          redirect_to :back
+        else
+          flash[:error] = "Some error occured! Please try again!"
+          @errors=User.get_errors
+          session[:errors]=User.get_errors
+          redirect_to :back
+        end
       end
     else
       flash[:error] = "Choose a file to import!"

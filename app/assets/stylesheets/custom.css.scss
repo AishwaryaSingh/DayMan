@@ -313,15 +313,44 @@ input[type="password"],input[type="email"],input[type="text"]
 
 #sign_up
 {
+  top: 0%;
+  left: 0%;
+  width:45%;
+  height:70%;
+  margin-top: 9%; 
+  margin-left: 27%; 
+  border: 1px solid #ccc;
+  background-color: white;
+}
+
+.devise_errors
+{
+  h2
+  {
+    text-align:left;  
+  }
   position:fixed;
   top: 0%;
   left: 0%;
-  width:40%;
-  height:62%;
-  margin-top: 15%; 
-  margin-left: 30%; 
-  border: 1px solid #ccc;
-  background-color: white;
+  width:30%;
+  height:73%;
+  margin-top: 10%; 
+  margin-left: 2%; 
+}
+
+.devise_errors_password
+{
+  h2
+  {
+    text-align:left;  
+  }
+  position:fixed;
+  top: 0%;
+  left: 0%;
+  width:30%;
+  height:73%;
+  margin-top: 20%; 
+  margin-left: 2%; 
 }
 
 .other_containers

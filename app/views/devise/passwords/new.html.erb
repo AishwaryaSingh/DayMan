@@ -1,25 +1,27 @@
-<div class="forgot_password_containers">
-<h2>Forgot your password?</h2>
-<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
-  <%= devise_error_messages! %>
-<div class="input">
-	<div class="field">
-	    <%= f.label :email %><br />
-	    <%= f.email_field :email, autofocus: true , :class => 'form_control' %>
+   <div class="devise_errors_password">
+      <%= devise_error_messages! %>
+    </div>
+	<div class="forgot_password_containers">
+	<h2>Forgot your password?</h2>
+	<%= form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f| %>
+	<div class="input">
+		<div class="field">
+		    <%= f.label :email %><br />
+		    <%= f.email_field :email, autofocus: true , :class => 'form_control' %>
+		</div>
 	</div>
-</div>
 
-<table>
-	<tr>
-		<td>
-			<%= render "devise/shared/links" %>
-		</td>
-		<td>	
-		  	<div class="actions">
-				<%= f.submit "Send instructions", :class => 'form_control'  %>
-			</div>
-		</td>
-	</tr>
-</table>
-<% end %>
-</div>
+	<table>
+		<tr>
+			<td>
+				<%= render "devise/shared/links" %>
+			</td>
+			<td>	
+			  	<div class="actions">
+					<%= f.submit "Send instructions", :class => 'form_control'  %>
+				</div>
+			</td>
+		</tr>
+	</table>
+	<% end %>
+	</div>
