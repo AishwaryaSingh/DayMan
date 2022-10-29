@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.0.2'
+gem 'rails', '7.0.4'
 # Bundle edge Rails instead:
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
@@ -29,7 +29,7 @@ gem 'jquery-rails'
 
 #gem 'client_side_validations'
 
-gem 'actionpack', '~> 4.0.2'
+gem 'actionpack', '~> 7.0.4'
 
 #authorization / roles ?
 gem 'cancancan', '~> 1.9'
@@ -47,14 +47,14 @@ gem 'iconv'
 gem 'spreadsheet'
 
 # To upload images
- gem 'paperclip', '~> 4.1'
+ gem 'paperclip', '~> 6.1'
 
 #Jquery plugin for calendar
 gem 'fullcalendar-rails', '~> 2.3.1.0'
 
-gem 'momentjs-rails', '~> 2.10.2'
+gem 'momentjs-rails', '~> 2.29.4'
 
-gem 'activesupport','~>4.0.2'
+gem 'activesupport','~>7.0.4'
 
 gem 'bootstrap-sass', '~> 3.3.4'
 
